@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+/* ============================================
+   🍒 Project Cherry - Retro Terminal Theme
+   ============================================ */
+
+/* CSS 变量定义 */
+:root {
+  /* 主色调 */
+  --cherry-bg: #0d1117;
+  --cherry-bg-secondary: #161b22;
+  --cherry-green: #2ecc71;
+  --cherry-red: #ff0055;
+  --cherry-amber: #ffc857;
+  --cherry-text: #e6edf3;
+  --cherry-muted: #7d8590;
+
+  /* 字体 */
+  --font-pixel: 'VT323', monospace;
+  --font-code: 'Fira Code', 'JetBrains Mono', monospace;
+
+  /* 辉光效果 */
+  --glow-green: 0 0 5px rgba(46, 204, 113, 0.5), 0 0 10px rgba(46, 204, 113, 0.3);
+  --glow-red: 0 0 5px rgba(255, 0, 85, 0.5), 0 0 10px rgba(255, 0, 85, 0.3);
+}
+
+/* 基础样式重置 */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-code);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--cherry-bg);
+  color: var(--cherry-text);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ============================================
+   CRT 显示器特效
+   ============================================ */
+
+/* 扫描线效果 */
+body::before {
+  content: "";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.03));
+  background-size: 100% 2px, 3px 100%;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* 屏幕边缘暗角 */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+  z-index: 9998;
+  pointer-events: none;
+}
+
+/* 屏幕闪烁动画 */
+@keyframes flicker {
+  0% { opacity: 0.97; }
+  5% { opacity: 0.95; }
+  10% { opacity: 0.97; }
+  15% { opacity: 0.94; }
+  20% { opacity: 0.98; }
+  25% { opacity: 0.97; }
+  30% { opacity: 0.96; }
+  35% { opacity: 0.95; }
+  40% { opacity: 0.97; }
+  45% { opacity: 0.94; }
+  50% { opacity: 0.98; }
+  55% { opacity: 0.97; }
+  60% { opacity: 0.96; }
+  65% { opacity: 0.98; }
+  70% { opacity: 0.97; }
+  75% { opacity: 0.95; }
+  80% { opacity: 0.98; }
+  85% { opacity: 0.97; }
+  90% { opacity: 0.96; }
+  95% { opacity: 0.98; }
+  100% { opacity: 0.97; }
+}
+
+#root {
+  animation: flicker 0.15s infinite;
+  min-height: 100vh;
+}
+
+/* ============================================
+   闪烁光标
+   ============================================ */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* ============================================
+   打字机效果
+   ============================================ */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.typing-effect {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 2s steps(30, end);
+}
+
+/* ============================================
+   辉光文字效果
+   ============================================ */
+.glow-green {
+  text-shadow: var(--glow-green);
+}
+
+.glow-red {
+  text-shadow: var(--glow-red);
+}
+
+/* ============================================
+   像素字体类
+   ============================================ */
+.font-pixel {
+  font-family: var(--font-pixel);
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+}
+
+.font-code {
+  font-family: var(--font-code);
+}
+
+/* ============================================
+   终端卡片样式
+   ============================================ */
+.terminal-card {
+  background: var(--cherry-bg-secondary);
+  border: 1px solid rgba(46, 204, 113, 0.3);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.terminal-card:hover {
+  border-color: var(--cherry-green);
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
+}
+
+.terminal-card.selected {
+  border-color: var(--cherry-red);
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+}
+
+/* ============================================
+   滚动条样式
+   ============================================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cherry-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cherry-green);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cherry-red);
+}
+
+/* ============================================
+   链接样式
+   ============================================ */
+a {
+  color: var(--cherry-green);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  color: var(--cherry-red);
+  text-shadow: var(--glow-red);
+}
+
+/* ============================================
+   选中效果
+   ============================================ */
+::selection {
+  background: var(--cherry-red);
+  color: white;
+}

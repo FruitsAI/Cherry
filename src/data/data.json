@@ -1,0 +1,111 @@
+{
+  "site_config": {
+    "user_name": "DevUser",
+    "theme": "dark_matrix",
+    "slogan": "Cherry-pick the web"
+  },
+  "branches": [
+    {
+      "name": "feature/work",
+      "icon": "💼",
+      "commits": [
+        {
+          "message": "GitHub Dashboard",
+          "hash": "a1b2c3d",
+          "url": "https://github.com",
+          "tags": ["code", "daily"]
+        },
+        {
+          "message": "ChatGPT",
+          "hash": "f4e5d6c",
+          "url": "https://chatgpt.com",
+          "tags": ["ai"]
+        },
+        {
+          "message": "Stack Overflow",
+          "hash": "7e8f9a0",
+          "url": "https://stackoverflow.com",
+          "tags": ["code", "help"]
+        },
+        {
+          "message": "VS Code Web",
+          "hash": "b2c3d4e",
+          "url": "https://vscode.dev",
+          "tags": ["code", "editor"]
+        }
+      ]
+    },
+    {
+      "name": "hotfix/tools",
+      "icon": "🛠️",
+      "commits": [
+        {
+          "message": "Regex101",
+          "hash": "1a2b3c4",
+          "url": "https://regex101.com",
+          "tags": ["tools", "regex"]
+        },
+        {
+          "message": "JSON Formatter",
+          "hash": "5d6e7f8",
+          "url": "https://jsonformatter.org",
+          "tags": ["tools", "json"]
+        },
+        {
+          "message": "Can I Use",
+          "hash": "9g0h1i2",
+          "url": "https://caniuse.com",
+          "tags": ["tools", "compat"]
+        }
+      ]
+    },
+    {
+      "name": "release/docs",
+      "icon": "📚",
+      "commits": [
+        {
+          "message": "MDN Web Docs",
+          "hash": "j3k4l5m",
+          "url": "https://developer.mozilla.org",
+          "tags": ["docs", "web"]
+        },
+        {
+          "message": "React Docs",
+          "hash": "n6o7p8q",
+          "url": "https://react.dev",
+          "tags": ["docs", "react"]
+        },
+        {
+          "message": "TypeScript Docs",
+          "hash": "r9s0t1u",
+          "url": "https://www.typescriptlang.org/docs",
+          "tags": ["docs", "ts"]
+        }
+      ]
+    },
+    {
+      "name": "develop/learn",
+      "icon": "🎓",
+      "commits": [
+        {
+          "message": "freeCodeCamp",
+          "hash": "v2w3x4y",
+          "url": "https://www.freecodecamp.org",
+          "tags": ["learn", "free"]
+        },
+        {
+          "message": "LeetCode",
+          "hash": "z5a6b7c",
+          "url": "https://leetcode.com",
+          "tags": ["learn", "algo"]
+        },
+        {
+          "message": "Hacker News",
+          "hash": "d8e9f0g",
+          "url": "https://news.ycombinator.com",
+          "tags": ["news", "tech"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- 像素风格 Cherry 图标 -->
+  <defs>
+    <style>
+      .cherry-red { fill: #ff0055; }
+      .cherry-dark { fill: #cc0044; }
+      .cherry-stem { fill: #2ecc71; }
+      .cherry-leaf { fill: #27ae60; }
+      .cherry-shine { fill: #ff4477; }
+    </style>
+  </defs>
+  
+  <!-- 左边樱桃 -->
+  <rect class="cherry-red" x="12" y="32" width="4" height="4"/>
+  <rect class="cherry-red" x="8" y="36" width="4" height="4"/>
+  <rect class="cherry-red" x="16" y="36" width="4" height="4"/>
+  <rect class="cherry-red" x="4" y="40" width="4" height="8"/>
+  <rect class="cherry-red" x="8" y="40" width="8" height="12"/>
+  <rect class="cherry-red" x="16" y="40" width="4" height="12"/>
+  <rect class="cherry-red" x="20" y="40" width="4" height="8"/>
+  <rect class="cherry-red" x="8" y="52" width="8" height="4"/>
+  <rect class="cherry-dark" x="16" y="48" width="4" height="4"/>
+  <rect class="cherry-dark" x="20" y="44" width="4" height="4"/>
+  <rect class="cherry-shine" x="8" y="40" width="4" height="4"/>
+  
+  <!-- 右边樱桃 -->
+  <rect class="cherry-red" x="44" y="32" width="4" height="4"/>
+  <rect class="cherry-red" x="40" y="36" width="4" height="4"/>
+  <rect class="cherry-red" x="48" y="36" width="4" height="4"/>
+  <rect class="cherry-red" x="36" y="40" width="4" height="8"/>
+  <rect class="cherry-red" x="40" y="40" width="8" height="12"/>
+  <rect class="cherry-red" x="48" y="40" width="4" height="12"/>
+  <rect class="cherry-red" x="52" y="40" width="4" height="8"/>
+  <rect class="cherry-red" x="40" y="52" width="8" height="4"/>
+  <rect class="cherry-dark" x="48" y="48" width="4" height="4"/>
+  <rect class="cherry-dark" x="52" y="44" width="4" height="4"/>
+  <rect class="cherry-shine" x="40" y="40" width="4" height="4"/>
+  
+  <!-- 茎 -->
+  <rect class="cherry-stem" x="20" y="24" width="4" height="12"/>
+  <rect class="cherry-stem" x="24" y="16" width="4" height="12"/>
+  <rect class="cherry-stem" x="28" y="8" width="8" height="12"/>
+  <rect class="cherry-stem" x="36" y="16" width="4" height="12"/>
+  <rect class="cherry-stem" x="40" y="24" width="4" height="12"/>
+  
+  <!-- 叶子 -->
+  <rect class="cherry-leaf" x="28" y="4" width="4" height="4"/>
+  <rect class="cherry-leaf" x="32" y="4" width="8" height="4"/>
+  <rect class="cherry-leaf" x="36" y="8" width="8" height="4"/>
+  <rect class="cherry-leaf" x="40" y="12" width="4" height="4"/>
+</svg>

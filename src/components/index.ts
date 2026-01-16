@@ -11,4 +11,6 @@ export { AddModal } from './AddModal';
 export { ThemeToggle } from './ThemeToggle';
 export { SettingsModal } from './SettingsModal';
 export { Dock } from './Dock';
+export { Footer } from './Footer';
+export { QuickLinks } from './QuickLinks';
 

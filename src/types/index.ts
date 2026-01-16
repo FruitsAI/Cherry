@@ -16,11 +16,19 @@ export interface Branch {
   commits: Commit[];
 }
 
+
+export interface Shortcut {
+  name: string;
+  url: string;
+  icon: string;
+}
+
 export interface SiteConfig {
   user_name: string;
   theme: string;
   slogan: string;
   version?: string;
+  shortcuts?: Shortcut[];
 }
 
 export interface CherryData {

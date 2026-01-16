@@ -3,7 +3,29 @@
     "user_name": "willxue",
     "theme": "dark_matrix",
     "slogan": "Cherry-pick the web",
-    "version": "v0.8.0"
+    "version": "v0.8.0",
+    "shortcuts": [
+      {
+        "name": "Google",
+        "url": "https://google.com",
+        "icon": "🔍"
+      },
+      {
+        "name": "Bilibili",
+        "url": "https://bilibili.com",
+        "icon": "📺"
+      },
+      {
+        "name": "GitHub",
+        "url": "https://github.com",
+        "icon": "🐙"
+      },
+      {
+        "name": "V2EX",
+        "url": "https://v2ex.com",
+        "icon": "👽"
+      }
+    ]
   },
   "branches": [
     {
@@ -15,6 +37,42 @@
           "hash": "a1b2c3d",
           "url": "https://github.com",
           "tags": ["code", "daily"]
+        },
+        {
+          "message": "ChatGPT",
+          "hash": "f4e5d6c",
+          "url": "https://chatgpt.com",
+          "tags": ["ai"]
+        },
+        {
+          "message": "Stack Overflow",
+          "hash": "7e8f9a0",
+          "url": "https://stackoverflow.com",
+          "tags": ["code", "help"]
+        },
+        {
+          "message": "VS Code Web",
+          "hash": "b2c3d4e",
+          "url": "https://vscode.dev",
+          "tags": ["code", "editor"]
+        },
+        {
+          "message": "ChatGPT",
+          "hash": "f4e5d6c",
+          "url": "https://chatgpt.com",
+          "tags": ["ai"]
+        },
+        {
+          "message": "Stack Overflow",
+          "hash": "7e8f9a0",
+          "url": "https://stackoverflow.com",
+          "tags": ["code", "help"]
+        },
+        {
+          "message": "VS Code Web",
+          "hash": "b2c3d4e",
+          "url": "https://vscode.dev",
+          "tags": ["code", "editor"]
         },
         {
           "message": "ChatGPT",

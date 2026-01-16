@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, lazy, Suspense } from 'react';
-import { Header, Hero, CommandInput, ContentGrid, Dock } from './components';
+import { Header, Hero, CommandInput, ContentGrid, Dock, Footer, QuickLinks } from './components';
 import { useKeyboardNavigation, useCommands, useStatistics } from './hooks';
 import type { CherryData, NavigationState } from './types';
 import cherryData from './data/data.json';
@@ -42,7 +42,7 @@ function App() {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [isKeyboardShortcutsOpen, setIsKeyboardShortcutsOpen] = useState(false);
+  const [isKeyboardShortcutsOpen, setIsKeyboardShortcutsOpen] = useState(() => !localStorage.getItem('cherry-visited'));
   const [isStatisticsOpen, setIsStatisticsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
@@ -52,11 +52,9 @@ function App() {
   });
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
 
-  // 检查是否首次访问
+  // 标记为已访问
   useEffect(() => {
-    const hasVisited = localStorage.getItem('cherry-visited');
-    if (!hasVisited) {
-      setIsKeyboardShortcutsOpen(true);
+    if (!localStorage.getItem('cherry-visited')) {
       localStorage.setItem('cherry-visited', 'true');
     }
   }, []);
@@ -246,6 +244,9 @@ function App() {
     return () => window.removeEventListener('keydown', handleEsc);
   }, []);
 
+  // View 状态：'home' 或 branch index
+  const [currentView, setCurrentView] = useState<'home' | number>('home');
+
   // 处理 Dock 点击
   const handleDockClick = useCallback((index: number) => {
     // 如果有标签筛选，先清除
@@ -253,66 +254,107 @@ function App() {
       handleClearTags();
     }
     
+    // 切换到对应 Branch 视图
+    setCurrentView(index);
+
     // 更新导航状态
     setNavigationState(prev => ({
       ...prev,
       currentBranchIndex: index,
     }));
-
-    // 滚动到对应区域
-    setTimeout(() => {
-      // 这里的 index 对应的是完整列表的 index (因为已经清除了筛选)
-      const element = document.getElementById(`branch-${index}`);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 100);
   }, [selectedTags.size, handleClearTags]);
 
+  // 回到主页
+  const handleGoHome = useCallback(() => {
+    setCurrentView('home');
+  }, []);
+
   return (
-    <div className="min-h-screen">
-      {/* Header 状态栏 */}
+    <div className="flex flex-col h-screen overflow-hidden bg-[var(--cherry-bg)] text-[var(--cherry-text)]">
+      {/* Header 固定在顶部 */}
       <Header
         config={data.site_config}
         currentBranch={currentBranch}
-        onAdd={handleShowAdd}
-        onSettings={handleShowSettings}
-        onStatistics={handleShowStatistics}
         theme={theme}
         onThemeChange={setTheme}
+        onLogoClick={handleGoHome}
       />
 
-      {/* Hero 区域 */}
-      <Hero slogan={data.site_config.slogan} />
+      {/* 主内容区域 - 弹性伸缩 + 内部滚动 */}
+      <main className="flex-1 overflow-y-auto relative no-scrollbar pb-24">
+        {currentView === 'home' ? (
+          <div className="h-full flex flex-col items-center pb-28 pt-20 overflow-hidden">
+            {/* Spacer 1 */}
+            <div className="flex-1 min-h-[20px]" />
 
-      {/* 命令行搜索 */}
-      <CommandInput
-        onCommand={handleCommand}
-        isActive={isCommandInputActive}
-        onFocus={() => setIsCommandInputActive(true)}
-        onBlur={() => setIsCommandInputActive(false)}
-        branches={dataWithFavorites.branches}
-      />
+            <div className="flex-shrink-0 w-full max-w-2xl px-4 flex flex-col items-center">
+              {/* Home View: Hero + Search */}
+              <Hero slogan={data.site_config.slogan} />
+              <div className="w-full mt-4">
+                <CommandInput
+                  onCommand={handleCommand}
+                  isActive={isCommandInputActive}
+                  onFocus={() => setIsCommandInputActive(true)}
+                  onBlur={() => setIsCommandInputActive(false)}
+                  branches={dataWithFavorites.branches}
+                />
+              </div>
+            </div>
 
-      {/* 主内容网格 */}
-      <ContentGrid
-        branches={dataWithFavorites.branches}
-        navigationState={navigationState}
-        onCommitClick={handleCommitClick}
-        searchQuery={searchQuery}
-        selectedTags={selectedTags}
-        onTagClick={handleTagClick}
-        onClearTags={handleClearTags}
-        onToggleFavorite={handleToggleFavorite}
-        version={data.site_config.version}
-      />
+            {/* Spacer 2 */}
+            <div className="flex-1 min-h-[20px]" />
 
-      {/* 帮助模态框 */}
+            {/* Shortcuts */}
+            <div className="flex-shrink-0">
+              <QuickLinks shortcuts={data.site_config.shortcuts} />
+            </div>
+
+            {/* Spacer 3 */}
+            <div className="flex-1 min-h-[20px]" />
+          </div>
+        ) : (
+          /* Branch View: Single Branch Content */
+          <div className="pt-20"> 
+            <ContentGrid
+              branches={dataWithFavorites.branches}
+              navigationState={navigationState}
+              onCommitClick={handleCommitClick}
+              searchQuery={searchQuery}
+              selectedTags={selectedTags}
+              onTagClick={handleTagClick}
+              onClearTags={handleClearTags}
+              onToggleFavorite={handleToggleFavorite}
+              activeBranchIndex={typeof currentView === 'number' ? currentView : undefined}
+            />
+          </div>
+        )}
+      </main>
+
+      {/* 底部固定区域 */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
+        {/* Dock 悬浮在底部 */}
+        <div className="pointer-events-auto pb-6">
+           <Dock
+            branches={dataWithFavorites.branches}
+            currentBranchIndex={typeof currentView === 'number' ? currentView : -1}
+            onBranchClick={handleDockClick}
+            onHomeClick={handleGoHome}
+            onSettingsClick={handleShowSettings}
+            isHome={currentView === 'home'}
+          />
+        </div>
+        
+        {/* Footer 固定在最底部背景 */}
+        <div className="pointer-events-auto bg-[var(--cherry-bg)]">
+          <Footer version={data.site_config.version} />
+        </div>
+      </div>
+
+      {/* 弹窗组件 */}
       <Suspense fallback={<ModalFallback />}>
         <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
       </Suspense>
 
-      {/* 首次访问快捷键引导 */}
       <Suspense fallback={<ModalFallback />}>
         <KeyboardShortcutsModal
           isOpen={isKeyboardShortcutsOpen}
@@ -320,7 +362,6 @@ function App() {
         />
       </Suspense>
 
-      {/* Add 模态框 */}
       <Suspense fallback={<ModalFallback />}>
         <AddModal
           isOpen={isAddOpen}
@@ -329,16 +370,16 @@ function App() {
         />
       </Suspense>
 
-      {/* 设置模态框 */}
       <Suspense fallback={<ModalFallback />}>
         <SettingsModal
           isOpen={isSettingsOpen}
           onClose={handleCloseSettings}
           data={data}
+          onAdd={handleShowAdd}
+          onStatistics={handleShowStatistics}
         />
       </Suspense>
 
-      {/* 统计模态框 */}
       <Suspense fallback={<ModalFallback />}>
         <StatisticsModal
           isOpen={isStatisticsOpen}
@@ -346,13 +387,6 @@ function App() {
           statistics={statistics}
         />
       </Suspense>
-
-      {/* 底部 Dock */}
-      <Dock
-        branches={dataWithFavorites.branches}
-        currentBranchIndex={navigationState.currentBranchIndex}
-        onBranchClick={handleDockClick}
-      />
     </div>
   );
 }

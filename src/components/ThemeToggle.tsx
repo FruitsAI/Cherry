@@ -28,7 +28,7 @@ export function ThemeToggle({ theme, onThemeChange }: ThemeToggleProps) {
   return (
     <button
       onClick={handleToggle}
-      className="button-retro p-2 border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)] hover:border-[var(--cherry-green)] transition-all"
+      className="p-1 rounded cursor-pointer text-[var(--cherry-green)] hover:text-[var(--cherry-amber)] hover:scale-110 active:scale-95 hover:rotate-12 transition-all duration-300"
       title={theme === 'dark' ? '切换到亮色主题' : '切换到暗色主题'}
     >
       {theme === 'dark' ? '🌙' : '☀️'}

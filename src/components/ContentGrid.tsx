@@ -10,7 +10,7 @@ interface ContentGridProps {
   onTagClick?: (tag: string) => void;
   onClearTags?: () => void;
   onToggleFavorite?: (hash: string) => void;
-  version?: string;
+  activeBranchIndex?: number;
 }
 
 export function ContentGrid({
@@ -22,7 +22,7 @@ export function ContentGrid({
   onTagClick,
   onClearTags,
   onToggleFavorite,
-  version = 'v0.8.0',
+  activeBranchIndex,
 }: ContentGridProps) {
   // 获取所有唯一的标签
   const allTags = Array.from(
@@ -30,14 +30,19 @@ export function ContentGrid({
   ).sort();
 
   // 过滤分支：只显示包含选中标签的链接
-  const filteredBranches = branches.map((branch) => ({
-    ...branch,
-    commits: selectedTags.size === 0
-      ? branch.commits
-      : branch.commits.filter((commit) =>
-          commit.tags.some((tag) => selectedTags.has(tag))
-        ),
-  })).filter((branch) => branch.commits.length > 0);
+  // 如果指定了 activeBranchIndex，则只显示该分支
+  const filteredBranches = branches
+    .map((branch, index) => ({
+      ...branch,
+      originalIndex: index, // 保存原始索引以便正确匹配
+      commits: selectedTags.size === 0
+        ? branch.commits
+        : branch.commits.filter((commit) =>
+            commit.tags.some((tag) => selectedTags.has(tag))
+          ),
+    }))
+    .filter((branch) => branch.commits.length > 0)
+    .filter((branch) => activeBranchIndex === undefined || branch.originalIndex === activeBranchIndex);
 
   return (
     <main className="container mx-auto px-4 pb-8">
@@ -57,22 +62,40 @@ export function ContentGrid({
               </button>
             )}
           </div>
-          <div className="flex flex-wrap gap-2">
-            {allTags.map((tag) => (
-              <button
-                key={tag}
-                onClick={() => onTagClick?.(tag)}
-                className={`tag-retro px-3 py-1 text-xs rounded transition-all ${
-                  selectedTags.has(tag)
-                    ? 'bg-[var(--cherry-red)] text-white'
-                    : 'bg-[var(--cherry-bg)] border border-[var(--cherry-green)]/30 text-[var(--cherry-green)]'
-                }`}
-              >
-                {tag}
-                {selectedTags.has(tag) && ' ✓'}
-              </button>
-            ))}
+          {/* Tags Container with Line Clamp Effect */}
+          <div className="relative group">
+            <div 
+              className="flex flex-wrap gap-2 overflow-hidden transition-all duration-300 ease-in-out"
+              style={{ maxHeight: '2.25rem' }} // Force 1 line (approx 36px)
+            >
+              <style>{`
+                .group:hover > div {
+                  max-height: 20rem !important;
+                }
+              `}</style>
+              {allTags.map((tag) => (
+                <button
+                  key={tag}
+                  onClick={() => onTagClick?.(tag)}
+                  className={`tag-retro px-3 py-1 text-xs rounded transition-all whitespace-nowrap ${
+                    selectedTags.has(tag)
+                      ? 'bg-[var(--cherry-red)] text-white'
+                      : 'bg-[var(--cherry-bg)] border border-[var(--cherry-green)]/30 text-[var(--cherry-green)]'
+                  }`}
+                >
+                  {tag}
+                  {selectedTags.has(tag) && ' ✓'}
+                </button>
+              ))}
+            </div>
+            {/* Ellipsis/More Indicator - Visible when collapsed, hidden when expanded */}
+            {allTags.length > 8 && ( // Simple heuristic: show ... if many tags
+             <div className="absolute right-0 top-0 bottom-0 px-2 flex items-center bg-gradient-to-l from-[var(--cherry-bg-secondary)] via-[var(--cherry-bg-secondary)] to-transparent text-[var(--cherry-muted)] text-xs font-code opacity-100 group-hover:opacity-0 transition-opacity pointer-events-none">
+              ...
+            </div>
+            )}
           </div>
+          
           {selectedTags.size > 0 && (
             <p className="mt-3 text-xs text-[var(--cherry-muted)] font-code">
               已选择 {selectedTags.size} 个标签，显示 {filteredBranches.reduce((acc, b) => acc + b.commits.length, 0)} 个链接
@@ -82,14 +105,14 @@ export function ContentGrid({
       )}
 
       {/* 分支列表 */}
-      {filteredBranches.map((branch, branchIndex) => (
+      {filteredBranches.map((branch) => (
         <BranchSection
           key={branch.name}
-          id={`branch-${branchIndex}`}
+          id={`branch-${branch.originalIndex}`}
           branch={branch}
-          branchIndex={branchIndex}
+          branchIndex={branch.originalIndex}
           selectedCommitIndex={navigationState.currentCommitIndex}
-          isCurrentBranch={navigationState.currentBranchIndex === branchIndex}
+          isCurrentBranch={navigationState.currentBranchIndex === branch.originalIndex}
           onCommitClick={onCommitClick}
           searchQuery={searchQuery}
           selectedTags={selectedTags}
@@ -113,23 +136,7 @@ export function ContentGrid({
         </div>
       )}
 
-      {/* 底部信息 */}
-      <footer className="mt-12 pt-4 border-t border-[var(--cherry-green)]/20 text-center">
-        <p className="text-xs text-[var(--cherry-muted)] font-code">
-          <span className="text-[var(--cherry-green)]">🍒</span> Cherry {version}
-          {' '}|{' '}
-          <span className="text-[var(--cherry-amber)]">Cherry-pick the web</span>
-          {' '}|{' '}
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-[var(--cherry-red)]"
-          >
-            Fork on GitHub
-          </a>
-        </p>
-      </footer>
+      {/* 底部信息 - Removed (Moved to Footer component) */}
     </main>
   );
 }

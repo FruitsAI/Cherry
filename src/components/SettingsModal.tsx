@@ -5,9 +5,11 @@ interface SettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
   data: CherryData;
+  onAdd?: () => void;
+  onStatistics?: () => void;
 }
 
-export function SettingsModal({ isOpen, onClose, data }: SettingsModalProps) {
+export function SettingsModal({ isOpen, onClose, data, onAdd, onStatistics }: SettingsModalProps) {
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   // 导出配置
@@ -81,28 +83,6 @@ export function SettingsModal({ isOpen, onClose, data }: SettingsModalProps) {
     }
   };
 
-  // 重置配置
-  const handleReset = () => {
-    if (confirm('确定要重置所有配置吗？这将清除所有本地存储的数据。')) {
-      localStorage.clear();
-      setMessage({ type: 'success', text: '配置已重置！页面将重新加载...' });
-      
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    }
-  };
-
-  // 重置首次访问状态
-  const handleResetFirstVisit = () => {
-    localStorage.removeItem('cherry-visited');
-    setMessage({ type: 'success', text: '首次访问状态已重置！下次打开将显示快捷键引导。' });
-    
-    setTimeout(() => {
-      window.location.reload();
-    }, 1500);
-  };
-
   if (!isOpen) return null;
 
   return (
@@ -149,6 +129,39 @@ export function SettingsModal({ isOpen, onClose, data }: SettingsModalProps) {
             </p>
           </div>
 
+          {/* 快捷操作 */}
+          { (onAdd || onStatistics) && (
+            <div className="p-4 bg-[var(--cherry-bg)] border border-[var(--cherry-green)]/30 rounded">
+               <h3 className="font-code text-sm text-[var(--cherry-amber)] mb-2">
+                快捷操作
+              </h3>
+              <div className="flex gap-3">
+                 {onAdd && (
+                  <button
+                    onClick={() => {
+                      onClose();
+                      onAdd();
+                    }}
+                    className="flex-1 button-retro px-3 py-2 bg-[var(--cherry-green)]/10 border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)] font-code text-sm flex items-center justify-center gap-2"
+                  >
+                    <span>➕</span> 添加新链接
+                  </button>
+                )}
+                {onStatistics && (
+                  <button
+                    onClick={() => {
+                       onClose();
+                       onStatistics();
+                    }}
+                    className="flex-1 button-retro px-3 py-2 bg-[var(--cherry-amber)]/10 border border-[var(--cherry-amber)]/30 rounded text-[var(--cherry-amber)] font-code text-sm flex items-center justify-center gap-2"
+                  >
+                    <span>📊</span> 查看统计
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* 消息提示 */}
           {message && (
             <div
@@ -162,7 +175,7 @@ export function SettingsModal({ isOpen, onClose, data }: SettingsModalProps) {
             </div>
           )}
 
-          {/* 操作按钮 */}
+          {/* 配置管理 */}
           <div className="flex flex-col gap-2 pt-2">
             <button
               onClick={handleExport}
@@ -176,25 +189,13 @@ export function SettingsModal({ isOpen, onClose, data }: SettingsModalProps) {
             >
               📥 导入配置
             </button>
-            <button
-              onClick={handleResetFirstVisit}
-              className="button-retro px-4 py-2 bg-[var(--cherry-amber)]/10 border border-[var(--cherry-amber)]/30 rounded text-[var(--cherry-amber)] font-code text-sm"
-            >
-              🔄 重置首次访问
-            </button>
-            <button
-              onClick={handleReset}
-              className="button-retro px-4 py-2 bg-[var(--cherry-red)]/10 border border-[var(--cherry-red)]/30 rounded text-[var(--cherry-red)] font-code text-sm"
-            >
-              ⚠️ 重置所有配置
-            </button>
           </div>
         </div>
 
         {/* 使用说明 */}
         <div className="mt-6 pt-4 border-t border-[var(--cherry-green)]/30 flex-shrink-0">
           <p className="text-xs text-[var(--cherry-muted)] font-code">
-            💡 提示：导出配置会保存当前主题和所有链接数据。导入配置将覆盖当前设置。重置首次访问将重新显示快捷键引导。重置所有配置将清除所有数据。
+            💡 提示：导出配置会保存当前主题和所有链接数据。导入配置将覆盖当前设置。
           </p>
         </div>
       </div>

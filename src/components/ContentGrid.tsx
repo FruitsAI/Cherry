@@ -85,6 +85,7 @@ export function ContentGrid({
       {filteredBranches.map((branch, branchIndex) => (
         <BranchSection
           key={branch.name}
+          id={`branch-${branchIndex}`}
           branch={branch}
           branchIndex={branchIndex}
           selectedCommitIndex={navigationState.currentCommitIndex}

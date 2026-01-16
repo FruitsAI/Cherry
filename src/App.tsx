@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, lazy, Suspense } from 'react';
-import { Header, Hero, CommandInput, ContentGrid } from './components';
+import { Header, Hero, CommandInput, ContentGrid, Dock } from './components';
 import { useKeyboardNavigation, useCommands, useStatistics } from './hooks';
 import type { CherryData, NavigationState } from './types';
 import cherryData from './data/data.json';
@@ -246,6 +246,29 @@ function App() {
     return () => window.removeEventListener('keydown', handleEsc);
   }, []);
 
+  // 处理 Dock 点击
+  const handleDockClick = useCallback((index: number) => {
+    // 如果有标签筛选，先清除
+    if (selectedTags.size > 0) {
+      handleClearTags();
+    }
+    
+    // 更新导航状态
+    setNavigationState(prev => ({
+      ...prev,
+      currentBranchIndex: index,
+    }));
+
+    // 滚动到对应区域
+    setTimeout(() => {
+      // 这里的 index 对应的是完整列表的 index (因为已经清除了筛选)
+      const element = document.getElementById(`branch-${index}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  }, [selectedTags.size, handleClearTags]);
+
   return (
     <div className="min-h-screen">
       {/* Header 状态栏 */}
@@ -323,6 +346,13 @@ function App() {
           statistics={statistics}
         />
       </Suspense>
+
+      {/* 底部 Dock */}
+      <Dock
+        branches={dataWithFavorites.branches}
+        currentBranchIndex={navigationState.currentBranchIndex}
+        onBranchClick={handleDockClick}
+      />
     </div>
   );
 }

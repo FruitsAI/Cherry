@@ -10,4 +10,5 @@ export { StatisticsModal } from './StatisticsModal';
 export { AddModal } from './AddModal';
 export { ThemeToggle } from './ThemeToggle';
 export { SettingsModal } from './SettingsModal';
+export { Dock } from './Dock';
 

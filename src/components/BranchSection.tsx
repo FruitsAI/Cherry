@@ -2,6 +2,7 @@ import type { Branch } from '../types';
 import { CommitCard } from './CommitCard';
 
 interface BranchSectionProps {
+  id?: string;
   branch: Branch;
   branchIndex: number;
   selectedCommitIndex: number;
@@ -23,9 +24,10 @@ export function BranchSection({
   selectedTags = new Set(),
   onTagClick,
   onToggleFavorite,
+  id,
 }: BranchSectionProps) {
   return (
-    <section className="mb-8">
+    <section id={id} className="mb-8">
       {/* Branch 标题 */}
       <div
         className={`flex items-center gap-3 mb-4 pb-2 border-b ${

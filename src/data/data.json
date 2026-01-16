@@ -1,8 +1,9 @@
 {
   "site_config": {
-    "user_name": "DevUser",
+    "user_name": "willxue",
     "theme": "dark_matrix",
-    "slogan": "Cherry-pick the web"
+    "slogan": "Cherry-pick the web",
+    "version": "v0.8.0"
   },
   "branches": [
     {

@@ -1,9 +1,9 @@
-interface HelpModalProps {
+interface KeyboardShortcutsModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function HelpModal({ isOpen, onClose }: HelpModalProps) {
+export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsModalProps) {
   if (!isOpen) return null;
 
   const shortcuts = [
@@ -25,23 +25,27 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
     { cmd: 'ls', desc: '列出所有 Branches' },
     { cmd: 'go <n>', desc: '跳转到第 n 个链接' },
     { cmd: 'g <query>', desc: '使用 Google 搜索' },
-    { cmd: 'clear', desc: '清除命令历史' },
   ];
 
   return (
     <div
-      className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="terminal-card max-w-lg w-full mx-4 p-6 border-[var(--cherry-red)] flex flex-col max-h-[85vh]"
+        className="terminal-card max-w-lg w-full mx-4 p-6 border-[var(--cherry-red)] animate-fade-in-up flex flex-col max-h-[85vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 标题 */}
         <div className="flex items-center justify-between mb-6 flex-shrink-0">
-          <h2 className="font-pixel text-2xl text-[var(--cherry-red)] glow-red">
-            📖 HELP
-          </h2>
+          <div>
+            <h2 className="font-pixel text-2xl text-[var(--cherry-red)] glow-red mb-2">
+              🎮 欢迎来到 Cherry!
+            </h2>
+            <p className="text-sm text-[var(--cherry-muted)]">
+              你的复古终端风格链接管理器
+            </p>
+          </div>
           <button
             onClick={onClose}
             className="text-[var(--cherry-muted)] hover:text-[var(--cherry-red)] transition-colors"
@@ -55,15 +59,15 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
           {/* 键盘快捷键 */}
           <div>
             <h3 className="font-code text-sm text-[var(--cherry-amber)] mb-3">
-              ⌨️ Keyboard Shortcuts (Vim Mode)
+              ⌨️ 键盘快捷键 (Vim 模式)
             </h3>
-            <div className="space-y-2">
+            <div className="grid grid-cols-2 gap-2">
               {shortcuts.map(({ key, desc }) => (
-                <div key={key} className="flex justify-between text-sm font-code">
-                  <kbd className="px-2 py-0.5 bg-[var(--cherry-bg)] border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)]">
+                <div key={key} className="flex flex-col p-2 bg-[var(--cherry-bg)] rounded">
+                  <kbd className="px-2 py-1 text-xs font-code bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)] text-center mb-1">
                     {key}
                   </kbd>
-                  <span className="text-[var(--cherry-muted)]">{desc}</span>
+                  <span className="text-xs text-[var(--cherry-muted)] text-center">{desc}</span>
                 </div>
               ))}
             </div>
@@ -72,11 +76,11 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
           {/* 命令列表 */}
           <div>
             <h3 className="font-code text-sm text-[var(--cherry-amber)] mb-3">
-              💻 Terminal Commands
+              💻 终端命令
             </h3>
             <div className="space-y-2">
               {commands.map(({ cmd, desc }) => (
-                <div key={cmd} className="flex justify-between text-sm font-code">
+                <div key={cmd} className="flex justify-between text-sm font-code p-2 bg-[var(--cherry-bg)] rounded">
                   <code className="text-[var(--cherry-green)]">{cmd}</code>
                   <span className="text-[var(--cherry-muted)]">{desc}</span>
                 </div>
@@ -86,13 +90,18 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
         </div>
 
         {/* 底部提示 */}
-        <div className="mt-6 pt-4 border-t border-[var(--cherry-green)]/30 text-center flex-shrink-0">
-          <p className="text-xs text-[var(--cherry-muted)]">
-            Press <kbd className="text-[var(--cherry-green)]">ESC</kbd> or click outside to close
+        <div className="pt-4 border-t border-[var(--cherry-green)]/30 flex-shrink-0">
+          <p className="text-sm text-[var(--cherry-muted)] text-center mb-4">
+            按 <kbd className="text-[var(--cherry-green)]">ESC</kbd> 或点击外部关闭
           </p>
+          <button
+            onClick={onClose}
+            className="w-full button-retro py-3 px-6 bg-[var(--cherry-red)] text-white font-code text-sm hover:bg-[var(--cherry-red)]/80 transition-all"
+          >
+            开始使用 🚀
+          </button>
         </div>
       </div>
     </div>
   );
 }
-

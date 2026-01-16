@@ -6,9 +6,13 @@ interface UseKeyboardNavigationProps {
   navigationState: NavigationState;
   setNavigationState: React.Dispatch<React.SetStateAction<NavigationState>>;
   isCommandInputActive: boolean;
+  isModalOpen: boolean;
   onOpenLink: () => void;
   onFocusSearch: () => void;
   onShowHelp: () => void;
+  onShowAdd?: () => void;
+  onShowSettings?: () => void;
+  onShowStatistics?: () => void;
 }
 
 export function useKeyboardNavigation({
@@ -16,14 +20,18 @@ export function useKeyboardNavigation({
   navigationState,
   setNavigationState,
   isCommandInputActive,
+  isModalOpen,
   onOpenLink,
   onFocusSearch,
   onShowHelp,
+  onShowAdd,
+  onShowSettings,
+  onShowStatistics,
 }: UseKeyboardNavigationProps) {
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      // 如果命令输入框激活，不处理导航快捷键
-      if (isCommandInputActive) {
+      // 如果命令输入框激活或弹窗打开，不处理导航快捷键
+      if (isCommandInputActive || isModalOpen) {
         return;
       }
 
@@ -96,16 +104,46 @@ export function useKeyboardNavigation({
           e.preventDefault();
           onShowHelp();
           break;
+
+        // 显示 Add 弹窗
+        case 'A':
+        case 'a':
+          if (onShowAdd) {
+            e.preventDefault();
+            onShowAdd();
+          }
+          break;
+
+        // 显示设置弹窗
+        case 'S':
+        case 's':
+          if (onShowSettings) {
+            e.preventDefault();
+            onShowSettings();
+          }
+          break;
+
+        // 显示统计弹窗
+        case 'T':
+        case 't':
+          if (onShowStatistics) {
+            e.preventDefault();
+            onShowStatistics();
+          }
+          break;
       }
     },
     [
       branches,
       navigationState,
       isCommandInputActive,
+      isModalOpen,
       setNavigationState,
       onOpenLink,
       onFocusSearch,
       onShowHelp,
+      onShowAdd,
+      onShowSettings,
     ]
   );
 

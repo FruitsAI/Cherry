@@ -1,6 +1,6 @@
-# 🍒 Project Cherry - 开发文档
+# 🍒 Cherry - 开发文档
 
-**版本:** v0.1.0-draft
+**版本:** v0.8.0
 **Slogan:** Cherry-pick the web.
 **风格:** Retro Terminal / Pixel Art / Geek
 

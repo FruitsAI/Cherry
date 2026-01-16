@@ -5,4 +5,9 @@ export { ContentGrid } from './ContentGrid';
 export { BranchSection } from './BranchSection';
 export { CommitCard } from './CommitCard';
 export { HelpModal } from './HelpModal';
+export { KeyboardShortcutsModal } from './KeyboardShortcutsModal';
+export { StatisticsModal } from './StatisticsModal';
+export { AddModal } from './AddModal';
+export { ThemeToggle } from './ThemeToggle';
+export { SettingsModal } from './SettingsModal';
 

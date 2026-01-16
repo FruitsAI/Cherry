@@ -7,6 +7,10 @@ interface BranchSectionProps {
   selectedCommitIndex: number;
   isCurrentBranch: boolean;
   onCommitClick: (branchIndex: number, commitIndex: number) => void;
+  searchQuery?: string;
+  selectedTags?: Set<string>;
+  onTagClick?: (tag: string) => void;
+  onToggleFavorite?: (hash: string) => void;
 }
 
 export function BranchSection({
@@ -15,6 +19,10 @@ export function BranchSection({
   selectedCommitIndex,
   isCurrentBranch,
   onCommitClick,
+  searchQuery = '',
+  selectedTags = new Set(),
+  onTagClick,
+  onToggleFavorite,
 }: BranchSectionProps) {
   return (
     <section className="mb-8">
@@ -53,6 +61,10 @@ export function BranchSection({
             index={commitIndex}
             isSelected={isCurrentBranch && selectedCommitIndex === commitIndex}
             onClick={() => onCommitClick(branchIndex, commitIndex)}
+            searchQuery={searchQuery}
+            selectedTags={selectedTags}
+            onTagClick={onTagClick}
+            onToggleFavorite={onToggleFavorite}
           />
         ))}
       </div>

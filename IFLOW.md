@@ -33,10 +33,16 @@ Cherry/
 │   │   ├── Header.tsx          # 状态栏
 │   │   ├── HelpModal.tsx       # 帮助弹窗
 │   │   ├── Hero.tsx            # Hero 区域
+│   │   ├── AddModal.tsx        # 添加链接弹窗
+│   │   ├── SettingsModal.tsx   # 设置弹窗
+│   │   ├── ThemeToggle.tsx     # 主题切换
+│   │   ├── KeyboardShortcutsModal.tsx # 快捷键引导
+│   │   ├── StatisticsModal.tsx # 统计弹窗
 │   │   └── index.ts            # 组件导出
 │   ├── hooks/                  # 自定义 Hooks
 │   │   ├── useCommands.ts      # 命令处理逻辑
 │   │   ├── useKeyboardNavigation.ts  # 键盘导航逻辑
+│   │   ├── useStatistics.ts    # 统计功能逻辑
 │   │   └── index.ts            # Hooks 导出
 │   ├── types/                  # TypeScript 类型定义
 │   │   └── index.ts
@@ -59,18 +65,20 @@ Cherry/
 ├── vercel.json                 # Vercel 部署配置
 ├── vite.config.ts              # Vite 配置
 ├── README.md                   # 项目说明
-└── 需求文档.md                 # 详细开发文档
+└── PRD.md                 # 详细开发文档
 
 ```
 
 ## 核心功能
 
 ### 1. CRT 显示器效果
+
 - 扫描线效果
 - 屏幕辉光和闪烁
 - 复古终端视觉体验
 
 ### 2. Vim 风格键盘导航
+
 - `j` / `↓`: 向下移动选择
 - `k` / `↑`: 向上移动选择
 - `h` / `←`: 切换到上一个 Branch
@@ -81,6 +89,7 @@ Cherry/
 - `?`: 显示帮助
 
 ### 3. 命令行搜索
+
 - `help`: 显示帮助信息
 - `ls`: 列出所有 Branches
 - `go <n>`: 跳转到第 n 个链接
@@ -88,6 +97,7 @@ Cherry/
 - `clear`: 清除命令历史
 
 ### 4. Git 工作流隐喻
+
 - 分类称为 **Branches**（如 `feature/work`、`hotfix/tools`）
 - 链接称为 **Commits**（带有伪 hash 值）
 - 状态栏显示当前 Branch 信息
@@ -123,28 +133,35 @@ Cherry/
 ## 开发命令
 
 ### 安装依赖
+
 ```bash
 npm install
 ```
 
 ### 启动开发服务器
+
 ```bash
 npm run dev
 ```
+
 开发服务器默认运行在 `http://localhost:5173`
 
 ### 构建生产版本
+
 ```bash
 npm run build
 ```
+
 构建输出到 `dist/` 目录
 
 ### 预览生产构建
+
 ```bash
 npm run preview
 ```
 
 ### 代码检查
+
 ```bash
 npm run lint
 ```
@@ -152,12 +169,14 @@ npm run lint
 ## 部署
 
 ### GitHub Pages
+
 1. 推送代码到 GitHub
 2. 在仓库设置中启用 GitHub Pages
 3. 选择 GitHub Actions 作为源
 4. 推送到 main 分支自动部署
 
 ### Vercel
+
 1. 导入 GitHub 仓库到 Vercel
 2. 设置根目录为 `app`
 3. 自动检测 Vite 框架并部署
@@ -165,26 +184,31 @@ npm run lint
 ## 开发约定
 
 ### 组件开发
+
 - 使用函数式组件 + Hooks
 - 组件文件使用 PascalCase 命名（如 `Header.tsx`）
 - 所有组件在 `src/components/index.ts` 中统一导出
 
 ### 类型定义
+
 - 所有类型定义在 `src/types/index.ts` 中
 - 使用 TypeScript 严格模式
 - 接口使用 PascalCase 命名
 
 ### 样式规范
+
 - 使用 Tailwind CSS 进行样式开发
 - CRT 特效在 `src/index.css` 中定义
 - 像素字体使用 VT323，代码字体使用 Fira Code
 
 ### 自定义 Hooks
+
 - 自定义 Hooks 放在 `src/hooks/` 目录
 - Hook 命名以 `use` 开头（如 `useKeyboardNavigation`）
 - 所有 Hooks 在 `src/hooks/index.ts` 中统一导出
 
 ### 代码风格
+
 - 使用 ESLint 进行代码检查
 - 遵循 React Hooks 规则
 - 使用函数式编程范式
@@ -192,26 +216,33 @@ npm run lint
 ## 关键文件说明
 
 ### `src/App.tsx`
+
 主应用组件，负责：
+
 - 管理全局状态（导航状态、UI 状态）
 - 集成键盘导航和命令处理
 - 组织页面布局
 
 ### `src/hooks/useKeyboardNavigation.ts`
+
 处理 Vim 风格键盘导航逻辑
 
 ### `src/hooks/useCommands.ts`
+
 处理命令行输入和命令执行逻辑
 
 ### `src/data/data.json`
+
 存储所有链接数据和站点配置
 
 ### `vite.config.ts`
+
 Vite 构建配置，设置了 `base: './'` 以支持 GitHub Pages 部署
 
 ## 自定义和扩展
 
 ### 添加新链接
+
 编辑 `src/data/data.json`，在 `branches` 数组中添加新的 commit：
 
 ```json
@@ -224,6 +255,7 @@ Vite 构建配置，设置了 `base: './'` 以支持 GitHub Pages 部署
 ```
 
 ### 添加新分类
+
 在 `branches` 数组中添加新的 branch 对象：
 
 ```json
@@ -235,6 +267,7 @@ Vite 构建配置，设置了 `base: './'` 以支持 GitHub Pages 部署
 ```
 
 ### 修改站点配置
+
 编辑 `site_config` 对象：
 
 ```json
@@ -257,7 +290,7 @@ Vite 构建配置，设置了 `base: './'` 以支持 GitHub Pages 部署
 
 ## 相关文档
 
-- **需求文档**: `需求文档.md` - 详细的项目设计和开发规范
+- **PRD**: `PRD.md` - 详细的项目设计和开发规范
 - **README**: `README.md` - 快速开始和功能介绍
 - **Tailwind CSS**: https://tailwindcss.com/
 - **Vite**: https://vite.dev/

@@ -1,8 +1,34 @@
-# 🍒 Cherry
+<div align="center">
+  <img src="public/cherry.svg" width="160" alt="Cherry Logo" />
+  <h1>Cherry</h1>
+  
+  <p>
+    <strong>Cherry-pick the web.</strong>
+  </p>
+  
+  <p>一个专属于程序员的复古终端风格浏览器起始页。</p>
 
-> **Cherry-pick the web.**
+  <p>
+    <a href="./LICENSE">
+      <img src="https://img.shields.io/github/license/FruitsAI/Cherry?style=flat-square&color=2ecc71" alt="License" />
+    </a>
+    <a href="https://www.typescriptlang.org/">
+      <img src="https://img.shields.io/badge/Language-TypeScript-blue?style=flat-square&logo=typescript&color=3178c6" alt="TypeScript" />
+    </a>
+    <a href="https://react.dev/">
+      <img src="https://img.shields.io/badge/Framework-React-cyan?style=flat-square&logo=react&color=61dafb" alt="React" />
+    </a>
+    <a href="https://vitejs.dev/">
+      <img src="https://img.shields.io/badge/Bundler-Vite-purple?style=flat-square&logo=vite&color=646cff" alt="Vite" />
+    </a>
+  </p>
 
-一个专属于程序员的复古终端风格浏览器起始页。
+  <p>
+    <a href="./README.en.md">English</a> | <span>简体中文</span>
+  </p>
+</div>
+
+---
 
 ## ✨ 特性
 

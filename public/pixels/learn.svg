@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" shape-rendering="crispEdges">
+  <!-- Graduation Cap -->
+  <rect x="4" y="8" width="16" height="4" fill="#333333"/>
+  <rect x="2" y="10" width="20" height="2" fill="#333333"/>
+  
+  <!-- Top diamond -->
+  <polygon points="12,4 20,10 12,16 4,10" fill="#333333" />
+  <rect x="6" y="9" width="12" height="2" fill="#444"/> <!-- lighting -->
+  
+  <!-- Tassel -->
+  <rect x="20" y="10" width="2" height="6" fill="#F1C40F"/>
+  <rect x="19" y="16" width="4" height="2" fill="#F1C40F"/>
+  <rect x="19" y="18" width="4" height="2" fill="#F39C12"/>
+</svg>

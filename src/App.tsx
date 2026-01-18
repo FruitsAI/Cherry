@@ -51,6 +51,8 @@ function App() {
     return (savedTheme === 'light' ? 'light' : 'dark');
   });
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
+  const [isHeaderDropdownOpen, setIsHeaderDropdownOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // 标记为已访问
   useEffect(() => {
@@ -163,27 +165,18 @@ function App() {
       }
       return newSet;
     });
+    setCurrentPage(1);
   }, []);
 
   // 清除标签过滤
   const handleClearTags = useCallback(() => {
     setSelectedTags(new Set());
+    setCurrentPage(1);
   }, []);
 
-  // 键盘导航
-  useKeyboardNavigation({
-    branches: dataWithFavorites.branches,
-    navigationState,
-    setNavigationState,
-    isCommandInputActive,
-    isModalOpen,
-    onOpenLink: handleOpenLink,
-    onFocusSearch: handleFocusSearch,
-    onShowHelp: handleShowHelp,
-    onShowAdd: handleShowAdd,
-    onShowSettings: handleShowSettings,
-    onShowStatistics: handleShowStatistics,
-  });
+
+
+
 
   // 命令执行
   const { executeCommand } = useCommands({
@@ -197,7 +190,14 @@ function App() {
     (input: string) => {
       // 更新搜索查询（用于高亮）
       setSearchQuery(input);
+      setCurrentPage(1);
       const result = executeCommand(input);
+      
+      // 处理 ls 命令触发下拉
+      if (result.type === 'ls') {
+        setIsHeaderDropdownOpen(true);
+      }
+
       console.log(`[Cherry] ${result.type}: ${result.output.join('\n')}`);
       
       // 记录命令使用（只记录有效的命令）
@@ -238,6 +238,7 @@ function App() {
         setIsStatisticsOpen(false);
         setIsCommandInputActive(false);
         setSearchQuery('');
+        setCurrentPage(1);
       }
     };
     window.addEventListener('keydown', handleEsc);
@@ -246,6 +247,11 @@ function App() {
 
   // View 状态：'home' 或 branch index
   const [currentView, setCurrentView] = useState<'home' | number>('home');
+  const ITEMS_PER_PAGE = 8;
+
+  // Sync currentPage with currentCommitIndex
+  // Removed useEffect to avoid cascading updates. Logic moved to useKeyboardNavigation.
+  // Reset page logic moved to explicit handlers (handleTagClick, etc) to avoid race conditions.
 
   // 处理 Dock 点击
   const handleDockClick = useCallback((index: number) => {
@@ -261,13 +267,66 @@ function App() {
     setNavigationState(prev => ({
       ...prev,
       currentBranchIndex: index,
+      currentCommitIndex: 0,
     }));
+    
+    // 重置页码
+    setCurrentPage(1);
   }, [selectedTags.size, handleClearTags]);
 
   // 回到主页
   const handleGoHome = useCallback(() => {
     setCurrentView('home');
   }, []);
+
+  // 切换分支处理
+  const handlePrevBranch = useCallback((selectLast = false) => {
+    const prevIndex = navigationState.currentBranchIndex - 1;
+    if (prevIndex >= 0) {
+      if (selectLast) {
+        // 选中上一个分支的最后一个 Commit
+        const prevBranch = dataWithFavorites.branches[prevIndex];
+        const lastCommitIndex = Math.max(0, prevBranch.commits.length - 1);
+        
+        if (selectedTags.size > 0) handleClearTags();
+        setCurrentView(prevIndex);
+        setNavigationState({
+          currentBranchIndex: prevIndex,
+          currentCommitIndex: lastCommitIndex,
+        });
+        setCurrentPage(Math.floor(lastCommitIndex / ITEMS_PER_PAGE) + 1);
+      } else {
+        handleDockClick(prevIndex);
+      }
+    }
+  }, [navigationState.currentBranchIndex, handleDockClick, dataWithFavorites.branches, selectedTags.size, handleClearTags]);
+
+  const handleNextBranch = useCallback(() => {
+    const nextIndex = navigationState.currentBranchIndex + 1;
+    if (nextIndex < dataWithFavorites.branches.length) {
+      handleDockClick(nextIndex);
+    }
+  }, [navigationState.currentBranchIndex, dataWithFavorites.branches.length, handleDockClick]);
+
+  // 键盘导航
+  useKeyboardNavigation({
+    branches: dataWithFavorites.branches,
+    navigationState,
+    setNavigationState,
+    isCommandInputActive,
+    isModalOpen,
+    onOpenLink: handleOpenLink,
+    onFocusSearch: handleFocusSearch,
+    onShowHelp: handleShowHelp,
+    onShowAdd: handleShowAdd,
+    onShowSettings: handleShowSettings,
+    onShowStatistics: handleShowStatistics,
+    onGoHome: handleGoHome,
+    onPageChange: setCurrentPage,
+    itemsPerPage: ITEMS_PER_PAGE,
+    onPrevBranch: handlePrevBranch,
+    onNextBranch: handleNextBranch,
+  });
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-[var(--cherry-bg)] text-[var(--cherry-text)]">
@@ -278,6 +337,10 @@ function App() {
         theme={theme}
         onThemeChange={setTheme}
         onLogoClick={handleGoHome}
+        branches={dataWithFavorites.branches}
+        onBranchChange={handleDockClick}
+        isDropdownOpen={isHeaderDropdownOpen}
+        onToggleDropdown={setIsHeaderDropdownOpen}
       />
 
       {/* 主内容区域 - 弹性伸缩 + 内部滚动 */}
@@ -325,6 +388,8 @@ function App() {
               onClearTags={handleClearTags}
               onToggleFavorite={handleToggleFavorite}
               activeBranchIndex={typeof currentView === 'number' ? currentView : undefined}
+              currentPage={currentPage}
+              onPageChange={setCurrentPage}
             />
           </div>
         )}

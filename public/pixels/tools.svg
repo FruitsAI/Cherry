@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" shape-rendering="crispEdges">
+  <!-- Wrench and Screwdriver Cross -->
+  <!-- Wrench (Blue) -->
+  <path fill="#4facfe" d="M4 4h4v2H6v2H4V4zm4 4h2v2H8V8zm2 2h2v2h-2v-2zm2 2h2v2h-2v-2zm2 2h2v2h-2v-2zm2 2h2v2h-2v-2z"/>
+  
+  <!-- Screwdriver (Red/Orange) Handle -->
+  <path fill="#ff5e62" d="M16 4h4v4h-2v2h-2V8h-2V6h2V4z"/>
+  <!-- Shaft -->
+  <path fill="#ddd" d="M12 10h2v2h-2v-2zm-2 2h2v2h-2v-2zm-2 2h2v2H8v-2zm-2 2h2v2H6v-2z"/>
+</svg>

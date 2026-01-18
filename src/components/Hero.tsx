@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface HeroProps {
   slogan: string;
 }
 
 export function Hero({ slogan }: HeroProps) {
+  const { t } = useTranslation();
   const [displayText, setDisplayText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
   const fullText = `> ${slogan}`;
@@ -41,7 +43,7 @@ export function Hero({ slogan }: HeroProps) {
           <img
             src="./cherry.svg"
             alt="Cherry"
-            loading="lazy"
+            loading="eager"
             className="icon-retro w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 drop-shadow-[0_0_15px_rgba(255,0,85,0.6)]"
           />
           {/* 辉光效果 */}
@@ -66,14 +68,14 @@ export function Hero({ slogan }: HeroProps) {
 
       {/* 帮助提示 */}
       <p className="hidden sm:block mt-2 text-xs sm:text-sm text-[var(--cherry-muted)] font-code animate-fade-in-up animate-delay-300 px-4">
-        Press <kbd className="px-2 py-1 bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)]">/</kbd> to search
+        {t('hero.hints.press')} <kbd className="px-2 py-1 bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)]">/</kbd> {t('hero.hints.search')}
         {' '} | {' '}
         <kbd className="px-2 py-1 bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)]">j</kbd>
-        <kbd className="px-2 py-1 bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)]">k</kbd> to navigate
+        <kbd className="px-2 py-1 bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)]">k</kbd> {t('hero.hints.navigate')}
         {' '} | {' '}
-        <kbd className="px-2 py-1 bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)]">?</kbd> for help
+        <kbd className="px-2 py-1 bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)]">?</kbd> {t('hero.hints.help')}
         {' '} | {' '}
-        <kbd className="px-2 py-1 bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)]">A</kbd> to add
+        <kbd className="px-2 py-1 bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)]">A</kbd> {t('hero.hints.add')}
       </p>
     </section>
   );

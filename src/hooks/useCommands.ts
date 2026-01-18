@@ -30,7 +30,7 @@ export function useCommands({
           output = ['Showing help...'];
           break;
 
-        case 'ls':
+        case 'ls': {
           type = 'ls';
           // 列出所有 branches
           const branchList = branches
@@ -39,6 +39,7 @@ export function useCommands({
           console.log('Branches:\n' + branchList);
           output = [`Found ${branches.length} branches`, branchList];
           break;
+        }
 
         case 'go': {
           type = 'go';

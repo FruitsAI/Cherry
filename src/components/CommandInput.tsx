@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import type { KeyboardEvent } from 'react';
 import type { Branch } from '../types';
+import { useTranslation } from 'react-i18next';
 
 interface CommandInputProps {
   onCommand: (command: string) => void;
@@ -17,6 +18,7 @@ export function CommandInput({
   onBlur,
   branches = [],
 }: CommandInputProps) {
+  const { t } = useTranslation();
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
@@ -24,10 +26,14 @@ export function CommandInput({
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // 当激活时聚焦输入框
+  // 当激活时聚焦或失焦输入框
   useEffect(() => {
-    if (isActive && inputRef.current) {
-      inputRef.current.focus();
+    if (inputRef.current) {
+      if (isActive) {
+        inputRef.current.focus();
+      } else {
+        inputRef.current.blur();
+      }
     }
   }, [isActive]);
 
@@ -168,7 +174,7 @@ export function CommandInput({
             onKeyDown={handleKeyDown}
             onFocus={onFocus}
             onBlur={onBlur}
-            placeholder="Type a command or search... (help for commands)"
+            placeholder={t('command.placeholder')}
             className="flex-1 bg-transparent border-none outline-none text-[var(--cherry-text)] placeholder-[var(--cherry-muted)] caret-[var(--cherry-green)]"
             spellCheck={false}
             autoComplete="off"
@@ -205,14 +211,14 @@ export function CommandInput({
 
       {/* 命令提示 */}
       <div className="mt-2 text-xs text-[var(--cherry-muted)] font-code text-center">
-        <span className="text-[var(--cherry-amber)]">Commands:</span>{' '}
+        <span className="text-[var(--cherry-amber)]">{t('command.commands')}</span>{' '}
         <code className="text-[var(--cherry-green)]">help</code> |{' '}
         <code className="text-[var(--cherry-green)]">ls</code> |{' '}
         <code className="text-[var(--cherry-green)]">go &lt;n&gt;</code> |{' '}
         <code className="text-[var(--cherry-green)]">g &lt;query&gt;</code>
         {' '}|{' '}
-        <span className="text-[var(--cherry-amber)]">Tips:</span>{' '}
-        <code className="text-[var(--cherry-green)]">Tab</code> 选择建议
+        <span className="text-[var(--cherry-amber)]">{t('command.tips')}</span>{' '}
+        <code className="text-[var(--cherry-green)]">Tab</code> {t('command.tip_tab')}
       </div>
     </div>
   );

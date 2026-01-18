@@ -1,4 +1,6 @@
 import type { Statistics } from '../types';
+import { IconDisplay } from './IconDisplay';
+import { useTranslation } from 'react-i18next';
 
 interface StatisticsModalProps {
   isOpen: boolean;
@@ -7,6 +9,8 @@ interface StatisticsModalProps {
 }
 
 export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModalProps) {
+  const { t } = useTranslation();
+
   if (!isOpen) return null;
 
   // 格式化时间
@@ -15,12 +19,12 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
     const now = new Date();
     const diff = now.getTime() - date.getTime();
     
-    if (diff < 60000) return '刚刚';
-    if (diff < 3600000) return `${Math.floor(diff / 60000)} 分钟前`;
-    if (diff < 86400000) return `${Math.floor(diff / 3600000)} 小时前`;
-    if (diff < 604800000) return `${Math.floor(diff / 86400000)} 天前`;
+    if (diff < 60000) return t('modal.statistics.time.just_now');
+    if (diff < 3600000) return t('modal.statistics.time.minutes_ago', { count: Math.floor(diff / 60000) });
+    if (diff < 86400000) return t('modal.statistics.time.hours_ago', { count: Math.floor(diff / 3600000) });
+    if (diff < 604800000) return t('modal.statistics.time.days_ago', { count: Math.floor(diff / 86400000) });
     
-    return date.toLocaleDateString('zh-CN');
+    return date.toLocaleDateString();
   };
 
   return (
@@ -35,11 +39,11 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
         {/* 标题 */}
         <div className="flex items-center justify-between mb-6 flex-shrink-0">
           <div>
-            <h2 className="font-pixel text-2xl text-[var(--cherry-red)] glow-red mb-2">
-              📊 使用统计
+            <h2 className="font-pixel text-2xl text-[var(--cherry-red)] glow-red mb-2 flex items-center gap-2">
+              <IconDisplay icon="/pixels/chart.svg" className="text-2xl" imageClassName="w-8 h-8" /> {t('modal.statistics.title')}
             </h2>
             <p className="text-sm text-[var(--cherry-muted)]">
-              总访问次数: {statistics.totalVisits}
+              {t('modal.statistics.total_visits')}: {statistics.totalVisits}
             </p>
           </div>
           <button
@@ -56,7 +60,7 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
             {/* 热门链接 */}
             <div>
               <h3 className="font-code text-sm text-[var(--cherry-amber)] mb-3">
-                🔥 热门链接
+                🔥 {t('modal.statistics.top_links')}
               </h3>
               {statistics.topLinks.length > 0 ? (
                 <div className="space-y-2">
@@ -71,25 +75,25 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
                             #{index + 1}
                           </span>
                           <span className="text-[var(--cherry-text)] truncate">
-                            {link.message || '未知链接'}
+                            {link.message || 'Unknown Link'}
                           </span>
                         </div>
                       </div>
                       <span className="text-[var(--cherry-green)] font-code ml-2">
-                        {link.count} 次
+                        {link.count}
                       </span>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-[var(--cherry-muted)]">暂无数据</p>
+                <p className="text-sm text-[var(--cherry-muted)]">{t('common.no_results')}</p>
               )}
             </div>
 
             {/* 访问历史 */}
             <div>
               <h3 className="font-code text-sm text-[var(--cherry-amber)] mb-3">
-                📜 访问历史
+                📜 {t('modal.statistics.visit_history')}
               </h3>
               {statistics.visitHistory.length > 0 ? (
                 <div className="space-y-2">
@@ -110,14 +114,14 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-[var(--cherry-muted)]">暂无数据</p>
+                <p className="text-sm text-[var(--cherry-muted)]">{t('common.no_results')}</p>
               )}
             </div>
 
             {/* 常用命令 */}
             <div>
               <h3 className="font-code text-sm text-[var(--cherry-amber)] mb-3">
-                💻 常用命令
+                💻 {t('modal.statistics.command_usage')}
               </h3>
               {statistics.commandUsage.length > 0 ? (
                 <div className="space-y-2">
@@ -131,7 +135,7 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
                       </code>
                       <div className="flex items-center gap-2">
                         <span className="text-[var(--cherry-green)] font-code">
-                          {usage.count} 次
+                          {usage.count}
                         </span>
                         <span className="text-xs text-[var(--cherry-muted)]">
                           {formatTime(usage.lastUsed)}
@@ -141,14 +145,14 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-[var(--cherry-muted)]">暂无数据</p>
+                <p className="text-sm text-[var(--cherry-muted)]">{t('common.no_results')}</p>
               )}
             </div>
 
             {/* 常用分类 */}
             <div>
               <h3 className="font-code text-sm text-[var(--cherry-amber)] mb-3">
-                📁 常用分类
+                📁 {t('modal.statistics.category_usage')}
               </h3>
               {statistics.categoryUsage.length > 0 ? (
                 <div className="space-y-2">
@@ -158,19 +162,19 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
                       className="flex items-center justify-between p-2 bg-[var(--cherry-bg)] rounded text-sm"
                     >
                       <div className="flex items-center gap-2">
-                        <span>{category.icon}</span>
+                        <IconDisplay icon={category.icon} className="text-base" imageClassName="w-5 h-5" />
                         <span className="text-[var(--cherry-text)]">
                           {category.branch}
                         </span>
                       </div>
                       <span className="text-[var(--cherry-green)] font-code">
-                        {category.count} 次
+                        {category.count}
                       </span>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-[var(--cherry-muted)]">暂无数据</p>
+                <p className="text-sm text-[var(--cherry-muted)]">{t('common.no_results')}</p>
               )}
             </div>
           </div>
@@ -179,7 +183,7 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
         {/* 底部提示 */}
         <div className="pt-4 mt-6 border-t border-[var(--cherry-green)]/30 flex-shrink-0">
           <p className="text-sm text-[var(--cherry-muted)] text-center">
-            按 <kbd className="text-[var(--cherry-green)]">ESC</kbd> 或点击外部关闭
+            {t('command.tips')} {t('modal.statistics.tip_close', { defaultValue: 'Press ESC or click outside to close' })}
           </p>
         </div>
       </div>

@@ -8,35 +8,35 @@
       {
         "name": "Google",
         "url": "https://google.com",
-        "icon": "🔍"
+        "icon": "/pixels/google.svg"
       },
       {
-        "name": "Bilibili",
-        "url": "https://bilibili.com",
-        "icon": "📺"
+        "name": "X",
+        "url": "https://x.com",
+        "icon": "/pixels/x.svg"
       },
       {
         "name": "GitHub",
         "url": "https://github.com",
-        "icon": "🐙"
+        "icon": "/pixels/github.svg"
       },
       {
-        "name": "V2EX",
-        "url": "https://v2ex.com",
-        "icon": "👽"
+        "name": "YouTube",
+        "url": "https://youtube.com",
+        "icon": "/pixels/youtube.svg"
       }
     ]
   },
   "branches": [
     {
-      "name": "feature/work",
-      "icon": "💼",
+      "name": "feature/AI",
+      "icon": "/pixels/ai.svg",
       "commits": [
         {
-          "message": "GitHub Dashboard",
+          "message": "Gemini",
           "hash": "a1b2c3d",
-          "url": "https://github.com",
-          "tags": ["code", "daily"]
+          "url": "https://gemini.google.com",
+          "tags": ["ai"]
         },
         {
           "message": "ChatGPT",
@@ -45,58 +45,28 @@
           "tags": ["ai"]
         },
         {
-          "message": "Stack Overflow",
+          "message": "DeepSeek",
           "hash": "7e8f9a0",
-          "url": "https://stackoverflow.com",
-          "tags": ["code", "help"]
-        },
-        {
-          "message": "VS Code Web",
-          "hash": "b2c3d4e",
-          "url": "https://vscode.dev",
-          "tags": ["code", "editor"]
-        },
-        {
-          "message": "ChatGPT",
-          "hash": "f4e5d6c",
-          "url": "https://chatgpt.com",
+          "url": "https://chat.deepseek.com",
           "tags": ["ai"]
         },
         {
-          "message": "Stack Overflow",
-          "hash": "7e8f9a0",
-          "url": "https://stackoverflow.com",
-          "tags": ["code", "help"]
-        },
-        {
-          "message": "VS Code Web",
+          "message": "ZAI",
           "hash": "b2c3d4e",
-          "url": "https://vscode.dev",
-          "tags": ["code", "editor"]
-        },
-        {
-          "message": "ChatGPT",
-          "hash": "f4e5d6c",
-          "url": "https://chatgpt.com",
+          "url": "https://chat.z.ai",
           "tags": ["ai"]
         },
         {
-          "message": "Stack Overflow",
-          "hash": "7e8f9a0",
-          "url": "https://stackoverflow.com",
-          "tags": ["code", "help"]
-        },
-        {
-          "message": "VS Code Web",
-          "hash": "b2c3d4e",
-          "url": "https://vscode.dev",
-          "tags": ["code", "editor"]
+          "message": "Qwen",
+          "hash": "7d04f92",
+          "url": "https://qwen.ai/",
+          "tags": ["ai"]
         }
       ]
     },
     {
       "name": "hotfix/tools",
-      "icon": "🛠️",
+      "icon": "/pixels/tools.svg",
       "commits": [
         {
           "message": "Regex101",
@@ -120,7 +90,7 @@
     },
     {
       "name": "release/docs",
-      "icon": "📚",
+      "icon": "/pixels/docs.svg",
       "commits": [
         {
           "message": "MDN Web Docs",
@@ -144,7 +114,7 @@
     },
     {
       "name": "develop/learn",
-      "icon": "🎓",
+      "icon": "/pixels/learn.svg",
       "commits": [
         {
           "message": "freeCodeCamp",

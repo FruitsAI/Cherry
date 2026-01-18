@@ -174,7 +174,6 @@ MIT
 - [开发计划 (TODO)](./TODO.md)
 - [更新日志 (CHANGELOG)](./CHANGELOG.md)
 - [产品需求 (PRD)](./PRD.md)
-- [技术文档 (IFLOW)](./IFLOW.md)
 
 ## 🤝 贡献
 

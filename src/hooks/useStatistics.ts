@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import type { Statistics, VisitHistory, CommandUsage, CategoryUsage, Branch } from '../types';
 
 const STORAGE_KEYS = {
@@ -12,20 +12,8 @@ const MAX_HISTORY_SIZE = 100; // 最多保留100条访问历史
 const MAX_LINKS = 10; // 热门链接显示前10个
 
 export function useStatistics(branches: Branch[] = []) {
-  const [statistics, setStatistics] = useState<Statistics>({
-    totalVisits: 0,
-    visitHistory: [],
-    commandUsage: [],
-    categoryUsage: [],
-    topLinks: [],
-  });
-
-  // 从 localStorage 加载统计数据
-  useEffect(() => {
-    loadStatistics();
-  }, [branches]);
-
-  const loadStatistics = useCallback(() => {
+  // 辅助函数：从 localStorage 读取所有通过
+  const readFromStorage = () => {
     try {
       const visitHistory = JSON.parse(
         localStorage.getItem(STORAGE_KEYS.VISIT_HISTORY) || '[]'
@@ -43,42 +31,66 @@ export function useStatistics(branches: Branch[] = []) {
         localStorage.getItem(STORAGE_KEYS.LINK_VISITS) || '{}'
       ) as Record<string, number>;
 
-      // 生成热门链接，从 branches 中查找对应的 commit 信息
-      const topLinks = Object.entries(linkVisits)
-        .sort(([, a], [, b]) => b - a)
-        .slice(0, MAX_LINKS)
-        .map(([hash, count]) => {
-          // 从 branches 中查找对应的 commit
-          for (const branch of branches) {
-            const commit = branch.commits.find((c) => c.hash === hash);
-            if (commit) {
-              return {
-                hash,
-                message: commit.message,
-                url: commit.url,
-                count,
-              };
-            }
-          }
-          return {
-            hash,
-            message: '未知链接',
-            url: '',
-            count,
-          };
-        });
-
-      setStatistics({
-        totalVisits: visitHistory.length,
+      return {
         visitHistory,
         commandUsage,
         categoryUsage,
-        topLinks: topLinks as any,
-      });
+        linkVisits,
+      };
     } catch (error) {
       console.error('Failed to load statistics:', error);
+      return {
+        visitHistory: [],
+        commandUsage: [],
+        categoryUsage: [],
+        linkVisits: {},
+      };
     }
-  }, [branches]);
+  };
+
+  // 1. Lazy Initialization of raw state
+  const [rawStats, setRawStats] = useState(readFromStorage);
+
+  // 2. Reload function
+  const loadStatistics = useCallback(() => {
+    setRawStats(readFromStorage());
+  }, []);
+
+  // 3. Derived State (Top Links)
+  const topLinks = useMemo(() => {
+    return Object.entries(rawStats.linkVisits)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, MAX_LINKS)
+      .map(([hash, count]) => {
+        // 从 branches 中查找对应的 commit
+        for (const branch of branches) {
+          const commit = branch.commits.find((c) => c.hash === hash);
+          if (commit) {
+            return {
+              hash,
+              message: commit.message,
+              url: commit.url,
+              count,
+            };
+          }
+        }
+        return {
+          hash,
+          message: '未知链接',
+          url: '',
+          count,
+        };
+      });
+  }, [rawStats.linkVisits, branches]);
+
+  // Combined Statistics Object
+  const statistics: Statistics = {
+    totalVisits: rawStats.visitHistory.length,
+    visitHistory: rawStats.visitHistory,
+    commandUsage: rawStats.commandUsage,
+    categoryUsage: rawStats.categoryUsage,
+    topLinks: topLinks as Statistics['topLinks'],
+  };
 
   // 记录链接访问
   const recordVisit = useCallback((hash: string, message: string, url: string, branch: string) => {
@@ -143,6 +155,7 @@ export function useStatistics(branches: Branch[] = []) {
           command,
           count: 1,
           lastUsed: new Date().toISOString(),
+          // We can add missing optional fields if defined in type, but here we stick to existing logic
         });
       }
       
@@ -163,17 +176,11 @@ export function useStatistics(branches: Branch[] = []) {
       localStorage.removeItem(STORAGE_KEYS.CATEGORY_USAGE);
       localStorage.removeItem(STORAGE_KEYS.LINK_VISITS);
       
-      setStatistics({
-        totalVisits: 0,
-        visitHistory: [],
-        commandUsage: [],
-        categoryUsage: [],
-        topLinks: [],
-      });
+      loadStatistics(); // Reload empty state
     } catch (error) {
       console.error('Failed to clear statistics:', error);
     }
-  }, []);
+  }, [loadStatistics]);
 
   return {
     statistics,

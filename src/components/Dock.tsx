@@ -1,4 +1,5 @@
 import type { Branch } from '../types';
+import { IconDisplay } from './IconDisplay';
 
 interface DockProps {
   branches: Branch[];
@@ -9,7 +10,10 @@ interface DockProps {
   isHome?: boolean;
 }
 
+import { useTranslation } from 'react-i18next';
+
 export function Dock({ branches, currentBranchIndex, onBranchClick, onHomeClick, onSettingsClick, isHome = false }: DockProps) {
+  const { t } = useTranslation();
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
       <div className="flex items-end gap-2 px-4 py-3 bg-[var(--cherry-bg-secondary)]/90 backdrop-blur-md border border-[var(--cherry-green)]/30 rounded-2xl shadow-[0_0_15px_rgba(0,0,0,0.3)] transition-all hover:scale-[1.02] hover:border-[var(--cherry-green)] hover:shadow-[0_0_20px_rgba(46,204,113,0.2)]">
@@ -25,12 +29,14 @@ export function Dock({ branches, currentBranchIndex, onBranchClick, onHomeClick,
           >
            {/* Tooltip */}
             <span className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs font-code bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-lg z-50 backdrop-blur-sm">
-              Home
+              {t('dock.home')}
             </span>
             
-            <span className="text-2xl transform transition-transform duration-300 group-hover:scale-125 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
-              🏠
-            </span>
+            <IconDisplay 
+              icon="/pixels/home.svg" 
+              className="text-2xl transform transition-transform duration-300 group-hover:scale-125 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]"
+              imageClassName="w-8 h-8"
+            />
             
             {/* Indicator for active */}
             {isHome && (
@@ -62,9 +68,11 @@ export function Dock({ branches, currentBranchIndex, onBranchClick, onHomeClick,
               {branch.name}
             </span>
             
-            <span className="text-2xl transform transition-transform duration-300 group-hover:scale-125 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
-              {branch.icon}
-            </span>
+            <IconDisplay 
+              icon={branch.icon} 
+              className="text-2xl transform transition-transform duration-300 group-hover:scale-125 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]"
+              imageClassName="w-8 h-8"
+            />
             
             {/* Indicator for active */}
             {index === currentBranchIndex && !isHome && (
@@ -88,12 +96,14 @@ export function Dock({ branches, currentBranchIndex, onBranchClick, onHomeClick,
             >
               {/* Tooltip */}
               <span className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs font-code bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-lg z-50 backdrop-blur-sm">
-                Settings
+                {t('dock.settings')}
               </span>
               
-              <span className="text-2xl transform transition-transform duration-300 group-hover:scale-125 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
-                ⚙️
-              </span>
+              <IconDisplay 
+                icon="/pixels/settings.svg" 
+                className="text-2xl transform transition-transform duration-300 group-hover:scale-125 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]"
+                imageClassName="w-8 h-8"
+              />
             </button>
           </>
         )}

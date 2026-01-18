@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { IconDisplay } from './IconDisplay';
 
 type Theme = 'dark' | 'light';
 
@@ -13,8 +14,10 @@ export function ThemeToggle({ theme, onThemeChange }: ThemeToggleProps) {
     const root = document.documentElement;
     if (theme === 'light') {
       root.setAttribute('data-theme', 'light');
+      root.classList.remove('dark');
     } else {
       root.removeAttribute('data-theme');
+      root.classList.add('dark');
     }
 
     // 保存到 localStorage
@@ -31,7 +34,11 @@ export function ThemeToggle({ theme, onThemeChange }: ThemeToggleProps) {
       className="p-1 rounded cursor-pointer text-[var(--cherry-green)] hover:text-[var(--cherry-amber)] hover:scale-110 active:scale-95 hover:rotate-12 transition-all duration-300"
       title={theme === 'dark' ? '切换到亮色主题' : '切换到暗色主题'}
     >
-      {theme === 'dark' ? '🌙' : '☀️'}
+      <IconDisplay 
+        icon={theme === 'dark' ? '/pixels/theme_dark.svg' : '/pixels/theme_light.svg'} 
+        className="text-xl"
+        imageClassName="w-6 h-6"
+      />
     </button>
   );
 }

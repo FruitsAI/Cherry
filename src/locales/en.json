@@ -1,0 +1,151 @@
+{
+  "app": {
+    "title": "Cherry",
+    "slogan": "Cherry-pick the web"
+  },
+  "hero": {
+      "hints": {
+        "press": "Press",
+        "search": "to search",
+        "navigate": "to navigate",
+        "help": "for help",
+        "add": "to add"
+      }
+  },
+  "header": {
+    "working": "working",
+    "uptime": "uptime",
+    "branch": "branch",
+    "theme": "Theme",
+    "fork": "Fork on GitHub"
+  },
+  "footer": {
+    "built_with": "Built with React & Tailwind",
+    "version": "v{{version}}"
+  },
+  "dock": {
+    "home": "Home",
+    "settings": "Settings",
+    "theme": "Toggle Theme"
+  },
+  "command": {
+    "placeholder": "Type a command or search...",
+    "commands": "Commands:",
+    "tips": "Tips:",
+    "tip_tab": "Tab to select"
+  },
+  "modal": {
+    "add": {
+      "title": "Add New Link",
+      "branch": "Select Branch",
+      "url": "URL",
+      "title_input": "Title",
+      "tags": "Tags (comma separated)",
+      "preview": "Preview JSON",
+      "copy": "Copy JSON",
+      "copied": "Copied!",
+      "add_btn": "Add Link",
+      "generate_copy": "Generate JSON & Copy",
+      "reset": "Reset",
+      "tip_instruction": "Tip: After generating JSON, paste it manually into the corresponding branch in src/data/data.json",
+      "message_success": "JSON copied to clipboard! Please paste into data.json",
+      "message_error": "Please fill in URL and Title",
+      "copy_error": "Copy failed, please copy manually"
+    },
+    "settings": {
+      "title": "Settings",
+      "theme": "Appearance",
+      "current_theme": "Current Theme",
+      "theme_dark": "Dark Mode",
+      "theme_light": "Light Mode",
+      "theme_dark_label": "🌙 Dark Mode",
+      "theme_light_label": "☀️ Light Mode",
+      "language": "Language",
+      "language_zh": "Simplified Chinese",
+      "language_en": "English",
+      "link_stats": "Link Statistics",
+      "quick_actions": "Quick Actions",
+      "data": "Data Management",
+      "export": "Export Config",
+      "import": "Import Config",
+      "reset": "Reset Default",
+      "reset_confirm": "Are you sure you want to reset all settings? This cannot be undone.",
+      "statistics": "Statistics",
+      "total_links": "{{count}} links total"
+    },
+    "statistics": {
+      "title": "Statistics",
+      "total_visits": "Total Visits",
+      "top_links": "Top Links",
+      "recent_visits": "Recent Visits",
+      "commands": "Top Commands",
+      "categories": "Categories",
+      "visit_history": "Visit History",
+      "category_usage": "Category Usage",
+      "command_usage": "Command Usage",
+      "time": {
+        "just_now": "Just now",
+        "minutes_ago": "{{count}}m ago",
+        "hours_ago": "{{count}}h ago",
+        "days_ago": "{{count}}d ago"
+      }
+    },
+    "help": {
+      "title": "Help Documentation",
+      "key": "Key",
+      "action": "Action",
+      "shortcuts": "Shortcuts",
+      "commands": "Commands",
+      "keys": {
+        "down": "Move Selection Down",
+        "up": "Move Selection Up",
+        "prev_branch": "Previous Branch",
+        "next_branch": "Next Branch",
+        "open_link": "Open Selected Link",
+        "focus_search": "Focus Search",
+        "close": "Exit Search / Close Help",
+        "help": "Show Help",
+        "add_link": "Add New Link",
+        "settings": "Open Settings",
+        "home": "Go Home",
+        "stats": "View Statistics"
+      },
+      "command_desc": {
+        "help": "Show Help",
+        "ls": "List All Branches",
+        "go": "Go to n-th Link",
+        "google": "Google Search",
+        "clear": "Clear History"
+      }
+    },
+    "welcome": {
+       "title": "🎮 Welcome to Cherry!",
+       "subtitle": "Your retro terminal style link manager",
+       "start": "Get Started 🚀"
+    },
+    "shortcuts": {
+      "title": "Keyboard Shortcuts",
+      "dont_show_again": "Don't show again"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "close": "Close",
+    "success": "Success",
+    "error": "Error",
+    "no_results": "No matching links found",
+    "clear_filter": "Clear Filter",
+    "selected_tags": "{{count}} tags selected, {{total}} links shown",
+    "tag_filter": "Filter by Tags",
+    "page_prev": "PREV",
+    "page_next": "NEXT",
+    "page_info": "Page {{current}} of {{total}}"
+  },
+  "branch_section": {
+     "git_checkout": "git checkout",
+     "commits_one": "{{count}} commit",
+     "commits_other": "{{count}} commits"
+  }
+}

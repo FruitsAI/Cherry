@@ -1,5 +1,6 @@
 import type { Branch, NavigationState } from '../types';
 import { BranchSection } from './BranchSection';
+import { useTranslation } from 'react-i18next';
 
 interface ContentGridProps {
   branches: Branch[];
@@ -11,6 +12,8 @@ interface ContentGridProps {
   onClearTags?: () => void;
   onToggleFavorite?: (hash: string) => void;
   activeBranchIndex?: number;
+  currentPage?: number;
+  onPageChange?: (page: number) => void;
 }
 
 export function ContentGrid({
@@ -23,7 +26,10 @@ export function ContentGrid({
   onClearTags,
   onToggleFavorite,
   activeBranchIndex,
+  currentPage,
+  onPageChange,
 }: ContentGridProps) {
+  const { t } = useTranslation();
   // 获取所有唯一的标签
   const allTags = Array.from(
     new Set(branches.flatMap((branch) => branch.commits.flatMap((commit) => commit.tags)))
@@ -51,14 +57,14 @@ export function ContentGrid({
         <div className="mb-6 p-4 bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded">
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-code text-sm text-[var(--cherry-amber)]">
-              🏷️ 标签筛选
+              🏷️ {t('common.tag_filter')}
             </h3>
             {selectedTags.size > 0 && (
               <button
                 onClick={onClearTags}
                 className="text-xs text-[var(--cherry-red)] hover:text-[var(--cherry-red)]/80 transition-colors font-code"
               >
-                清除筛选
+                {t('common.clear_filter')}
               </button>
             )}
           </div>
@@ -98,7 +104,7 @@ export function ContentGrid({
           
           {selectedTags.size > 0 && (
             <p className="mt-3 text-xs text-[var(--cherry-muted)] font-code">
-              已选择 {selectedTags.size} 个标签，显示 {filteredBranches.reduce((acc, b) => acc + b.commits.length, 0)} 个链接
+              {t('common.selected_tags', { count: selectedTags.size, total: filteredBranches.reduce((acc, b) => acc + b.commits.length, 0) })}
             </p>
           )}
         </div>
@@ -118,6 +124,8 @@ export function ContentGrid({
           selectedTags={selectedTags}
           onTagClick={onTagClick}
           onToggleFavorite={onToggleFavorite}
+          currentPage={currentPage}
+          onPageChange={onPageChange}
         />
       ))}
 
@@ -125,13 +133,13 @@ export function ContentGrid({
       {filteredBranches.length === 0 && (
         <div className="text-center py-12">
           <p className="text-[var(--cherry-muted)] font-code text-lg">
-            没有找到匹配的链接
+            {t('common.no_results')}
           </p>
           <button
             onClick={onClearTags}
             className="mt-4 px-4 py-2 bg-[var(--cherry-green)]/10 border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)] font-code text-sm hover:bg-[var(--cherry-green)]/20 transition-all"
           >
-            清除筛选
+            {t('common.clear_filter')}
           </button>
         </div>
       )}

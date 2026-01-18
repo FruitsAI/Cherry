@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 11">
+  <!-- Dark Shadow/Outline -->
+  <rect x="4" y="1" width="3" height="9" fill="#15803d"/>
+  <rect x="1" y="4" width="9" height="3" fill="#15803d"/>
+  
+  <!-- Main Green Body -->
+  <rect x="4" y="1" width="2" height="8" fill="#22c55e"/>
+  <rect x="1" y="4" width="8" height="2" fill="#22c55e"/>
+  
+  <!-- Highlight -->
+  <rect x="4" y="1" width="1" height="8" fill="#4ade80"/>
+  <rect x="1" y="4" width="8" height="1" fill="#4ade80"/>
+  <!-- Center fix for highlight overlapping -->
+  <rect x="4" y="4" width="1" height="1" fill="#bbf7d0"/>
+</svg>

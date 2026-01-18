@@ -1,31 +1,35 @@
+import { useTranslation } from 'react-i18next';
+
 interface HelpModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
 export function HelpModal({ isOpen, onClose }: HelpModalProps) {
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   const shortcuts = [
-    { key: 'j / ↓', desc: '向下移动选择' },
-    { key: 'k / ↑', desc: '向上移动选择' },
-    { key: 'h / ←', desc: '切换到上一个 Branch' },
-    { key: 'l / →', desc: '切换到下一个 Branch' },
-    { key: 'Enter', desc: '打开选中的链接' },
-    { key: '/', desc: '聚焦搜索框' },
-    { key: 'Esc', desc: '退出搜索 / 关闭帮助' },
-    { key: '?', desc: '显示帮助' },
-    { key: 'A', desc: '添加新链接' },
-    { key: 'S', desc: '打开设置' },
-    { key: 'T', desc: '查看统计' },
+    { key: 'j / ↓', desc: t('modal.help.keys.down') },
+    { key: 'k / ↑', desc: t('modal.help.keys.up') },
+    { key: 'h / ←', desc: t('modal.help.keys.prev_branch') },
+    { key: 'l / →', desc: t('modal.help.keys.next_branch') },
+    { key: 'Enter', desc: t('modal.help.keys.open_link') },
+    { key: '/', desc: t('modal.help.keys.focus_search') },
+    { key: 'Esc', desc: t('modal.help.keys.close') },
+    { key: '?', desc: t('modal.help.keys.help') },
+    { key: 'A', desc: t('modal.help.keys.add_link') },
+    { key: 'S', desc: t('modal.help.keys.settings') },
+    { key: 'M', desc: t('modal.help.keys.home') },
+    { key: 'T', desc: t('modal.help.keys.stats') },
   ];
 
   const commands = [
-    { cmd: 'help', desc: '显示帮助信息' },
-    { cmd: 'ls', desc: '列出所有 Branches' },
-    { cmd: 'go <n>', desc: '跳转到第 n 个链接' },
-    { cmd: 'g <query>', desc: '使用 Google 搜索' },
-    { cmd: 'clear', desc: '清除命令历史' },
+    { cmd: 'help', desc: t('modal.help.command_desc.help') },
+    { cmd: 'ls', desc: t('modal.help.command_desc.ls') },
+    { cmd: 'go <n>', desc: t('modal.help.command_desc.go') },
+    { cmd: 'g <query>', desc: t('modal.help.command_desc.google') },
+    { cmd: 'clear', desc: t('modal.help.command_desc.clear') },
   ];
 
   return (
@@ -40,7 +44,7 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
         {/* 标题 */}
         <div className="flex items-center justify-between mb-6 flex-shrink-0">
           <h2 className="font-pixel text-2xl text-[var(--cherry-red)] glow-red">
-            📖 HELP
+            📖 {t('modal.help.title').toUpperCase()}
           </h2>
           <button
             onClick={onClose}
@@ -55,7 +59,7 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
           {/* 键盘快捷键 */}
           <div>
             <h3 className="font-code text-sm text-[var(--cherry-amber)] mb-3">
-              ⌨️ Keyboard Shortcuts (Vim Mode)
+              ⌨️ {t('modal.shortcuts.title')} (Vim)
             </h3>
             <div className="space-y-2">
               {shortcuts.map(({ key, desc }) => (
@@ -72,7 +76,7 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
           {/* 命令列表 */}
           <div>
             <h3 className="font-code text-sm text-[var(--cherry-amber)] mb-3">
-              💻 Terminal Commands
+              💻 {t('modal.help.commands')}
             </h3>
             <div className="space-y-2">
               {commands.map(({ cmd, desc }) => (
@@ -88,7 +92,7 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
         {/* 底部提示 */}
         <div className="mt-6 pt-4 border-t border-[var(--cherry-green)]/30 text-center flex-shrink-0">
           <p className="text-xs text-[var(--cherry-muted)]">
-            Press <kbd className="text-[var(--cherry-green)]">ESC</kbd> or click outside to close
+            {t('modal.statistics.tip_close', { defaultValue: 'Press ESC or click outside to close' })}
           </p>
         </div>
       </div>

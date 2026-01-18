@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
+import { IconDisplay } from './IconDisplay';
+import { useTranslation } from 'react-i18next';
 
 interface AddModalProps {
   isOpen: boolean;
@@ -7,6 +9,7 @@ interface AddModalProps {
 }
 
 export function AddModal({ isOpen, onClose, branches }: AddModalProps) {
+  const { t } = useTranslation();
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
   const [selectedBranch, setSelectedBranch] = useState(branches[0]?.name || '');
@@ -24,7 +27,7 @@ export function AddModal({ isOpen, onClose, branches }: AddModalProps) {
   // 生成 JSON 片段
   const generateJson = () => {
     if (!url || !title) {
-      setMessage({ type: 'error', text: '请填写 URL 和标题' });
+      setMessage({ type: 'error', text: t('modal.add.message_error') });
       return;
     }
 
@@ -52,11 +55,11 @@ export function AddModal({ isOpen, onClose, branches }: AddModalProps) {
     navigator.clipboard
       .writeText(jsonString)
       .then(() => {
-        setMessage({ type: 'success', text: 'JSON 已复制到剪贴板！请粘贴到 data.json 中' });
+        setMessage({ type: 'success', text: t('modal.add.message_success') });
       })
       .catch((err) => {
         console.error('Copy failed:', err);
-        setMessage({ type: 'error', text: '复制失败，请手动复制' });
+        setMessage({ type: 'error', text: t('modal.add.copy_error') });
       });
   };
 
@@ -92,8 +95,8 @@ export function AddModal({ isOpen, onClose, branches }: AddModalProps) {
       >
         {/* 标题 */}
         <div className="flex items-center justify-between mb-6 flex-shrink-0">
-          <h2 className="font-pixel text-2xl text-[var(--cherry-red)] glow-red">
-            ➕ ADD LINK
+          <h2 className="font-pixel text-2xl text-[var(--cherry-red)] glow-red flex items-center gap-2">
+            <IconDisplay icon="/pixels/add.svg" className="text-2xl" imageClassName="w-8 h-8" /> {t('modal.add.title').toUpperCase()}
           </h2>
           <button
             onClick={onClose}
@@ -108,7 +111,7 @@ export function AddModal({ isOpen, onClose, branches }: AddModalProps) {
           {/* URL 输入 */}
           <div>
             <label className="block text-sm font-code text-[var(--cherry-amber)] mb-2">
-              URL
+              {t('modal.add.url')}
             </label>
             <input
               ref={urlInputRef}
@@ -123,13 +126,13 @@ export function AddModal({ isOpen, onClose, branches }: AddModalProps) {
           {/* 标题输入 */}
           <div>
             <label className="block text-sm font-code text-[var(--cherry-amber)] mb-2">
-              标题
+              {t('modal.add.title_input')}
             </label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="链接标题"
+              placeholder={t('modal.add.title_input')}
               className="input-retro w-full px-3 py-2 bg-[var(--cherry-bg)] border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-text)] font-code text-sm"
             />
           </div>
@@ -137,7 +140,7 @@ export function AddModal({ isOpen, onClose, branches }: AddModalProps) {
           {/* Branch 选择 */}
           <div>
             <label className="block text-sm font-code text-[var(--cherry-amber)] mb-2">
-              Branch
+              {t('header.branch')}
             </label>
             <select
               value={selectedBranch}
@@ -146,7 +149,7 @@ export function AddModal({ isOpen, onClose, branches }: AddModalProps) {
             >
               {branches.map((branch) => (
                 <option key={branch.name} value={branch.name}>
-                  {branch.icon} {branch.name}
+                  {branch.name}
                 </option>
               ))}
             </select>
@@ -155,7 +158,7 @@ export function AddModal({ isOpen, onClose, branches }: AddModalProps) {
           {/* 标签输入 */}
           <div>
             <label className="block text-sm font-code text-[var(--cherry-amber)] mb-2">
-              标签（逗号分隔）
+              {t('modal.add.tags')}
             </label>
             <input
               type="text"
@@ -185,13 +188,13 @@ export function AddModal({ isOpen, onClose, branches }: AddModalProps) {
               onClick={generateJson}
               className="button-retro flex-1 px-4 py-2 bg-[var(--cherry-green)] text-[var(--cherry-bg)] rounded font-code text-sm"
             >
-              生成 JSON 并复制
+              {t('modal.add.generate_copy')}
             </button>
             <button
               onClick={resetForm}
               className="button-retro px-4 py-2 bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)] font-code text-sm"
             >
-              重置
+              {t('modal.add.reset')}
             </button>
           </div>
         </div>
@@ -199,8 +202,7 @@ export function AddModal({ isOpen, onClose, branches }: AddModalProps) {
         {/* 使用说明 */}
         <div className="mt-6 pt-4 border-t border-[var(--cherry-green)]/30 flex-shrink-0">
           <p className="text-xs text-[var(--cherry-muted)] font-code">
-            💡 提示：生成 JSON 后，请手动粘贴到 <code className="text-[var(--cherry-amber)]">src/data/data.json</code> 中对应
-            的 branch 下
+            💡 {t('modal.add.tip_instruction')}
           </p>
         </div>
       </div>

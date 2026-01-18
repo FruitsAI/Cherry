@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
 import type { Branch } from '../types';
 import { CommitCard } from './CommitCard';
+import { IconDisplay } from './IconDisplay';
+import { useTranslation } from 'react-i18next';
 
 interface BranchSectionProps {
   id?: string;
@@ -13,6 +14,8 @@ interface BranchSectionProps {
   selectedTags?: Set<string>;
   onTagClick?: (tag: string) => void;
   onToggleFavorite?: (hash: string) => void;
+  currentPage?: number;
+  onPageChange?: (page: number) => void;
 }
 
 const ITEMS_PER_PAGE = 8;
@@ -28,24 +31,22 @@ export function BranchSection({
   onTagClick,
   onToggleFavorite,
   id,
+  currentPage = 1,
+  onPageChange,
 }: BranchSectionProps) {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  // Reset to page 1 when filters change (search or tags) or branch content changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery, selectedTags, branch.commits.length]);
+  const { t } = useTranslation();
+  // Removed internal page reset effect to allow parent control
 
   const totalPages = Math.ceil(branch.commits.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedCommits = branch.commits.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   const handlePrevPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
+    onPageChange?.(Math.max(currentPage - 1, 1));
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    onPageChange?.(Math.min(currentPage + 1, totalPages));
   };
 
   return (
@@ -58,9 +59,9 @@ export function BranchSection({
             : 'border-[var(--cherry-green)]/30'
         }`}
       >
-        <span className="text-2xl">{branch.icon}</span>
+        <IconDisplay icon={branch.icon} className="text-2xl" imageClassName="w-8 h-8" />
         <h2 className="font-code text-lg">
-          <span className="text-[var(--cherry-muted)]">git checkout</span>{' '}
+          <span className="text-[var(--cherry-muted)]">{t('branch_section.git_checkout')}</span>{' '}
           <span
             className={`${
               isCurrentBranch
@@ -72,7 +73,7 @@ export function BranchSection({
           </span>
         </h2>
         <span className="text-xs text-[var(--cherry-muted)] ml-auto">
-          {branch.commits.length} commit{branch.commits.length !== 1 ? 's' : ''}
+          {t('branch_section.commits', { count: branch.commits.length })}
         </span>
       </div>
 

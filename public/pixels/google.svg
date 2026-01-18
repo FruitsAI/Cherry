@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" shape-rendering="crispEdges">
+  <!-- Top Red Arch -->
+  <rect x="10" y="4" width="6" height="2" fill="#EA4335"/>
+  <rect x="8" y="5" width="2" height="2" fill="#EA4335"/>
+  <rect x="16" y="5" width="2" height="2" fill="#EA4335"/>
+  <rect x="6" y="6" width="2" height="2" fill="#EA4335"/>
+  <rect x="17" y="6" width="2" height="3" fill="#EA4335"/>
+  
+  <!-- Left Yellow Side -->
+  <rect x="5" y="8" width="2" height="8" fill="#FBBC05"/>
+  <rect x="6" y="7" width="2" height="2" fill="#FBBC05"/> <!-- overlap blend attempt or just shape -->
+  <rect x="6" y="15" width="2" height="2" fill="#FBBC05"/> 
+
+  <!-- Bottom Green Arch -->
+  <rect x="6" y="16" width="2" height="2" fill="#34A853"/> 
+  <rect x="8" y="17" width="2" height="2" fill="#34A853"/>
+  <rect x="10" y="18" width="8" height="2" fill="#34A853"/>
+  <rect x="17" y="16" width="2" height="2" fill="#34A853"/> 
+
+  <!-- Right Blue Bar & Curve -->
+  <rect x="12" y="11" width="10" height="2" fill="#4285F4"/> <!-- G bar -->
+  <rect x="18" y="13" width="2" height="4" fill="#4285F4"/>
+  <rect x="20" y="10" width="2" height="4" fill="#4285F4"/> <!-- upper right fill of bar end -->
+  <rect x="18" y="15" width="2" height="2" fill="#34A853"/> <!-- Corner blending to green? No, let's keep it simple blue/green boundary -->
+  
+  <!-- Fixing Right Bottom Curve (Blue/Green Junction) -->
+  <rect x="18" y="15" width="2" height="2" fill="#4285F4"/>
+  
+  <!-- Clean up overlaps -->
+  <!-- Red Top-Left -->
+  <rect x="7" y="5" width="2" height="2" fill="#EA4335"/>
+  
+  <!-- Simplification for "Blocky" look (2px units roughly) -->
+  <!-- Red -->
+  <path d="M10 4h6v2h2v2h2v1h-2v-1h-2v-2h-6v2H8v2H6V6h2V4h2z" fill="#EA4335" />
+  
+  <!-- Re-doing completely with non-overlapping coherent shapes -->
+  <!-- Red Top -->
+  <rect x="8" y="4" width="10" height="2" fill="#EA4335"/>
+  <rect x="6" y="6" width="4" height="2" fill="#EA4335"/>
+  <rect x="4" y="8" width="2" height="2" fill="#EA4335"/>
+  <!-- Yellow Left -->
+  <rect x="4" y="10" width="2" height="6" fill="#FBBC05"/>
+  <rect x="6" y="14" width="2" height="2" fill="#FBBC05"/> <!-- slight curve in -->
+
+  <!-- Green Bottom -->
+  <rect x="6" y="16" width="4" height="2" fill="#34A853"/>
+  <rect x="8" y="18" width="10" height="2" fill="#34A853"/>
+  <rect x="16" y="16" width="2" height="2" fill="#34A853"/>
+
+  <!-- Blue Right -->
+  <rect x="18" y="14" width="2" height="4" fill="#4285F4"/>
+  <rect x="12" y="10" width="10" height="4" fill="#4285F4"/> <!-- The Bar -->
+  <!-- Masking the center hole -->
+  <rect x="12" y="12" width="6" height="2" fill="#4285F4"/>
+  
+  <!-- Let's try a very standard 24x24 G Pixel Map -->
+  <rect x="0" y="0" width="24" height="24" fill="none"/>
+  
+  <!-- Top Red -->
+  <rect x="7" y="5" width="12" height="3" fill="#EA4335"/>
+  <rect x="4" y="6" width="3" height="5" fill="#EA4335"/>
+  
+  <!-- Left Yellow -->
+  <rect x="4" y="11" width="3" height="4" fill="#FBBC05"/>
+  
+  <!-- Bottom Green -->
+  <rect x="4" y="15" width="3" height="3" fill="#34A853"/>
+  <rect x="7" y="17" width="10" height="3" fill="#34A853"/>
+  
+  <!-- Right Blue -->
+  <rect x="17" y="14" width="3" height="3" fill="#4285F4"/>
+  <rect x="12" y="11" width="8" height="3" fill="#4285F4"/>
+  
+  <!-- Fixes -->
+  <!-- Clear center -->
+  <rect x="7" y="8" width="8" height="9" fill="transparent"/> <!-- conceptual clear -->
+</svg>

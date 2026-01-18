@@ -1,30 +1,34 @@
+import { useTranslation } from 'react-i18next';
+
 interface KeyboardShortcutsModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
 export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsModalProps) {
+  const { t } = useTranslation();
+
   if (!isOpen) return null;
 
   const shortcuts = [
-    { key: 'j / ↓', desc: '向下移动选择' },
-    { key: 'k / ↑', desc: '向上移动选择' },
-    { key: 'h / ←', desc: '切换到上一个 Branch' },
-    { key: 'l / →', desc: '切换到下一个 Branch' },
-    { key: 'Enter', desc: '打开选中的链接' },
-    { key: '/', desc: '聚焦搜索框' },
-    { key: 'Esc', desc: '退出搜索 / 关闭帮助' },
-    { key: '?', desc: '显示帮助' },
-    { key: 'A', desc: '添加新链接' },
-    { key: 'S', desc: '打开设置' },
-    { key: 'T', desc: '查看统计' },
+    { key: 'j / ↓', desc: t('modal.help.keys.down') },
+    { key: 'k / ↑', desc: t('modal.help.keys.up') },
+    { key: 'h / ←', desc: t('modal.help.keys.prev_branch') },
+    { key: 'l / →', desc: t('modal.help.keys.next_branch') },
+    { key: 'Enter', desc: t('modal.help.keys.open_link') },
+    { key: '/', desc: t('modal.help.keys.focus_search') },
+    { key: 'Esc', desc: t('modal.help.keys.close') },
+    { key: '?', desc: t('modal.help.keys.help') },
+    { key: 'A', desc: t('modal.help.keys.add_link') },
+    { key: 'S', desc: t('modal.help.keys.settings') },
+    { key: 'T', desc: t('modal.help.keys.stats') },
   ];
 
   const commands = [
-    { cmd: 'help', desc: '显示帮助信息' },
-    { cmd: 'ls', desc: '列出所有 Branches' },
-    { cmd: 'go <n>', desc: '跳转到第 n 个链接' },
-    { cmd: 'g <query>', desc: '使用 Google 搜索' },
+    { cmd: 'help', desc: t('modal.help.command_desc.help') },
+    { cmd: 'ls', desc: t('modal.help.command_desc.ls') },
+    { cmd: 'go <n>', desc: t('modal.help.command_desc.go') },
+    { cmd: 'g <query>', desc: t('modal.help.command_desc.google') },
   ];
 
   return (
@@ -40,10 +44,10 @@ export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsMod
         <div className="flex items-center justify-between mb-6 flex-shrink-0">
           <div>
             <h2 className="font-pixel text-2xl text-[var(--cherry-red)] glow-red mb-2">
-              🎮 欢迎来到 Cherry!
+              {t('modal.welcome.title')}
             </h2>
             <p className="text-sm text-[var(--cherry-muted)]">
-              你的复古终端风格链接管理器
+              {t('modal.welcome.subtitle')}
             </p>
           </div>
           <button
@@ -59,7 +63,7 @@ export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsMod
           {/* 键盘快捷键 */}
           <div>
             <h3 className="font-code text-sm text-[var(--cherry-amber)] mb-3">
-              ⌨️ 键盘快捷键 (Vim 模式)
+              ⌨️ {t('modal.shortcuts.title')} (Vim)
             </h3>
             <div className="grid grid-cols-2 gap-2">
               {shortcuts.map(({ key, desc }) => (
@@ -76,7 +80,7 @@ export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsMod
           {/* 命令列表 */}
           <div>
             <h3 className="font-code text-sm text-[var(--cherry-amber)] mb-3">
-              💻 终端命令
+              💻 {t('modal.help.commands')}
             </h3>
             <div className="space-y-2">
               {commands.map(({ cmd, desc }) => (
@@ -92,13 +96,13 @@ export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsMod
         {/* 底部提示 */}
         <div className="pt-4 border-t border-[var(--cherry-green)]/30 flex-shrink-0">
           <p className="text-sm text-[var(--cherry-muted)] text-center mb-4">
-            按 <kbd className="text-[var(--cherry-green)]">ESC</kbd> 或点击外部关闭
+            {t('modal.statistics.tip_close', { defaultValue: 'Press ESC or click outside to close' })}
           </p>
           <button
             onClick={onClose}
             className="w-full button-retro py-3 px-6 bg-[var(--cherry-red)] text-white font-code text-sm hover:bg-[var(--cherry-red)]/80 transition-all"
           >
-            开始使用 🚀
+            {t('modal.welcome.start')}
           </button>
         </div>
       </div>

@@ -13,6 +13,11 @@ interface UseKeyboardNavigationProps {
   onShowAdd?: () => void;
   onShowSettings?: () => void;
   onShowStatistics?: () => void;
+  onGoHome?: () => void;
+  onPageChange?: (page: number) => void;
+  itemsPerPage?: number;
+  onPrevBranch?: (selectLast?: boolean) => void;
+  onNextBranch?: () => void;
 }
 
 export function useKeyboardNavigation({
@@ -27,11 +32,24 @@ export function useKeyboardNavigation({
   onShowAdd,
   onShowSettings,
   onShowStatistics,
+  onGoHome,
+  onPageChange,
+  itemsPerPage = 8,
+  onPrevBranch,
+  onNextBranch,
 }: UseKeyboardNavigationProps) {
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      // 如果命令输入框激活或弹窗打开，不处理导航快捷键
-      if (isCommandInputActive || isModalOpen) {
+      // Check for active input element to prevent typing interference
+      const activeElement = document.activeElement as HTMLElement;
+      const isInputActive = 
+        activeElement && 
+        (activeElement.tagName === 'INPUT' || 
+        activeElement.tagName === 'TEXTAREA' || 
+        activeElement.isContentEditable);
+
+      // 如果命令输入框激活、弹窗打开，或焦点在输入元素上，不处理导航快捷键
+      if (isCommandInputActive || isModalOpen || isInputActive) {
         return;
       }
 
@@ -39,39 +57,53 @@ export function useKeyboardNavigation({
       const currentBranch = branches[currentBranchIndex];
 
       switch (e.key) {
-        // 向下移动 (j 或 ArrowDown)
+        // 向下移动 (j 或 ArrowDown) - Item Navigation with automatic Branch/Page switching
         case 'j':
         case 'ArrowDown':
           e.preventDefault();
-          if (currentBranch && currentCommitIndex < currentBranch.commits.length - 1) {
-            setNavigationState((prev) => ({
-              ...prev,
-              currentCommitIndex: prev.currentCommitIndex + 1,
-            }));
+          if (currentBranch) {
+            const nextIndex = currentCommitIndex + 1;
+            if (nextIndex < currentBranch.commits.length) {
+              setNavigationState((prev) => ({
+                ...prev,
+                currentCommitIndex: nextIndex,
+              }));
+              if (onPageChange) {
+                onPageChange(Math.floor(nextIndex / itemsPerPage) + 1);
+              }
+            } else if (onNextBranch) {
+              // At end of branch -> Go to next branch
+              onNextBranch();
+            }
           }
           break;
 
-        // 向上移动 (k 或 ArrowUp)
+        // 向上移动 (k 或 ArrowUp) - Item Navigation with automatic Branch/Page switching
         case 'k':
-        case 'ArrowUp':
+        case 'ArrowUp': {
           e.preventDefault();
-          if (currentCommitIndex > 0) {
+          const prevIndex = currentCommitIndex - 1;
+          if (prevIndex >= 0) {
             setNavigationState((prev) => ({
               ...prev,
-              currentCommitIndex: prev.currentCommitIndex - 1,
+              currentCommitIndex: prevIndex,
             }));
+            if (onPageChange) {
+              onPageChange(Math.floor(prevIndex / itemsPerPage) + 1);
+            }
+          } else if (onPrevBranch) {
+            // At start of branch -> Go to previous branch (select last item)
+            onPrevBranch(true);
           }
           break;
+        }
 
         // 切换到上一个 Branch (h 或 ArrowLeft)
         case 'h':
         case 'ArrowLeft':
           e.preventDefault();
-          if (currentBranchIndex > 0) {
-            setNavigationState({
-              currentBranchIndex: currentBranchIndex - 1,
-              currentCommitIndex: 0,
-            });
+          if (onPrevBranch) {
+            onPrevBranch(false); // Switch to previous branch (start)
           }
           break;
 
@@ -79,11 +111,8 @@ export function useKeyboardNavigation({
         case 'l':
         case 'ArrowRight':
           e.preventDefault();
-          if (currentBranchIndex < branches.length - 1) {
-            setNavigationState({
-              currentBranchIndex: currentBranchIndex + 1,
-              currentCommitIndex: 0,
-            });
+          if (onNextBranch) {
+            onNextBranch();
           }
           break;
 
@@ -131,6 +160,15 @@ export function useKeyboardNavigation({
             onShowStatistics();
           }
           break;
+
+        // 回到首页
+        case 'M':
+        case 'm':
+          if (onGoHome) {
+            e.preventDefault();
+            onGoHome();
+          }
+          break;
       }
     },
     [
@@ -144,6 +182,12 @@ export function useKeyboardNavigation({
       onShowHelp,
       onShowAdd,
       onShowSettings,
+      onShowStatistics,
+      onGoHome,
+      onNextBranch,
+      onPrevBranch,
+      itemsPerPage,
+      onPageChange,
     ]
   );
 

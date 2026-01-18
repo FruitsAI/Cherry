@@ -1,0 +1,150 @@
+{
+  "app": {
+    "title": "Cherry",
+    "slogan": "Cherry-pick the web"
+  },
+  "hero": {
+    "hints": {
+      "press": "按",
+      "search": "搜索",
+      "navigate": "导航",
+      "help": "帮助",
+      "add": "添加"
+    }
+  },
+  "header": {
+    "working": "working",
+    "uptime": "uptime",
+    "branch": "branch",
+    "theme": "主题",
+    "fork": "Fork on GitHub"
+  },
+  "footer": {
+    "built_with": "Built with React & Tailwind",
+    "version": "v{{version}}"
+  },
+  "dock": {
+    "home": "首页",
+    "settings": "设置",
+    "theme": "切换主题"
+  },
+  "command": {
+    "placeholder": "输入命令或搜索...",
+    "commands": "命令:",
+    "tips": "提示:",
+    "tip_tab": "Tab 选择建议"
+  },
+  "modal": {
+    "add": {
+      "title": "添加新链接",
+      "branch": "选择分支",
+      "url": "链接地址",
+      "title_input": "链接标题",
+      "tags": "标签 (用逗号分隔)",
+      "preview": "预览 JSON",
+      "copy": "复制 JSON",
+      "copied": "已复制!",
+      "add_btn": "添加链接",
+      "generate_copy": "生成 JSON 并复制",
+      "reset": "重置",
+      "tip_instruction": "提示：生成 JSON 后，请手动粘贴到 src/data/data.json 中对应的 branch 下",
+      "message_success": "JSON 已复制到剪贴板！请粘贴到 data.json 中",
+      "message_error": "请填写 URL 和标题",
+      "copy_error": "复制失败，请手动复制"
+    },
+    "settings": {
+      "title": "设置",
+      "theme": "外观设置",
+      "current_theme": "当前主题",
+      "theme_dark": "深色模式",
+      "theme_light": "浅色模式",
+      "theme_dark_label": "🌙 暗色主题",
+      "theme_light_label": "☀️ 亮色主题",
+      "language": "语言设置",
+      "language_zh": "简体中文",
+      "language_en": "English",
+      "link_stats": "链接统计",
+      "quick_actions": "快捷操作",
+      "data": "数据管理",
+      "export": "导出配置",
+      "import": "导入配置",
+      "reset": "重置默认",
+      "reset_confirm": "确定要重置所有配置吗？此操作无法撤销。",
+      "statistics": "数据统计",
+      "total_links": "共 {{count}} 个链接"
+    },
+    "statistics": {
+      "title": "使用统计",
+      "total_visits": "总访问次数",
+      "top_links": "热门链接",
+      "recent_visits": "最近访问",
+      "commands": "常用命令",
+      "categories": "分类偏好",
+      "visit_history": "访问历史",
+      "category_usage": "常用分类",
+      "command_usage": "常用命令",
+      "time": {
+        "just_now": "刚刚",
+        "minutes_ago": "{{count}} 分钟前",
+        "hours_ago": "{{count}} 小时前",
+        "days_ago": "{{count}} 天前"
+      }
+    },
+    "help": {
+      "title": "帮助文档",
+      "key": "按键",
+      "action": "功能",
+      "shortcuts": "快捷键",
+      "commands": "命令",
+      "keys": {
+        "down": "向下移动选择",
+        "up": "向上移动选择",
+        "prev_branch": "切换到上一个 Branch",
+        "next_branch": "切换到下一个 Branch",
+        "open_link": "打开选中的链接",
+        "focus_search": "聚焦搜索框",
+        "close": "退出搜索 / 关闭帮助",
+        "help": "显示帮助",
+        "add_link": "添加新链接",
+        "settings": "打开设置",
+        "home": "回到首页",
+        "stats": "查看统计"
+      },
+      "command_desc": {
+        "help": "显示帮助信息",
+        "ls": "列出所有 Branches",
+        "go": "跳转到第 n 个链接",
+        "google": "使用 Google 搜索",
+        "clear": "清除命令历史"
+      }
+    },
+    "welcome": {
+       "title": "🎮 欢迎来到 Cherry!",
+       "subtitle": "你的复古终端风格链接管理器",
+       "start": "开始使用 🚀"
+    },
+    "shortcuts": {
+      "title": "键盘快捷键",
+      "dont_show_again": "不再自动显示"
+    }
+  },
+  "common": {
+    "loading": "加载中...",
+    "confirm": "确认",
+    "cancel": "取消",
+    "close": "关闭",
+    "success": "成功",
+    "error": "错误",
+    "no_results": "没有找到匹配的链接",
+    "clear_filter": "清除筛选",
+    "selected_tags": "已选择 {{count}} 个标签，显示 {{total}} 个链接",
+    "tag_filter": "标签筛选",
+    "page_prev": "上一页",
+    "page_next": "下一页",
+    "page_info": "第 {{current}} 页 / 共 {{total}} 页"
+  },
+  "branch_section": {
+    "git_checkout": "git checkout",
+    "commits": "{{count}} 次提交"
+  }
+}

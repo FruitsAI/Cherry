@@ -8,29 +8,29 @@
       {
         "name": "Google",
         "url": "https://google.com",
-        "icon": "/pixels/google.svg"
+        "icon": "pixels/google.svg"
       },
       {
         "name": "X",
         "url": "https://x.com",
-        "icon": "/pixels/x.svg"
+        "icon": "pixels/x.svg"
       },
       {
         "name": "GitHub",
         "url": "https://github.com",
-        "icon": "/pixels/github.svg"
+        "icon": "pixels/github.svg"
       },
       {
         "name": "YouTube",
         "url": "https://youtube.com",
-        "icon": "/pixels/youtube.svg"
+        "icon": "pixels/youtube.svg"
       }
     ]
   },
   "branches": [
     {
       "name": "feature/AI",
-      "icon": "/pixels/ai.svg",
+      "icon": "pixels/ai.svg",
       "commits": [
         {
           "message": "Gemini",
@@ -66,7 +66,7 @@
     },
     {
       "name": "hotfix/tools",
-      "icon": "/pixels/tools.svg",
+      "icon": "pixels/tools.svg",
       "commits": [
         {
           "message": "Regex101",
@@ -90,7 +90,7 @@
     },
     {
       "name": "release/docs",
-      "icon": "/pixels/docs.svg",
+      "icon": "pixels/docs.svg",
       "commits": [
         {
           "message": "MDN Web Docs",
@@ -114,7 +114,7 @@
     },
     {
       "name": "develop/learn",
-      "icon": "/pixels/learn.svg",
+      "icon": "pixels/learn.svg",
       "commits": [
         {
           "message": "freeCodeCamp",

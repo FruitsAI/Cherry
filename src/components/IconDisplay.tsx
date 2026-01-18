@@ -7,7 +7,7 @@ interface IconDisplayProps {
 }
 
 export function IconDisplay({ icon, className = '', imageClassName = 'w-6 h-6' }: IconDisplayProps) {
-  const isImage = icon.startsWith('/') || icon.startsWith('http');
+  const isImage = icon.includes('/') || icon.startsWith('http');
   const isAdaptive = icon.includes('x.svg') || icon.includes('github.svg');
 
   if (isImage) {

@@ -5,6 +5,14 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.0.1] - 2026-01-18
+
+### 修复 (Fixed)
+
+- **GitHub Pages 部署**
+  - 修复图标路径问题（从绝对路径改为相对路径）
+  - 适配非根目录部署环境
+
 ## [1.0.0] - 2026-01-18
 
 ### 新增 (Added)

@@ -81,7 +81,7 @@ export function Header({
 
             {/* Dropdown Menu */}
             {isDropdownOpen && branches && (
-              <div className="absolute top-full right-0 mt-2 w-48 bg-[#0d1117] border border-[var(--cherry-green)]/30 rounded-lg shadow-xl py-1 z-50 overflow-hidden">
+              <div className="absolute top-full right-0 mt-2 w-48 bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded-lg shadow-xl py-1 z-50 overflow-hidden">
                 {branches.map((branch, index) => (
                   <button
                     key={branch.name}

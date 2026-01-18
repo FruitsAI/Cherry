@@ -5,6 +5,13 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.0.3] - 2026-01-18
+
+### 修复 (Fixed)
+
+- **UI/UX**
+  - 修复 Header 分支下拉菜单在亮色主题下背景色错误的问题
+
 ## [1.0.2] - 2026-01-18
 
 ### 修复 (Fixed)

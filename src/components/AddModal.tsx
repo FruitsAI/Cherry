@@ -96,7 +96,7 @@ export function AddModal({ isOpen, onClose, branches }: AddModalProps) {
         {/* 标题 */}
         <div className="flex items-center justify-between mb-6 flex-shrink-0">
           <h2 className="font-pixel text-2xl text-[var(--cherry-red)] glow-red flex items-center gap-2">
-            <IconDisplay icon="/pixels/add.svg" className="text-2xl" imageClassName="w-8 h-8" /> {t('modal.add.title').toUpperCase()}
+            <IconDisplay icon="pixels/add.svg" className="text-2xl" imageClassName="w-8 h-8" /> {t('modal.add.title').toUpperCase()}
           </h2>
           <button
             onClick={onClose}

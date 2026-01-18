@@ -40,7 +40,7 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
         <div className="flex items-center justify-between mb-6 flex-shrink-0">
           <div>
             <h2 className="font-pixel text-2xl text-[var(--cherry-red)] glow-red mb-2 flex items-center gap-2">
-              <IconDisplay icon="/pixels/chart.svg" className="text-2xl" imageClassName="w-8 h-8" /> {t('modal.statistics.title')}
+              <IconDisplay icon="pixels/chart.svg" className="text-2xl" imageClassName="w-8 h-8" /> {t('modal.statistics.title')}
             </h2>
             <p className="text-sm text-[var(--cherry-muted)]">
               {t('modal.statistics.total_visits')}: {statistics.totalVisits}

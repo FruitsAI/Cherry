@@ -33,7 +33,7 @@ export function Dock({ branches, currentBranchIndex, onBranchClick, onHomeClick,
             </span>
             
             <IconDisplay 
-              icon="/pixels/home.svg" 
+              icon="pixels/home.svg" 
               className="text-2xl transform transition-transform duration-300 group-hover:scale-125 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]"
               imageClassName="w-8 h-8"
             />
@@ -100,7 +100,7 @@ export function Dock({ branches, currentBranchIndex, onBranchClick, onHomeClick,
               </span>
               
               <IconDisplay 
-                icon="/pixels/settings.svg" 
+                icon="pixels/settings.svg" 
                 className="text-2xl transform transition-transform duration-300 group-hover:scale-125 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]"
                 imageClassName="w-8 h-8"
               />

@@ -5,6 +5,14 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.0.2] - 2026-01-18
+
+### 修复 (Fixed)
+
+- **资源路径**
+  - 修复所有组件（SettingsModal, Dock, ThemeToggle 等）中的硬编码绝对路径
+  - 确保所有图标资源在非根目录部署（GitHub Pages）下正常加载
+
 ## [1.0.1] - 2026-01-18
 
 ### 修复 (Fixed)

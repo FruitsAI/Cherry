@@ -104,7 +104,7 @@ export function SettingsModal({ isOpen, onClose, data, onAdd, onStatistics }: Se
         {/* 标题 */}
         <div className="flex items-center justify-between mb-6 flex-shrink-0">
           <h2 className="font-pixel text-2xl text-[var(--cherry-red)] glow-red flex items-center gap-2">
-            <IconDisplay icon="/pixels/settings.svg" className="text-2xl" imageClassName="w-8 h-8" /> {t('modal.settings.title').toUpperCase()}
+            <IconDisplay icon="pixels/settings.svg" className="text-2xl" imageClassName="w-8 h-8" /> {t('modal.settings.title').toUpperCase()}
           </h2>
           <button
             onClick={onClose}
@@ -181,7 +181,7 @@ export function SettingsModal({ isOpen, onClose, data, onAdd, onStatistics }: Se
                     }}
                     className="flex-1 button-retro px-3 py-2 bg-[var(--cherry-green)]/10 border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)] font-code text-sm flex items-center justify-center gap-2"
                   >
-                    <IconDisplay icon="/pixels/add.svg" imageClassName="w-5 h-5" /> {t('modal.add.title')}
+                    <IconDisplay icon="pixels/add.svg" imageClassName="w-5 h-5" /> {t('modal.add.title')}
                   </button>
                 )}
                 {onStatistics && (
@@ -192,7 +192,7 @@ export function SettingsModal({ isOpen, onClose, data, onAdd, onStatistics }: Se
                     }}
                     className="flex-1 button-retro px-3 py-2 bg-[var(--cherry-amber)]/10 border border-[var(--cherry-amber)]/30 rounded text-[var(--cherry-amber)] font-code text-sm flex items-center justify-center gap-2"
                   >
-                    <IconDisplay icon="/pixels/chart.svg" imageClassName="w-5 h-5" /> {t('modal.statistics.title')}
+                    <IconDisplay icon="pixels/chart.svg" imageClassName="w-5 h-5" /> {t('modal.statistics.title')}
                   </button>
                 )}
               </div>
@@ -218,13 +218,13 @@ export function SettingsModal({ isOpen, onClose, data, onAdd, onStatistics }: Se
               onClick={handleExport}
               className="button-retro px-4 py-2 bg-[var(--cherry-green)]/10 border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)] font-code text-sm flex items-center justify-center gap-2"
             >
-              <IconDisplay icon="/pixels/export.svg" imageClassName="w-5 h-5" /> {t('modal.settings.export')}
+              <IconDisplay icon="pixels/export.svg" imageClassName="w-5 h-5" /> {t('modal.settings.export')}
             </button>
             <button
               onClick={handleImport}
               className="button-retro px-4 py-2 bg-[var(--cherry-green)]/10 border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)] font-code text-sm flex items-center justify-center gap-2"
             >
-               <IconDisplay icon="/pixels/import.svg" imageClassName="w-5 h-5" /> {t('modal.settings.import')}
+               <IconDisplay icon="pixels/import.svg" imageClassName="w-5 h-5" /> {t('modal.settings.import')}
             </button>
           </div>
         </div>

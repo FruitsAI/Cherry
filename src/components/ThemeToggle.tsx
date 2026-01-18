@@ -35,7 +35,7 @@ export function ThemeToggle({ theme, onThemeChange }: ThemeToggleProps) {
       title={theme === 'dark' ? '切换到亮色主题' : '切换到暗色主题'}
     >
       <IconDisplay 
-        icon={theme === 'dark' ? '/pixels/theme_dark.svg' : '/pixels/theme_light.svg'} 
+        icon={theme === 'dark' ? 'pixels/theme_dark.svg' : 'pixels/theme_light.svg'} 
         className="text-xl"
         imageClassName="w-6 h-6"
       />

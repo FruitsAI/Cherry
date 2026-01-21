@@ -5,6 +5,40 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [2.0.0] - 2026-01-21
+
+### 重大变更 (Breaking Changes)
+
+- **架构升级**: 迁移至全栈 Next.js 架构 (v16.1.3)
+  - 前端：Next.js App Router + React Server Components
+  - 后端：Vercel Functions + Server Actions
+  - 数据库：Vercel Postgres + Drizzle ORM
+- **数据源迁移**: 废弃静态 `data.json`，全面转向 PostgreSQL 数据库驱动
+
+### 新增 (Added)
+
+- **后台管理系统**
+  - `/admin` 仪表盘：提供数据概览（链接数、访问量）
+  - `/login` 登录页：像素风设计，集成 NextAuth v5
+  - 链接管理：可视化的增删改查 (CRUD) 界面
+  - 权限控制：基于 Middleware 和 Server Actions 的安全保护
+
+- **认证与安全**
+  - 集成 `next-auth` (v5 Beta)
+  - 实现 Credentials 认证提供商 (bcrypt 哈希)
+  - 路由级和 API 级权限保护
+
+- **技术栈升级**
+  - 迁移至 Next.js 16.1.3 (Turbopack)
+  - 引入 `drizzle-orm` 进行类型安全的数据库操作
+  - 引入 `zod` 进行运行时数据验证
+
+### 变更 (Changed)
+
+- **数据获取**: 首页 (`/`) 改为服务端渲染 (SSR)，直接从数据库获取初始数据
+- **状态管理**: 移除客户端对 `data.json` 的依赖，改为通过 Props 传递初始数据
+- **部署流程**: 更新构建脚本以支持数据库迁移和种子数据填充
+
 ## [1.0.3] - 2026-01-18
 
 ### 修复 (Fixed)

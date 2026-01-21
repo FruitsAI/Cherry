@@ -17,7 +17,8 @@
     "uptime": "uptime",
     "branch": "branch",
     "theme": "主题",
-    "fork": "Fork on GitHub"
+    "fork": "Fork on GitHub",
+    "switcher_tooltip": "切换分支 (ls)"
   },
   "footer": {
     "built_with": "Built with React & Tailwind",
@@ -119,9 +120,9 @@
       }
     },
     "welcome": {
-       "title": "🎮 欢迎来到 Cherry!",
-       "subtitle": "你的复古终端风格链接管理器",
-       "start": "开始使用 🚀"
+      "title": "🎮 欢迎来到 Cherry!",
+      "subtitle": "你的复古终端风格链接管理器",
+      "start": "开始使用 🚀"
     },
     "shortcuts": {
       "title": "键盘快捷键",

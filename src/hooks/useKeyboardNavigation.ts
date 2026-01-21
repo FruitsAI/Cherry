@@ -10,8 +10,8 @@ interface UseKeyboardNavigationProps {
   onOpenLink: () => void;
   onFocusSearch: () => void;
   onShowHelp: () => void;
-  onShowAdd?: () => void;
-  onShowSettings?: () => void;
+
+
   onShowStatistics?: () => void;
   onGoHome?: () => void;
   onPageChange?: (page: number) => void;
@@ -29,8 +29,8 @@ export function useKeyboardNavigation({
   onOpenLink,
   onFocusSearch,
   onShowHelp,
-  onShowAdd,
-  onShowSettings,
+
+
   onShowStatistics,
   onGoHome,
   onPageChange,
@@ -134,23 +134,9 @@ export function useKeyboardNavigation({
           onShowHelp();
           break;
 
-        // 显示 Add 弹窗
-        case 'A':
-        case 'a':
-          if (onShowAdd) {
-            e.preventDefault();
-            onShowAdd();
-          }
-          break;
 
-        // 显示设置弹窗
-        case 'S':
-        case 's':
-          if (onShowSettings) {
-            e.preventDefault();
-            onShowSettings();
-          }
-          break;
+
+
 
         // 显示统计弹窗
         case 'T':
@@ -180,8 +166,8 @@ export function useKeyboardNavigation({
       onOpenLink,
       onFocusSearch,
       onShowHelp,
-      onShowAdd,
-      onShowSettings,
+
+
       onShowStatistics,
       onGoHome,
       onNextBranch,

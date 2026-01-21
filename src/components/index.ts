@@ -1,17 +1,24 @@
-export { Header } from './Header';
-export { Hero } from './Hero';
-export { CommandInput } from './CommandInput';
-export { ContentGrid } from './ContentGrid';
-export { BranchSection } from './BranchSection';
-export { CommitCard } from './CommitCard';
-export { HelpModal } from './HelpModal';
-export { KeyboardShortcutsModal } from './KeyboardShortcutsModal';
-export { StatisticsModal } from './StatisticsModal';
-export { AddModal } from './AddModal';
-export { ThemeToggle } from './ThemeToggle';
-export { SettingsModal } from './SettingsModal';
-export { Dock } from './Dock';
-export { Footer } from './Footer';
-export { QuickLinks } from './QuickLinks';
-export { IconDisplay } from './IconDisplay';
+export { Header } from './layout/Header';
+export { Footer } from './layout/Footer';
+export { Dock } from './layout/Dock';
+
+export { Hero } from './features/home/Hero';
+export { QuickLinks } from './features/home/QuickLinks';
+
+export { BranchSection } from './features/branch/BranchSection';
+export { ContentGrid } from './features/branch/ContentGrid';
+export { CommitCard } from './ui/CommitCard';
+
+export { CommandInput } from './features/search/CommandInput';
+
+export { HelpModal } from './features/modals/HelpModal';
+export { KeyboardShortcutsModal } from './features/modals/KeyboardShortcutsModal';
+export { StatisticsModal } from './features/modals/StatisticsModal';
+
+// export { AddModal } from './AddModal'; // Not found in directory
+// export { SettingsModal } from './SettingsModal'; // Not found in directory
+
+export { ThemeToggle } from './ui/ThemeToggle';
+export { IconDisplay } from './ui/IconDisplay';
+
 

@@ -6,20 +6,24 @@
     <strong>Cherry-pick the web.</strong>
   </p>
   
-  <p>A retro terminal-style browser start page exclusively for programmers.</p>
+  <p>A modern retro terminal-style start page for developers.</p>
+  <p>Next.js 15 Full-Stack Remake</p>
 
   <p>
     <a href="./LICENSE">
       <img src="https://img.shields.io/github/license/FruitsAI/Cherry?style=flat-square&color=2ecc71" alt="License" />
     </a>
+    <a href="https://nextjs.org/">
+      <img src="https://img.shields.io/badge/Framework-Next.js_15-black?style=flat-square&logo=next.js" alt="Next.js" />
+    </a>
     <a href="https://www.typescriptlang.org/">
       <img src="https://img.shields.io/badge/Language-TypeScript-blue?style=flat-square&logo=typescript&color=3178c6" alt="TypeScript" />
     </a>
-    <a href="https://react.dev/">
-      <img src="https://img.shields.io/badge/Framework-React-cyan?style=flat-square&logo=react&color=61dafb" alt="React" />
+    <a href="https://orm.drizzle.team/">
+      <img src="https://img.shields.io/badge/ORM-Drizzle-yellow?style=flat-square&logo=drizzle&color=C5F74F" alt="Drizzle" />
     </a>
-    <a href="https://vitejs.dev/">
-      <img src="https://img.shields.io/badge/Bundler-Vite-purple?style=flat-square&logo=vite&color=646cff" alt="Vite" />
+    <a href="https://postgresql.org/">
+      <img src="https://img.shields.io/badge/DB-PostgreSQL-blue?style=flat-square&logo=postgresql" alt="PostgreSQL" />
     </a>
   </p>
 
@@ -32,180 +36,113 @@
 
 ## ✨ Features
 
-### Core Features
+### 🚀 Core Experience
 
-- **CRT Monitor Effects**: Retro terminal effects like scanlines, glow, and flicker.
-- **Vim-style Navigation**: `j/k` to move up/down, `h/l` to switch branches, `Enter` to open links.
-- **Command Line Search**: Supports pseudo-commands like `help`, `ls`, `go <n>`, `g <query>`.
-- **Git Workflow Metaphor**: Categories are called Branches, links are called Commits.
-- **Pixel Art Style**: VT323 pixel font + Fira Code monospace font.
-- **Responsive Layout**: Adapted for both desktop and mobile.
+- **CRT Retro Visuals**: Scanlines, glow, and screen flicker effects recreating the 80s terminal vibe.
+- **Vim-style Navigation**: `j/k` to move, `h/l` to switch branches, `/` to search. Keep your hands on the keyboard.
+- **Git Metaphor**: Categories are **Branches**, bookmarks are **Commits**. Version control your web.
+- **Responsive Design**: Pixel-perfect adaptation from 4K monitors to mobile screens.
 
-### Advanced Features
+### 🛠️ Full-Stack Remake (2.0)
 
-- **Statistics**: Visit statistics, top links, history, command usage.
-- **Favorites**: Mark frequently used links for quick access.
-- **Tag Filtering**: Filter by clicking tags, support multiple tags.
-- **Search Suggestions**: Matches as you type, Tab to select.
-- **Shortcut Guide**: Shows shortcut guide on first visit.
-
-### Technical Improvements
-
-- **PWA Support**: Service Worker, offline access, add to home screen.
-- **Performance**: Code splitting, lazy loading images, build caching.
-- **Deployment**: GitHub Actions auto-deploy, version management, build info.
+- **Admin Dashboard**:
+  - Visual management of Categories (Branches) and Links (Commits).
+  - Draggable sorting interfaces.
+  - Site configuration management (Slogan, Shortcuts).
+- **Authentication**:
+  - **GitHub / Google OAuth** support.
+  - Credentials login.
+  - Role-Based Access Control (RBAC).
+- **Server-side Search**:
+  - High-performance, URL-synchronized filtering.
+  - Handles large datasets efficiently.
+- **Modern Tech Stack**:
+  - **Next.js 15 App Router**: React Server Components (RSC) for blazing fast initial load.
+  - **Drizzle ORM & Postgres**: Type-safe database operations.
+  - **Tailwind CSS 4**: Next-gen utility-first CSS engine.
 
 ## 🚀 Quick Start
 
+### Prerequisites
+
+- Node.js 18+
+- PostgreSQL Database
+
+### Installation
+
 ```bash
-# Install dependencies
+# 1. Install dependencies
 npm install
 
-# Start development server
+# 2. Configure Environment
+cp .env.example .env
+# Edit .env with your POSTGRES_URL, AUTH_SECRET, etc.
+
+# 3. Database Migration
+npm run db:push
+
+# 4. Seed Initial Data (Optional)
+npm run seed
+
+# 5. Start Development Server
 npm run dev
-
-# Type check
-npm run type-check
-
-# Linting
-npm run lint
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
 ```
+
+Visit [http://localhost:3000](http://localhost:3000) to see it in action.
 
 ## ⌨️ Keyboard Shortcuts
 
-| Shortcut  | Function                 |
-| :-------- | :----------------------- |
-| `j` / `↓` | Move selection down      |
-| `k` / `↑` | Move selection up        |
-| `h` / `←` | Previous Branch          |
-| `l` / `→` | Next Branch              |
-| `Enter`   | Open selected link       |
-| `/`       | Focus search box         |
-| `Esc`     | Exit search / Close help |
-| `?`       | Show help                |
-| `A`       | Add new link             |
-| `S`       | Open settings            |
-| `T`       | View statistics          |
+| Shortcut  | Function            |
+| :-------- | :------------------ |
+| `j` / `↓` | Move selection down |
+| `k` / `↑` | Move selection up   |
+| `h` / `←` | Previous Branch     |
+| `l` / `→` | Next Branch         |
+| `Enter`   | Open selected link  |
+| `/`       | Focus search box    |
+| `Esc`     | Exit search / Close |
+| `?`       | Show help           |
+| `CMD+K`   | Fast commands       |
 
-## 💻 Commands
-
-| Command     | Function              |
-| :---------- | :-------------------- |
-| `help`      | Show help information |
-| `ls`        | List all Branches     |
-| `go <n>`    | Go to link number n   |
-| `g <query>` | Search with Google    |
-| `clear`     | Clear command history |
-
-## 📁 Project Structure
+## 📁 Project Structure (App Router)
 
 ```
-app/
-├── public/
-│   ├── cherry.svg           # Pixel art Cherry icon
-│   ├── pixels/              # System icons
-│   ├── manifest.json        # PWA configuration
-│   └── sw.js                # Service Worker
+.
 ├── src/
-│   ├── components/          # React components
-│   │   ├── Header.tsx       # Status bar
-│   │   ├── Hero.tsx         # Hero section
-│   │   ├── CommandInput.tsx # Command input
-│   │   ├── ContentGrid.tsx  # Branch/Content grid
-│   │   ├── BranchSection.tsx # Branch section
-│   │   ├── CommitCard.tsx   # Commit card
-│   │   ├── HelpModal.tsx    # Help modal
-│   │   ├── AddModal.tsx     # Add link modal
-│   │   ├── SettingsModal.tsx # Settings modal
-│   │   ├── KeyboardShortcutsModal.tsx # Shortcut guide
-│   │   ├── StatisticsModal.tsx # Statistics modal
-│   │   └── ThemeToggle.tsx  # Theme toggle
-│   ├── hooks/               # Custom Hooks
-│   │   ├── useKeyboardNavigation.ts
-│   │   ├── useCommands.ts
-│   │   └── useStatistics.ts
-│   ├── types/               # TypeScript types
-│   ├── data/
-│   │   └── data.json        # Configuration data
-│   ├── App.tsx
-│   ├── main.tsx
-│   └── index.css            # Global styles + CRT effects
-├── .github/workflows/
-│   └── deploy.yml           # GitHub Pages deployment
-└── vercel.json              # Vercel deployment config
+│   ├── app/                # App Router Pages
+│   │   ├── admin/          # Admin Dashboard (CRUD)
+│   │   ├── api/            # API Routes (Auth, etc)
+│   │   ├── login/          # Login Page
+│   │   ├── actions.ts      # Server Actions (Business Logic)
+│   │   ├── layout.tsx      # Root Layout
+│   │   └── page.tsx        # Homepage (SSR)
+│   ├── components/         # React Components
+│   │   ├── admin/          # Admin-specific components
+│   │   ├── ui/             # Shared UI components
+│   │   └── ...
+│   ├── db/                 # Database Layer
+│   │   ├── schema.ts       # Drizzle Schemas
+│   │   └── index.ts        # DB Connection
+│   ├── auth.ts             # NextAuth Configuration
+│   └── middleware.ts       # Route Protection Middleware
+└── public/                 # Static Assets
 ```
 
-## 🎨 Customization
+## 📝 Tech Stack Details
 
-Edit `src/data/data.json` to add your own links:
-
-```json
-{
-  "site_config": {
-    "user_name": "YourName",
-    "theme": "dark_matrix",
-    "slogan": "Cherry-pick the web"
-  },
-  "branches": [
-    {
-      "name": "feature/work",
-      "icon": "💼",
-      "commits": [
-        {
-          "message": "GitHub",
-          "hash": "a1b2c3d",
-          "url": "https://github.com",
-          "tags": ["code"]
-        }
-      ]
-    }
-  ]
-}
-```
-
-## 🚀 Deployment
-
-### GitHub Pages
-
-1. Push code to GitHub.
-2. Enable GitHub Pages in repository settings.
-3. Select GitHub Actions as the source.
-4. Push to `main` branch to auto-deploy.
-
-### Vercel
-
-1. Import GitHub repository to Vercel.
-2. Set root directory to `app` (if applicable) or project root.
-3. Auto-detect Vite framework and deploy.
-
-## 📝 Tech Stack
-
-- **Framework**: React 19 + TypeScript
-- **Build**: Vite 7
-- **Styling**: Tailwind CSS 4
-- **Fonts**: VT323 + Fira Code
-- **PWA**: Service Worker + Manifest
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **Database**: PostgreSQL (via [Vercel Postgres](https://vercel.com/postgres) or local)
+- **ORM**: [Drizzle ORM](https://orm.drizzle.team/)
+- **Auth**: [NextAuth.js v5](https://authjs.dev/) (Beta)
+- **Deployment**: Vercel / Docker
 
 ## 📄 License
 
 MIT
 
-## 📖 Documentation
+## 📮 Contributing
 
-- [Development Plan (TODO)](./TODO.md)
-- [Changelog](./CHANGELOG.md)
-- [PRD](./PRD.md)
-
-## 🤝 Contribution
-
-Issues and Pull Requests are welcome!
-
-## 📮 Contact
-
-- GitHub: [FruitsAI/Cherry](https://github.com/FruitsAI/Cherry)
+Pull requests and issues are welcome!
+GitHub: [FruitsAI/Cherry](https://github.com/FruitsAI/Cherry)

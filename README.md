@@ -6,20 +6,24 @@
     <strong>Cherry-pick the web.</strong>
   </p>
   
-  <p>一个专属于程序员的复古终端风格浏览器起始页。</p>
+  <p>一个专属于程序员的现代复古终端风格起始页。</p>
+  <p>Next.js 15 Full-Stack Remake</p>
 
   <p>
     <a href="./LICENSE">
       <img src="https://img.shields.io/github/license/FruitsAI/Cherry?style=flat-square&color=2ecc71" alt="License" />
     </a>
+    <a href="https://nextjs.org/">
+      <img src="https://img.shields.io/badge/Framework-Next.js_15-black?style=flat-square&logo=next.js" alt="Next.js" />
+    </a>
     <a href="https://www.typescriptlang.org/">
       <img src="https://img.shields.io/badge/Language-TypeScript-blue?style=flat-square&logo=typescript&color=3178c6" alt="TypeScript" />
     </a>
-    <a href="https://react.dev/">
-      <img src="https://img.shields.io/badge/Framework-React-cyan?style=flat-square&logo=react&color=61dafb" alt="React" />
+    <a href="https://orm.drizzle.team/">
+      <img src="https://img.shields.io/badge/ORM-Drizzle-yellow?style=flat-square&logo=drizzle&color=C5F74F" alt="Drizzle" />
     </a>
-    <a href="https://vitejs.dev/">
-      <img src="https://img.shields.io/badge/Bundler-Vite-purple?style=flat-square&logo=vite&color=646cff" alt="Vite" />
+    <a href="https://postgresql.org/">
+      <img src="https://img.shields.io/badge/DB-PostgreSQL-blue?style=flat-square&logo=postgresql" alt="PostgreSQL" />
     </a>
   </p>
 
@@ -32,50 +36,59 @@
 
 ## ✨ 特性
 
-### 核心功能
+### 🚀 核心体验
 
-- **CRT 显示器效果**: 扫描线、辉光、闪烁等复古终端特效
-- **Vim 风格键盘导航**: `j/k` 上下移动，`h/l` 切换分支，`Enter` 打开链接
-- **命令行搜索**: 支持 `help`、`ls`、`go <n>`、`g <query>` 等伪命令
-- **Git 工作流隐喻**: 分类称为 Branches，链接称为 Commits
-- **像素艺术风格**: VT323 像素字体 + Fira Code 等宽字体
-- **响应式布局**: 适配桌面端和移动端
+- **CRT 复古终端视效**: 扫描线、辉光、屏幕闪烁，重现 80 年代终端质感
+- **Vim 风格全键盘流**: `j/k` 选择，`h/l` 分类，`/` 搜索，双手不离键盘
+- **Git 工作流隐喻**: 分类即 **Branches**，书签即 **Commits**，版本控制你的收藏
+- **响应式设计**: 从 4K 大屏到移动端完美适配 Pixel Art 风格
 
-### 高级功能
+### 🛠️ 全栈重构 (2.0)
 
-- **统计功能**: 访问统计、热门链接、访问历史、常用命令
-- **收藏功能**: 标记常用链接，快速访问收藏夹
-- **标签过滤**: 点击标签过滤显示，支持多标签组合
-- **搜索建议**: 输入时显示匹配建议，Tab 键快速选择
-- **快捷键引导**: 首次访问显示快捷键引导界面
-
-### 技术优化
-
-- **PWA 支持**: Service Worker、离线访问、添加到主屏幕
-- **性能优化**: 代码分割、图片懒加载、构建缓存
-- **部署优化**: GitHub Actions 自动部署、版本管理、构建信息
+- **Admin 后台管理**:
+  - 可视化管理 Categories (Branches) 和 Links (Commits)
+  - 拖拽排序 (Drag & Drop)
+  - 站点配置管理 (Slogan, Shortcuts)
+- **多方式登录鉴权**:
+  - 支持 **Gitub / Google OAuth** 一键登录
+  - 账号密码登录 (Credentials)
+  - 基于角色的权限控制 (RBAC)
+- **高性能服务端搜索**:
+  - URL 同步的实时搜索过滤
+  - Server-side Search，海量数据无压力
+- **现代化技术栈**:
+  - **Next.js 15 App Router**: React Server Components (RSC) 用作极致首屏性能
+  - **Drizzle ORM & Postgres**: 类型安全的数据库操作
+  - **Tailwind CSS 4**: 下一代原子化 CSS 引擎
 
 ## 🚀 快速开始
 
+### 环境依赖
+
+- Node.js 18+
+- PostgreSQL 数据库
+
+### 安装与运行
+
 ```bash
-# 安装依赖
+# 1. 安装依赖
 npm install
 
-# 启动开发服务器
+# 2. 配置环境变量
+cp .env.example .env
+# 编辑 .env 填入 POSTGRES_URL, AUTH_SECRET 等
+
+# 3. 数据库迁移
+npm run db:push
+
+# 4. 填充初始数据 (可选)
+npm run seed
+
+# 5. 启动开发服务器
 npm run dev
-
-# 类型检查
-npm run type-check
-
-# 代码检查
-npm run lint
-
-# 构建生产版本
-npm run build
-
-# 预览生产构建
-npm run preview
 ```
+
+打开 [http://localhost:3000](http://localhost:3000) 即可访问。
 
 ## ⌨️ 键盘快捷键
 
@@ -89,122 +102,47 @@ npm run preview
 | `/`       | 聚焦搜索框          |
 | `Esc`     | 退出搜索 / 关闭帮助 |
 | `?`       | 显示帮助            |
-| `A`       | 添加新链接          |
-| `S`       | 打开设置            |
-| `T`       | 查看统计            |
+| `CMD+K`   | 快速命令            |
 
-## 💻 命令
-
-| 命令        | 功能              |
-| ----------- | ----------------- |
-| `help`      | 显示帮助信息      |
-| `ls`        | 列出所有 Branches |
-| `go <n>`    | 跳转到第 n 个链接 |
-| `g <query>` | 使用 Google 搜索  |
-| `clear`     | 清除命令历史      |
-
-## 📁 项目结构
+## 📁 项目结构 (Next.js App Router)
 
 ```
-app/
-├── public/
-│   ├── cherry.svg          # 像素风 Cherry 图标
-│   ├── manifest.json       # PWA 配置
-│   └── sw.js               # Service Worker
+.
 ├── src/
+│   ├── app/                # App Router 路由
+│   │   ├── admin/          # 后台管理页面 (CRUD)
+│   │   ├── api/            # API Routes (Auth, etc)
+│   │   ├── login/          # 登录页
+│   │   ├── actions.ts      # Server Actions (业务逻辑)
+│   │   ├── layout.tsx      # 根布局
+│   │   └── page.tsx        # 前台首页 (SSR)
 │   ├── components/         # React 组件
-│   │   ├── Header.tsx      # 状态栏
-│   │   ├── Hero.tsx        # Hero 区域
-│   │   ├── CommandInput.tsx # 命令行输入
-│   │   ├── ContentGrid.tsx # 内容网格
-│   │   ├── BranchSection.tsx # Branch 区块
-│   │   ├── CommitCard.tsx  # Commit 卡片
-│   │   ├── HelpModal.tsx   # 帮助弹窗
-│   │   ├── AddModal.tsx    # 添加链接弹窗
-│   │   ├── SettingsModal.tsx # 设置弹窗
-│   │   ├── KeyboardShortcutsModal.tsx # 快捷键引导
-│   │   ├── StatisticsModal.tsx # 统计弹窗
-│   │   └── ThemeToggle.tsx # 主题切换
-│   ├── hooks/              # 自定义 Hooks
-│   │   ├── useKeyboardNavigation.ts
-│   │   ├── useCommands.ts
-│   │   └── useStatistics.ts
-│   ├── types/              # TypeScript 类型
-│   ├── data/
-│   │   └── data.json       # 配置数据
-│   ├── App.tsx
-│   ├── main.tsx
-│   └── index.css           # 全局样式 + CRT 特效
-├── .github/workflows/
-│   └── deploy.yml          # GitHub Pages 部署
-└── vercel.json             # Vercel 部署配置
+│   │   ├── admin/          # 后台专用组件
+│   │   ├── ui/             # 通用 UI 组件
+│   │   └── ...
+│   ├── db/                 # 数据库层
+│   │   ├── schema.ts       # Drizzle Schema 定义
+│   │   └── index.ts        # DB 连接实例
+│   ├── auth.ts             # NextAuth 配置
+│   └── middleware.ts       # 路由保护中间件
+└── public/                 # 静态资源 (Icons, Sounds)
 ```
 
-## 🎨 自定义
+## 📝 技术栈详情
 
-编辑 `src/data/data.json` 来添加你自己的链接:
-
-```json
-{
-  "site_config": {
-    "user_name": "YourName",
-    "theme": "dark_matrix",
-    "slogan": "Cherry-pick the web"
-  },
-  "branches": [
-    {
-      "name": "feature/work",
-      "icon": "💼",
-      "commits": [
-        {
-          "message": "GitHub",
-          "hash": "a1b2c3d",
-          "url": "https://github.com",
-          "tags": ["code"]
-        }
-      ]
-    }
-  ]
-}
-```
-
-## 🚀 部署
-
-### GitHub Pages
-
-1. 推送代码到 GitHub
-2. 在仓库设置中启用 GitHub Pages
-3. 选择 GitHub Actions 作为源
-4. 推送到 main 分支自动部署
-
-### Vercel
-
-1. 导入 GitHub 仓库到 Vercel
-2. 设置根目录为 `app`
-3. 自动检测 Vite 框架并部署
-
-## 📝 技术栈
-
-- **框架**: React 19 + TypeScript
-- **构建**: Vite 7
-- **样式**: Tailwind CSS 4
-- **字体**: VT323 + Fira Code
-- **PWA**: Service Worker + Manifest
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **Database**: PostgreSQL (via [Vercel Postgres](https://vercel.com/postgres) or local)
+- **ORM**: [Drizzle ORM](https://orm.drizzle.team/)
+- **Auth**: [NextAuth.js v5](https://authjs.dev/) (Beta)
+- **Deployment**: Vercel / Docker
 
 ## 📄 License
 
 MIT
 
-## 📖 文档
+## 📮 贡献与反馈
 
-- [开发计划 (TODO)](./TODO.md)
-- [更新日志 (CHANGELOG)](./CHANGELOG.md)
-- [产品需求 (PRD)](./PRD.md)
-
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
-## 📮 联系方式
-
-- GitHub: [FruitsAI/Cherry](https://github.com/FruitsAI/Cherry)
+欢迎提交 Issue 或 Pull Request 来改进 Cherry！
+GitHub: [FruitsAI/Cherry](https://github.com/FruitsAI/Cherry)

@@ -1,7 +1,7 @@
-# 🍒 Cherry - 开发计划
+# 🍒 Cherry v2.0.0 开发计划
 
-**版本**: v1.0.0
-**更新日期**: 2026-01-18
+**版本**: v2.0.0
+**更新日期**: 2026-01-21
 
 ---
 
@@ -266,6 +266,60 @@
 - [x] 用户反馈收集
 - [x] 性能优化和调优
 
+### v2.0.0 (Next Generation) 🚀
+
+#### 核心目标
+
+将应用从纯静态站点升级为全栈应用，构建完整的后台管理系统，实现数据的在线管理。
+
+#### 技术栈升级
+
+- **Framework**: Vite + React -> Next.js 15 (App Router)
+- **Deployment**: Vercel (Hosting + Functions)
+- **Database**: Vercel Postgres / Supabase
+- **Auth**: NextAuth.js (v5)
+- **Styling**: TailwindCSS (保持现有像素风)
+
+#### 详细计划
+
+- [x] **基础架构迁移**
+  - [x] 初始化 Next.js 项目结构
+  - [x] 迁移现有的像素风组件库
+  - [x] 配置 TailwindCSS 以匹配现有设计系统
+  - [x] 迁移 CRT 和动画特效
+
+- [x] **后端服务构建 (Vercel Functions)**
+  - [x] 设计数据库 Schema (Links, Categories, Users)
+  - [x] 实现 API Routes (Link CRUD via Server Actions)
+  - [x] 连接前端与后端 API (Server Side Fetching)
+  - [x] 配置 Vercel Postgres 数据库连接
+
+- [x] **安全与认证**
+  - [x] 集成 NextAuth.js
+  - [x] 实现登录页面 (像素风)
+  - [x] 保护管理路由与 API (Middleware)
+  - [x] 实现 GitHub / Google OAuth 登录
+  - [x] 设置 Admin 角色权限保护
+  - [x] 保护后台路由 (/admin/\*)
+
+- [x] **后台管理系统 (/admin)**
+  - [x] **仪表盘 (Dashboard)**
+    - [x] 实时访问数据统计 (基础计数)
+    - [x] 系统状态概览
+  - [x] **链接管理 (Link Manager)**
+    - [x] 数据表格视图 (Data Grid)
+    - [x] 增删改查 (CRUD) 界面
+    - [x] 批量操作支持
+  - [x] **分类管理 (Branch/Tag Manager)**
+    - [x] 分类(Branch)的增删改
+    - [x] 分类排序 (拖拽)
+
+- [ ] **前台功能升级**
+  - [x] Server Component 渲染 (提升首屏性能)
+  - [ ] 增量静态再生成 (ISR) 策略
+  - [x] 服务端搜索 (Server-side Search)
+  - [ ] SEO 元数据动态生成 (Open Graph)
+
 ---
 
 ## 📝 开发说明
@@ -293,6 +347,6 @@
 
 ---
 
-**最后更新**: 2026-01-18
+**最后更新**: 2026-01-21
 **维护者**: willxue
-**当前版本**: v1.0.0
+**当前版本**: v2.0.0

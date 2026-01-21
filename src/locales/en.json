@@ -4,20 +4,21 @@
     "slogan": "Cherry-pick the web"
   },
   "hero": {
-      "hints": {
-        "press": "Press",
-        "search": "to search",
-        "navigate": "to navigate",
-        "help": "for help",
-        "add": "to add"
-      }
+    "hints": {
+      "press": "Press",
+      "search": "to search",
+      "navigate": "to navigate",
+      "help": "for help",
+      "add": "to add"
+    }
   },
   "header": {
     "working": "working",
     "uptime": "uptime",
     "branch": "branch",
     "theme": "Theme",
-    "fork": "Fork on GitHub"
+    "fork": "Fork on GitHub",
+    "switcher_tooltip": "Switch Branch (ls)"
   },
   "footer": {
     "built_with": "Built with React & Tailwind",
@@ -119,9 +120,9 @@
       }
     },
     "welcome": {
-       "title": "🎮 Welcome to Cherry!",
-       "subtitle": "Your retro terminal style link manager",
-       "start": "Get Started 🚀"
+      "title": "🎮 Welcome to Cherry!",
+      "subtitle": "Your retro terminal style link manager",
+      "start": "Get Started 🚀"
     },
     "shortcuts": {
       "title": "Keyboard Shortcuts",
@@ -144,8 +145,8 @@
     "page_info": "Page {{current}} of {{total}}"
   },
   "branch_section": {
-     "git_checkout": "git checkout",
-     "commits_one": "{{count}} commit",
-     "commits_other": "{{count}} commits"
+    "git_checkout": "git checkout",
+    "commits_one": "{{count}} commit",
+    "commits_other": "{{count}} commits"
   }
 }

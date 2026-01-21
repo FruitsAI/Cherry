@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import type { Statistics, VisitHistory, CommandUsage, CategoryUsage, Branch } from '../types';
 
 const STORAGE_KEYS = {
@@ -48,10 +48,20 @@ export function useStatistics(branches: Branch[] = []) {
     }
   };
 
-  // 1. Lazy Initialization of raw state
-  const [rawStats, setRawStats] = useState(readFromStorage);
+  // 1. Initialize with empty state to avoid hydration mismatch
+  const [rawStats, setRawStats] = useState({
+    visitHistory: [] as VisitHistory[],
+    commandUsage: [] as CommandUsage[],
+    categoryUsage: [] as CategoryUsage[],
+    linkVisits: {} as Record<string, number>,
+  });
 
-  // 2. Reload function
+  // 2. Load from storage on mount
+  useEffect(() => {
+    setRawStats(readFromStorage());
+  }, []);
+
+  // 3. Reload function
   const loadStatistics = useCallback(() => {
     setRawStats(readFromStorage());
   }, []);

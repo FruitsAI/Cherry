@@ -1,7 +1,31 @@
+/**
+ * 🍒 Cherry - 数据库 Schema 定义
+ *
+ * 使用 Drizzle ORM 定义 PostgreSQL 数据库表结构。
+ * 包含 NextAuth.js 适配器所需的表和业务数据表。
+ *
+ * @file src/db/schema.ts
+ *
+ * @description
+ * 表结构：
+ * - users: 用户表（支持 OAuth 和用户名密码登录）
+ * - accounts: OAuth 账户表
+ * - sessions: 会话表
+ * - verificationTokens: 验证令牌表
+ * - branches: 分支/分类表
+ * - commits: 链接表
+ */
+
 import { pgTable, text, serial, integer, jsonb, timestamp, primaryKey, boolean } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 import type { AdapterAccount } from "next-auth/adapters"
 
+/**
+ * 用户表
+ *
+ * 支持 OAuth 和用户名密码两种登录方式。
+ * NextAuth.js 适配器要求的标准字段 + 自定义扩展字段。
+ */
 export const users = pgTable("users", {
   id: text("id")
     .primaryKey()

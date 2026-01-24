@@ -136,7 +136,69 @@ Visit [http://localhost:3000](http://localhost:3000) to see it in action.
 - **Database**: PostgreSQL (via [Vercel Postgres](https://vercel.com/postgres) or local)
 - **ORM**: [Drizzle ORM](https://orm.drizzle.team/)
 - **Auth**: [NextAuth.js v5](https://authjs.dev/) (Beta)
-- **Deployment**: Vercel / Docker
+- **Deployment**: Vercel / GitHub Pages
+
+## 🚢 Deployment
+
+Cherry supports two deployment modes:
+
+### Option 1: Vercel Full-Stack (Recommended)
+
+Full-featured dynamic deployment with Admin dashboard and OAuth login.
+
+1. **Fork the repository** to your GitHub account
+2. **Import in Vercel**:
+   - Go to [Vercel Dashboard](https://vercel.com/new)
+   - Select your forked repository
+3. **Add Postgres Database**:
+   - Vercel Dashboard → Storage → Create Database → Postgres
+   - Environment variables will be auto-linked
+4. **Configure Environment Variables**:
+   ```bash
+   AUTH_SECRET=xxx        # Generate with `openssl rand -base64 32`
+   # OAuth configuration (optional)
+   AUTH_GITHUB_ID=xxx
+   AUTH_GITHUB_SECRET=xxx
+   AUTH_GOOGLE_ID=xxx
+   AUTH_GOOGLE_SECRET=xxx
+   ```
+5. **Initialize Database**:
+   ```bash
+   npm run db:push        # Push schema
+   npm run seed           # Seed initial data
+   ```
+6. **Done!** Visit the auto-generated `.vercel.app` domain
+
+### Option 2: GitHub Pages Static Deployment
+
+Pure static site, no database required. Perfect for personal showcase sites.
+
+> [!NOTE]
+> Static mode does not support Admin dashboard or OAuth login. Data is read from `src/data/data.json`.
+
+1. **Fork the repository** to your GitHub account
+2. **Enable GitHub Pages**:
+   - Settings → Pages → Source → Select **GitHub Actions**
+3. **Customize Your Data**:
+   - Edit `src/data/data.json` with your links and categories
+4. **Push to main**:
+   - GitHub Actions will automatically build and deploy
+5. **Access**:
+   - `https://<username>.github.io/<repo-name>`
+
+#### Static Mode Explained
+
+Setting `STATIC_MODE=true` makes Next.js:
+
+- Enable `output: 'export'` for pure static HTML
+- Read data from `src/data/data.json` instead of database
+- Disable server-dependent features (Admin, OAuth)
+
+Manual static build:
+
+```bash
+npm run build:static   # Equivalent to STATIC_MODE=true npm run build
+```
 
 ## 📄 License
 

@@ -1,10 +1,16 @@
-# 🍒 Cherry - GitHub Pages 自动部署
+# 🍒 Cherry - GitHub Pages 自动部署 (静态模式)
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      export_from_db:
+        description: "从数据库导出最新数据"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -12,7 +18,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages'
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
@@ -25,39 +31,47 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run type check
-        run: npm run type-check || echo "Type check not configured, skipping..."
+      # 可选：从数据库导出最新数据
+      - name: Export data from database
+        if: ${{ github.event.inputs.export_from_db == 'true' }}
+        run: npm run export-data
+        env:
+          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
 
       - name: Run linter
         run: npm run lint || echo "Lint not configured, skipping..."
 
-      - name: Build
-        run: npm run build
+      # 使用静态模式构建
+      - name: Build (Static Mode)
+        run: npm run build:static
         env:
           NODE_ENV: production
+          STATIC_MODE: "true"
 
       - name: Generate build info
         run: |
           echo "BUILD_TIME=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
           echo "BUILD_COMMIT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-          echo "BUILD_VERSION=v0.7.0" >> $GITHUB_ENV
+          BUILD_VERSION=$(node -p "require('./package.json').version")
+          echo "BUILD_VERSION=v${BUILD_VERSION}" >> $GITHUB_ENV
 
       - name: Create build info file
         run: |
-          cat > dist/build-info.json << EOF
+          cat > out/build-info.json <<EOF
           {
             "version": "${{ env.BUILD_VERSION }}",
             "commit": "${{ env.BUILD_COMMIT }}",
             "buildTime": "${{ env.BUILD_TIME }}",
             "branch": "${{ github.ref_name }}",
             "runId": "${{ github.run_id }}",
-            "runNumber": "${{ github.run_number }}"
+            "runNumber": "${{ github.run_number }}",
+            "mode": "static"
           }
           EOF
 
@@ -67,7 +81,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: "./out"
 
   deploy:
     environment:
@@ -84,11 +98,8 @@ jobs:
         run: |
           echo "### 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version**: ${{ needs.build.outputs.BUILD_VERSION }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Commit**: ${{ needs.build.outputs.BUILD_COMMIT }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Build Time**: ${{ needs.build.outputs.BUILD_TIME }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Mode**: Static Export" >> $GITHUB_STEP_SUMMARY
           echo "- **Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Run ID**: ${{ github.run_id }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "📦 [View Deployment](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
-

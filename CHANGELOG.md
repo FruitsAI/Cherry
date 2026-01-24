@@ -5,6 +5,84 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [2.0.1] - 2026-01-24
+
+### 新增 (Added)
+
+- **Next.js 特殊页面**
+  - `error.tsx` - 局部错误边界（终端风格 UI）
+  - `global-error.tsx` - 全局错误边界
+  - `not-found.tsx` - 自定义 404 页面
+  - `loading.tsx` - 页面加载状态
+  - `admin/loading.tsx` - 后台加载状态
+
+- **新增脚本**
+  - `scripts/export-data.ts` - 数据库数据导出脚本，用于静态部署
+  - `scripts/build-static.sh` - 静态构建一键脚本
+  - `scripts/rename_imports.py` - 导入路径重写工具（PascalCase → kebab-case）
+
+- **新增 Hook**
+  - `use-latest.ts` - 值稳定化 Hook，用于事件回调
+
+- **新增组件**
+  - `current-time.tsx` - 实时时钟显示组件
+  - `confirm-modal.tsx` - 通用确认对话框
+  - `settings-form.tsx` - 站点设置表单
+
+- **新增 npm 脚本**
+  - `build:static` - 静态构建命令
+  - `export-data` - 数据导出命令
+
+### 变更 (Changed)
+
+- **UI 全面升级 (Premium Cyberpunk 风格)**
+  - 重新设计 CSS 变量系统，新增 `--cherry-cyan`、`--cherry-purple` 等霓虹色
+  - 新增动态透视网格背景 (`.bg-grid-perspective`)
+  - 优化辉光效果 (`--glow-green`、`--glow-cyan`)
+  - 新增噪点纹理背景 (`.bg-noise`)
+  - 改进亮色主题配色方案
+
+- **登录页面重设计**
+  - 终端风格登录界面 (System Access Terminal)
+  - 改进错误消息显示 (终端命令格式)
+
+- **后台仪表盘增强**
+  - 新增统计卡片 (TOTAL_LINKS / TOTAL_VISITS / TOTAL_BRANCHES)
+  - 添加模拟迷你图表 (Sparkline)
+  - 系统状态面板新增模拟日志流
+
+- **图标系统升级**
+  - 集成 Remix Icons (`@remixicon/react`)
+  - 后台侧边栏改用 Remix 矢量图标
+  - 统计卡片使用 Remix 图标
+
+### 重构 (Refactored)
+
+- **文件命名规范化 (kebab-case)**
+  - 所有组件文件从 PascalCase 重命名为 kebab-case
+  - 例：`ClientApp.tsx` → `client-app.tsx`
+  - 所有 Hook 文件重命名：`useCommands.ts` → `use-commands.ts`
+  - 更新所有相关导入路径
+
+- **删除旧文件**
+  - 删除 PascalCase 命名的旧组件文件
+  - 删除未使用的 SVG 图标 (`add.svg`, `folder.svg`, `settings.svg` 等)
+  - 删除 `middleware.ts`（未使用）
+
+### 文档 (Documentation)
+
+- **代码注释完善**
+  - 为 55+ 核心文件添加中文 JSDoc 注释
+  - 注释规范：🍒 Emoji + `@file` 路径 + `@description`
+  - 覆盖：scripts / app / components / hooks / lib / db / types
+
+### 依赖 (Dependencies)
+
+- **新增依赖**
+  - `@remixicon/react` ^4.8.0 - 矢量图标库
+
+---
+
 ## [2.0.0] - 2026-01-21
 
 ### 重大变更 (Breaking Changes)

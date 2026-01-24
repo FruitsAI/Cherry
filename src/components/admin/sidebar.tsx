@@ -1,32 +1,52 @@
+/**
+ * 🍒 Cherry Admin - 侧边栏导航组件
+ *
+ * 管理后台左侧固定的导航菜单。
+ * 提供 Dashboard、Branches、Settings 三个主要入口。
+ *
+ * @file src/components/admin/sidebar.tsx
+ *
+ * @description
+ * 使用 usePathname 判断当前路由，
+ * 为活跃的导航项添加高亮样式。
+ */
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { IconDisplay } from "../ui/IconDisplay";
+import { IconDisplay } from "../ui/icon-display";
+import { RiHomeLine, RiGitBranchLine, RiSettings3Line } from "@remixicon/react";
 
-const navItems = [
-  {
-    title: "Dashboard",
-    href: "/admin",
-    icon: "pixels/home.svg"
-  },
-  {
-    title: "Categories",
-    href: "/admin/branches",
-    icon: "pixels/folder.svg"
-  },
-  {
-    title: "Settings",
-    href: "/admin/settings",
-    icon: "pixels/settings.svg"
-  }
-];
-
+/**
+ * 后台侧边栏组件
+ *
+ * @description
+ * 渲染固定在左侧的导航菜单，
+ * 响应式设计（移动端隐藏）。
+ */
 export function AdminSidebar() {
   const pathname = usePathname();
 
+  const navItems = [
+    {
+      title: "Dashboard",
+      href: "/admin",
+      icon: <RiHomeLine className="text-xl" />
+    },
+    {
+      title: "Branches",
+      href: "/admin/branches",
+      icon: <RiGitBranchLine className="text-xl" />
+    },
+    {
+      title: "Settings",
+      href: "/admin/settings",
+      icon: <RiSettings3Line className="text-xl" />
+    }
+  ];
+
   return (
-    <aside className="w-64 border-r border-[var(--cherry-green)]/30 bg-black/20 backdrop-blur-sm hidden md:block min-h-[calc(100vh-64px)]">
+    <aside className="w-64 border-r border-[var(--cherry-green)]/30 bg-[var(--cherry-bg-secondary)]/50 backdrop-blur-sm hidden md:block min-h-[calc(100vh-64px)]">
       <nav className="p-4 space-y-2">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
@@ -40,10 +60,9 @@ export function AdminSidebar() {
                   : "text-[var(--cherry-muted)] hover:text-[var(--cherry-green)] hover:bg-[var(--cherry-green)]/5"
               }`}
             >
-              <IconDisplay 
-                icon={item.icon} 
-                className={`text-xl ${isActive ? "text-[var(--cherry-red)]" : "text-[var(--cherry-muted)] group-hover:text-[var(--cherry-green)]"}`} 
-              />
+              <div className={isActive ? "text-[var(--cherry-red)]" : "text-[var(--cherry-muted)] group-hover:text-[var(--cherry-green)]"}>
+                {item.icon}
+              </div>
               <span>{item.title}</span>
             </Link>
           );

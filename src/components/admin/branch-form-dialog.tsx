@@ -1,16 +1,38 @@
+/**
+ * 🍒 Cherry Admin - 分支表单对话框
+ *
+ * 用于新增或编辑分支的模态对话框。
+ * 支持设置分支名称和图标（Emoji 或 SVG 路径）。
+ *
+ * @file src/components/admin/branch-form-dialog.tsx
+ *
+ * @description
+ * 表单字段：
+ * - Name: 分支名称
+ * - Icon: 图标（Emoji 或 pixels/*.svg）
+ */
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from 'react-dom';
 import { createBranch, updateBranch } from "@/app/admin/branches/actions";
-import { IconDisplay } from "@/components/ui/IconDisplay";
+import { IconDisplay } from "@/components/ui/icon-display";
 
+/** BranchFormDialog 组件 Props */
 interface BranchFormDialogProps {
+  /** 编辑模式的初始数据 */
   branch?: { id: number; name: string; icon: string };
+  /** 受控模式：是否打开 */
   open?: boolean;
+  /** 受控模式：状态变更回调 */
   onOpenChange?: (open: boolean) => void;
+  /** 自定义触发器元素 */
   trigger?: React.ReactNode;
 }
 
+/**
+ * 分支表单对话框组件
+ */
 export function BranchFormDialog({ branch, open, onOpenChange, trigger }: BranchFormDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -69,8 +91,11 @@ export function BranchFormDialog({ branch, open, onOpenChange, trigger }: Branch
     );
   }
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+  // Ensure modal context (only when open)
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--cherry-bg-secondary)]/80 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="w-full max-w-md bg-[var(--cherry-bg)] border border-[var(--cherry-green)] rounded-lg shadow-[0_0_20px_rgba(0,255,0,0.2)] p-6 space-y-6 animate-in zoom-in-95 duration-200">
         
         <div className="flex items-center justify-between border-b border-[var(--cherry-green)]/30 pb-4">
@@ -93,7 +118,7 @@ export function BranchFormDialog({ branch, open, onOpenChange, trigger }: Branch
               required
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full bg-black/40 border border-[var(--cherry-green)]/50 rounded px-3 py-2 text-[var(--cherry-text)] focus:border-[var(--cherry-green)] focus:outline-none transition-colors font-pixel"
+              className="w-full bg-[var(--cherry-bg-secondary)]/40 border border-[var(--cherry-green)]/50 rounded px-3 py-2 text-[var(--cherry-text)] focus:border-[var(--cherry-green)] focus:outline-none transition-colors font-pixel"
               placeholder="e.g. Frontend"
             />
           </div>
@@ -106,7 +131,7 @@ export function BranchFormDialog({ branch, open, onOpenChange, trigger }: Branch
                 required
                 value={formData.icon}
                 onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                className="flex-1 bg-black/40 border border-[var(--cherry-green)]/50 rounded px-3 py-2 text-[var(--cherry-text)] focus:border-[var(--cherry-green)] focus:outline-none transition-colors font-code"
+                className="flex-1 bg-[var(--cherry-bg-secondary)]/40 border border-[var(--cherry-green)]/50 rounded px-3 py-2 text-[var(--cherry-text)] focus:border-[var(--cherry-green)] focus:outline-none transition-colors font-code"
                 placeholder="e.g. ⚛️ or pixels/folder.svg"
                 />
                 <div className="w-10 h-10 flex items-center justify-center bg-[var(--cherry-green)]/10 rounded border border-[var(--cherry-green)]/20">
@@ -142,6 +167,7 @@ export function BranchFormDialog({ branch, open, onOpenChange, trigger }: Branch
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

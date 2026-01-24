@@ -1,65 +1,137 @@
-# 部署检查清单 (Deployment Checklist) v2.0.0
+# 部署检查清单 (Deployment Checklist) v2.1.0
 
-## 1. 环境变量配置 (Environment Variables)
+Cherry 支持两种部署模式：
 
-确保在部署平台 (Vercel) 或本地 `.env` 文件中配置以下变量：
+| 特性       | Vercel 动态部署 | GitHub Pages 静态部署 |
+| ---------- | :-------------: | :-------------------: |
+| Admin 后台 |       ✅        |          ❌           |
+| OAuth 登录 |       ✅        |          ❌           |
+| 数据源     |   PostgreSQL    |       JSON 文件       |
+| 无服务器   |       ❌        |          ✅           |
+| 适用场景   |    生产环境     |       个人展示        |
 
-- `POSTGRES_URL`: 完整数据库连接字符串 (Vercel Postgres)
-- `POSTGRES_PRISMA_URL`: (可选) 如果涉及连接池
-- `POSTGRES_URL_NON_POOLING`: (可选) 直接连接字符串
-- `NEXTAUTH_SECRET`: 用于加密会话的随机字符串 (生产环境必须设置)
-  - 生成命令: `openssl rand -base64 32`
-- `NEXTAUTH_URL`: 生产环境部署 URL (例如 `https://your-project.vercel.app`)
+---
 
-## 2. 数据库准备 (Database)
+## 🌐 方式一：Vercel 动态部署
 
-### 首次部署
+### 1. 环境变量配置
 
-1. **创建数据库**: 在 Vercel Dashboard 中添加 Storage -> Postgres。
-2. **推送 Schema**:
-   ```bash
-   npx drizzle-kit push
-   ```
-3. **初始化数据 (Seed)**:
-   ```bash
-   npx tsx scripts/seed.ts
-   ```
-   > **注意**: 此脚本会创建默认管理员账号并哈希密码。
+在 [Vercel Dashboard](https://vercel.com/) 或本地 `.env` 中配置：
 
-### 数据库迁移
+| 变量                 | 说明                                                | 必需 |
+| -------------------- | --------------------------------------------------- | :--: |
+| `POSTGRES_URL`       | 数据库连接字符串                                    |  ✅  |
+| `AUTH_SECRET`        | NextAuth 加密密钥 (生成: `openssl rand -base64 32`) |  ✅  |
+| `AUTH_GITHUB_ID`     | GitHub OAuth App ID                                 |  🔸  |
+| `AUTH_GITHUB_SECRET` | GitHub OAuth Secret                                 |  🔸  |
+| `AUTH_GOOGLE_ID`     | Google OAuth Client ID                              |  🔸  |
+| `AUTH_GOOGLE_SECRET` | Google OAuth Secret                                 |  🔸  |
 
-- 如果修改了 `schema.ts`，需运行 `npx drizzle-kit push` 同步变更。
+> 🔸 OAuth 配置为可选，至少配置一种登录方式
 
-## 3. 构建与部署 (Build & Deploy)
+### 2. 数据库准备
 
-1. **安装依赖**:
-   ```bash
-   npm install
-   ```
-2. **构建检查**:
-   ```bash
-   npm run build
-   ```
+**首次部署**:
 
-   - 确保无 TypeScript 错误
-   - 确保无 ESLint 错误
-   - 确保 Server Components 构建成功
-3. **部署**:
-   - 推送代码至 GitHub (Vercel 会自动触发构建)。
+```bash
+# 1. 在 Vercel 创建 Postgres 数据库 (Storage → Postgres)
+# 2. 推送 Schema
+npx drizzle-kit push
+# 3. 填充初始数据
+npx tsx scripts/seed.ts
+```
 
-## 4. 验证清单 (Verification)
+**Schema 变更**:
 
-- [ ] **首页加载**: 访问 `/`，确认数据从数据库正常加载（非骨架屏或空状态）。
-- [ ] **登录功能**: 访问 `/login`，使用种子账号 `willxue` / `password123` 登录。
-- [ ] **管理后台**: 登录后跳转至 `/admin`，确认仪表盘数据显示正常。
-- [ ] **CRUD 测试**:
-  - [ ] 新增一个其实链接，确认首页即时可见。
-  - [ ] 编辑该链接，确认首页内容更新。
-  - [ ] 删除该链接，确认首页该链接消失。
-- [ ] **持久化测试**: 刷新页面，确认登录状态保持 (Session)。
-- [ ] **安全测试**: 在未登录状态下访问 `/admin`，确认重定向回 `/login`。
+```bash
+npx drizzle-kit push   # 修改 schema.ts 后需同步
+```
 
-## 5. 常规维护
+### 3. 构建与部署
 
-- **日志监控**: 查看 Vercel Logs 监控 Server Actions 的执行情况。
-- **备份**: 定期备份 Postgres 数据。
+```bash
+npm install
+npm run build          # 构建检查
+# 推送到 GitHub，Vercel 自动触发部署
+```
+
+### 4. 验证清单
+
+- [ ] 访问 `/` 确认首页数据正常加载
+- [ ] 访问 `/login` 测试登录功能
+- [ ] 访问 `/admin` 测试后台管理
+- [ ] 创建/编辑/删除链接，验证数据持久化
+- [ ] 未登录访问 `/admin` 应重定向到 `/login`
+
+---
+
+## 📦 方式二：GitHub Pages 静态部署
+
+### 1. 启用 GitHub Actions
+
+仓库 Settings → Pages → Source → 选择 **GitHub Actions**
+
+### 2. 配置数据
+
+编辑 `src/data/data.json`：
+
+```json
+{
+  "config": {
+    "siteName": "Cherry",
+    "slogan": "Cherry pick the web."
+  },
+  "categories": [
+    {
+      "id": "1",
+      "name": "Tools",
+      "slug": "tools",
+      "order": 0
+    }
+  ],
+  "links": [
+    {
+      "id": "1",
+      "title": "GitHub",
+      "url": "https://github.com",
+      "categoryId": "1",
+      "order": 0
+    }
+  ]
+}
+```
+
+### 3. 自动部署
+
+推送到 `main` 分支，GitHub Actions 会自动：
+
+1. 使用 `STATIC_MODE=true` 构建静态站点
+2. 部署到 GitHub Pages
+
+### 4. 手动构建测试
+
+```bash
+npm run build:static   # 本地测试静态构建
+npx serve out          # 预览静态站点
+```
+
+### 5. (可选) 从数据库导出数据
+
+如果已有 Vercel 部署数据，可导出为 JSON：
+
+```bash
+# 设置环境变量
+export POSTGRES_URL=your_connection_string
+
+# 导出数据
+npm run export-data
+# 输出: src/data/data.json
+```
+
+---
+
+## 🔧 常规维护
+
+- **日志监控**: Vercel Logs 查看 Server Actions 执行情况
+- **数据备份**: 定期导出 Postgres 数据或提交 data.json 变更
+- **版本更新**: 通过 Git Tag 管理版本发布

@@ -1,23 +1,56 @@
+/**
+ * 🍒 Cherry - 页头组件
+ *
+ * 应用顶部固定导航栏，显示用户路径、分支切换器、时间和主题切换。
+ * 模拟终端命令行提示符的视觉风格。
+ *
+ * @file src/components/layout/header.tsx
+ *
+ * @description
+ * 功能：
+ * - 用户路径显示：user@cherry:~$
+ * - 分支切换下拉菜单（ls 命令触发）
+ * - 实时时间显示
+ * - 语言切换（中/英）
+ * - 主题切换（深色/浅色）
+ */
 "use client";
 
-import { useState, useEffect } from 'react';
-import type { SiteConfig, Branch } from '../../types';
-import { ThemeToggle } from '../ui/ThemeToggle';
-import { IconDisplay } from '../ui/IconDisplay';
 import { useTranslation } from 'react-i18next';
+import type { SiteConfig, Branch } from '../../types';
+import { ThemeToggle } from '../ui/theme-toggle';
+import { IconDisplay } from '../ui/icon-display';
+import { CurrentTime } from './current-time';
 
+/** Header 组件 Props */
 interface HeaderProps {
+  /** 站点配置 */
   config: SiteConfig;
+  /** 当前选中的分支 */
   currentBranch: Branch | null;
+  /** 当前主题 */
   theme?: 'dark' | 'light';
+  /** 主题变更回调 */
   onThemeChange?: (theme: 'dark' | 'light') => void;
+  /** Logo 点击回调（返回首页） */
   onLogoClick?: () => void;
+  /** 所有分支（用于下拉菜单） */
   branches?: Branch[];
+  /** 分支切换回调 */
   onBranchChange?: (index: number) => void;
+  /** 下拉菜单是否打开 */
   isDropdownOpen?: boolean;
+  /** 切换下拉菜单状态 */
   onToggleDropdown?: (isOpen: boolean) => void;
 }
 
+/**
+ * 页头组件
+ *
+ * @description
+ * 固定在视口顶部的导航栏，包含用户路径和各种控制按钮。
+ * 分支下拉菜单支持键盘导航和点击外部关闭。
+ */
 export function Header({ 
   config, 
   currentBranch, 
@@ -30,30 +63,23 @@ export function Header({
   onToggleDropdown
 }: HeaderProps) {
   const { t, i18n } = useTranslation();
-  
-  const [currentTime, setCurrentTime] = useState<string>('');
 
-  useEffect(() => {
-    // Initial set
-    setCurrentTime(new Date().toLocaleTimeString('en-US', {
-      hour12: false,
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    }));
+  // 处理语言切换
+  // 使用函数来确保正确判断当前语言并切换
+  const handleLanguageToggle = async () => {
+    // 获取当前语言的基础代码（去掉地区后缀如 -CN）
+    const currentLang = i18n.language?.split('-')[0] || 'zh';
+    const targetLang = currentLang === 'zh' ? 'en' : 'zh';
+    
+    // 切换语言并等待完成
+    await i18n.changeLanguage(targetLang);
+    
+    // 确保 localStorage 更新
+    localStorage.setItem('cherry-language', targetLang);
+  };
 
-    // Update every second
-    const timer = setInterval(() => {
-      setCurrentTime(new Date().toLocaleTimeString('en-US', {
-        hour12: false,
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      }));
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []); // Empty dependency array means this runs once on mount
+  // 获取当前语言用于显示
+  const isCurrentChinese = (i18n.language?.split('-')[0] || 'zh') === 'zh';
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--cherry-bg)] border-b border-[var(--cherry-green)]/30">
@@ -86,7 +112,7 @@ export function Header({
           {/* Branch Dropdown */}
           <div className="relative">
             <div 
-              className={`flex items-center gap-2 cursor-pointer px-2 py-1 rounded transition-colors ${
+              className={`flex items-center gap-1 cursor-pointer px-2 py-1 rounded transition-colors ${
                 isDropdownOpen ? 'bg-[var(--cherry-green)]/10' : 'hover:bg-[var(--cherry-green)]/5'
               }`}
               onClick={() => branches && branches.length > 0 && onToggleDropdown?.(!isDropdownOpen)}
@@ -98,7 +124,7 @@ export function Header({
                 {currentBranch ? currentBranch.name : 'main'}
               </span>
               {branches && branches.length > 0 && (
-                <IconDisplay icon="pixels/caret-down.svg" className="ml-1 opacity-70" imageClassName="w-3 h-3" />
+                <IconDisplay icon="pixels/caret-down.svg" className="ml-px opacity-70" imageClassName="w-3 h-3" />
               )}
             </div>
 
@@ -126,15 +152,13 @@ export function Header({
           </div>
 
           <span className="hidden sm:inline">|</span>
-          <span className="hidden md:inline text-[var(--cherry-amber)]" suppressHydrationWarning>
-            {currentTime}
-          </span>
+          <CurrentTime />
           <span className="hidden sm:inline">|</span>
           {/* 语言切换 */}
           <button
-            onClick={() => i18n.changeLanguage(i18n.language.startsWith('zh') ? 'en' : 'zh')}
+            onClick={handleLanguageToggle}
             className="hidden sm:block p-1 rounded cursor-pointer text-[var(--cherry-green)] hover:text-[var(--cherry-amber)] hover:scale-110 active:scale-95 transition-all duration-300"
-            title={i18n.language.startsWith('zh') ? 'Switch to English' : '切换到中文'}
+            title={isCurrentChinese ? 'Switch to English' : '切换到中文'}
             suppressHydrationWarning
           >
             <IconDisplay 

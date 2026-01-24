@@ -1,5 +1,29 @@
+/**
+ * 🍒 Cherry - NextAuth.js 基础配置
+ *
+ * 定义认证系统的基础配置，包括页面路由、会话策略和回调函数。
+ * 此配置被 auth.ts 引用，与 providers 分离以支持 Edge Runtime。
+ *
+ * @file src/auth.config.ts
+ *
+ * @description
+ * 配置项：
+ * - pages: 自定义登录页面路由
+ * - session: JWT 会话策略
+ * - callbacks.authorized: 路由权限验证（Admin 需要 admin 角色）
+ * - callbacks.jwt: 将用户角色添加到 JWT token
+ * - callbacks.session: 将角色从 token 同步到 session
+ */
+
 import type { NextAuthConfig } from "next-auth";
 
+/**
+ * NextAuth 基础配置对象
+ *
+ * @description
+ * authorized 回调用于中间件权限验证，
+ * 确保只有 admin 角色可以访问 /admin/* 路由。
+ */
 export const authConfig = {
   pages: {
     signIn: "/login",

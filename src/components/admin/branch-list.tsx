@@ -1,6 +1,21 @@
+/**
+ * 🍒 Cherry Admin - 分支列表组件
+ *
+ * 可拖拽排序的分支列表，使用 @dnd-kit 库实现。
+ * 支持增删改查操作。
+ *
+ * @file src/components/admin/branch-list.tsx
+ *
+ * @description
+ * 功能：
+ * - 拖拽排序（自动保存）
+ * - 新增分支（通过 BranchFormDialog）
+ * - 编辑分支
+ * - 删除分支（带确认弹窗）
+ */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import {
   DndContext,
   closestCenter,
@@ -18,12 +33,17 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { IconDisplay } from "@/components/ui/IconDisplay";
+import { IconDisplay } from "@/components/ui/icon-display";
 import { reorderBranches, deleteBranch } from "@/app/admin/branches/actions";
 import { BranchFormDialog } from "./branch-form-dialog";
+import { ConfirmModal } from "@/components/ui/confirm-modal";
 
-// Sortable Item Component
-function SortableItem({ branch, onDelete, onEdit }: { branch: any; onDelete: (id: number) => void; onEdit: (branch: any) => void }) {
+/**
+ * 可排序的分支项组件
+ *
+ * 使用 memo 优化渲染性能
+ */
+const SortableItem = memo(function SortableItem({ branch, onDelete, onEdit }: { branch: any; onDelete: (id: number) => void; onEdit: (branch: any) => void }) {
   const {
     attributes,
     listeners,
@@ -44,7 +64,7 @@ function SortableItem({ branch, onDelete, onEdit }: { branch: any; onDelete: (id
     <div
       ref={setNodeRef}
       style={style}
-      className={`group flex items-center justify-between p-4 bg-black/40 border ${isDragging ? "border-[var(--cherry-red)]" : "border-[var(--cherry-green)]/30"} rounded mb-2 hover:border-[var(--cherry-green)] transition-colors`}
+      className={`group flex items-center justify-between p-4 bg-[var(--cherry-bg-secondary)]/40 border ${isDragging ? "border-[var(--cherry-red)]" : "border-[var(--cherry-green)]/30"} rounded mb-2 hover:border-[var(--cherry-green)] transition-colors`}
     >
       <div className="flex items-center gap-4 flex-1">
         {/* Drag Handle */}
@@ -85,13 +105,14 @@ function SortableItem({ branch, onDelete, onEdit }: { branch: any; onDelete: (id
       </div>
     </div>
   );
-}
+});
 
 export function BranchList({ initialBranches }: { initialBranches: any[] }) {
   const [branches, setBranches] = useState(initialBranches);
   const [isClient, setIsClient] = useState(false);
 
   const [editingBranch, setEditingBranch] = useState<any>(null);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -124,10 +145,15 @@ export function BranchList({ initialBranches }: { initialBranches: any[] }) {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (confirm("Are you sure? This action cannot be undone if the category contains links.")) {
+  const handleDeleteClick = (id: number) => {
+      setDeleteId(id);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (deleteId) {
         try {
-            await deleteBranch(id);
+            await deleteBranch(deleteId);
+            setDeleteId(null);
         } catch (error: any) {
             alert(error.message);
         }
@@ -156,7 +182,7 @@ export function BranchList({ initialBranches }: { initialBranches: any[] }) {
             <SortableItem 
                 key={branch.id} 
                 branch={branch} 
-                onDelete={handleDelete} 
+                onDelete={handleDeleteClick} 
                 onEdit={(b) => setEditingBranch(b)} // Open dialog with branch
             /> 
           ))}
@@ -171,6 +197,16 @@ export function BranchList({ initialBranches }: { initialBranches: any[] }) {
             onOpenChange={(open: boolean) => !open && setEditingBranch(null)} 
           />
       )}
+
+      <ConfirmModal
+        isOpen={!!deleteId}
+        title="DELETE BRANCH"
+        message="Are you sure? This action cannot be undone if the branch contains links. All associated links might be lost or moved to default."
+        confirmText="CONFIRM DELETE"
+        isDangerous={true}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setDeleteId(null)}
+      />
     </div>
   );
 }

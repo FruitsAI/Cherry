@@ -136,7 +136,69 @@ npm run dev
 - **Database**: PostgreSQL (via [Vercel Postgres](https://vercel.com/postgres) or local)
 - **ORM**: [Drizzle ORM](https://orm.drizzle.team/)
 - **Auth**: [NextAuth.js v5](https://authjs.dev/) (Beta)
-- **Deployment**: Vercel / Docker
+- **Deployment**: Vercel / GitHub Pages
+
+## 🚢 部署方式
+
+Cherry 支持两种部署模式，满足不同场景需求：
+
+### 方式一：Vercel 全栈部署 (推荐)
+
+全功能动态部署，支持 Admin 后台管理和 OAuth 登录。
+
+1. **Fork 仓库** 到你的 GitHub 账户
+2. **在 Vercel 中导入项目**:
+   - 进入 [Vercel Dashboard](https://vercel.com/new)
+   - 选择你 Fork 的仓库
+3. **添加 Postgres 数据库**:
+   - Vercel Dashboard → Storage → Create Database → Postgres
+   - 数据库会自动关联环境变量
+4. **配置环境变量**:
+   ```bash
+   AUTH_SECRET=xxx        # 运行 `openssl rand -base64 32` 生成
+   # OAuth 配置 (可选)
+   AUTH_GITHUB_ID=xxx
+   AUTH_GITHUB_SECRET=xxx
+   AUTH_GOOGLE_ID=xxx
+   AUTH_GOOGLE_SECRET=xxx
+   ```
+5. **初始化数据库**:
+   ```bash
+   npm run db:push        # 推送 Schema
+   npm run seed           # 填充初始数据
+   ```
+6. **部署完成**，访问自动生成的 `.vercel.app` 域名
+
+### 方式二：GitHub Pages 静态部署
+
+纯静态页面部署，无需数据库，适合个人展示站点。
+
+> [!NOTE]
+> 静态模式下不支持 Admin 后台管理和 OAuth 登录，数据从 `src/data/data.json` 读取。
+
+1. **Fork 仓库** 到你的 GitHub 账户
+2. **启用 GitHub Pages**:
+   - Settings → Pages → Source → 选择 **GitHub Actions**
+3. **修改数据**:
+   - 编辑 `src/data/data.json` 配置你的链接和分类
+4. **推送代码**:
+   - 推送到 `main` 分支，Actions 会自动构建和部署
+5. **访问**:
+   - `https://<username>.github.io/<repo-name>`
+
+#### 静态模式原理
+
+通过设置环境变量 `STATIC_MODE=true`，Next.js 会:
+
+- 启用 `output: 'export'` 生成纯静态 HTML
+- 从 `src/data/data.json` 读取数据而非数据库
+- 禁用需要服务端的功能 (Admin, OAuth)
+
+手动构建静态版本:
+
+```bash
+npm run build:static   # 等同于 STATIC_MODE=true npm run build
+```
 
 ## 📄 License
 

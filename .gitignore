@@ -26,4 +26,8 @@ dist-ssr
 .ai_memory/*
 .agent/*
 .env
-.next
+.next/*
+.serena/*
+.spec-workflow/*
+
+out/*

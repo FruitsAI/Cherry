@@ -1,26 +1,46 @@
+/**
+ * 🍒 Cherry - Server Actions
+ *
+ * Next.js 15 App Router 的服务端操作函数集。
+ * 提供数据获取、创建、更新、删除等 CRUD 功能。
+ *
+ * @file src/app/actions.ts
+ *
+ * @description
+ * 主要功能：
+ * - getInitialData: 获取首页初始数据（分支、链接、配置）
+ * - updateSiteConfig: 更新站点配置
+ * - getAdminData: 获取管理后台数据
+ * - createLink / updateLink / deleteLink: 链接 CRUD
+ * - deleteLinks / updateLinksBranch: 批量操作
+ * - importConfig: 导入配置文件
+ *
+ * 注意：所有涉及数据修改的 action 都需要 admin 权限验证
+ */
 "use server";
 
+import { cache } from 'react';
 import { db } from "@/db";
 import { branches, commits, users } from "@/db/schema";
 import { desc, eq, inArray, ilike, or, and, InferSelectModel } from "drizzle-orm";
-import { version } from "../../package.json"; // Import version directly
+import { version } from "../../package.json";
 
+/** 分支数据库类型 */
 type Branch = InferSelectModel<typeof branches>;
+/** 链接数据库类型 */
 type Commit = InferSelectModel<typeof commits>;
 
-// We need to define types that match the frontend expectation
-// Re-using types from legacy code might require adjustment, 
-// for now we return raw DB data + mapped structure
-// ... imports
-
-export async function getInitialData(searchParams?: { q?: string; branch?: string }) {
-  const allBranches = await db.select().from(branches).orderBy(branches.sortOrder);
-  
-  let commitQuery = db.select().from(commits).$dynamic();
-  
-  // Apply logic: if branch is selected, filter by branch. 
-  // If query is present, filter by message or url or tags.
-  // Note: Drizzle select().from(commits) returns a QueryBuilder.
+/**
+ * 获取首页初始数据
+ *
+ * 使用 React cache 函数进行请求级缓存。
+ * 支持通过 searchParams 进行搜索和分支筛选。
+ *
+ * @param searchParams - 可选的查询参数 { q: 搜索词, branch: 分支ID }
+ * @returns CherryData 格式的数据
+ */
+export const getInitialData = cache(async (searchParams?: { q?: string; branch?: string }) => {
+  const branchQuery = db.select().from(branches).orderBy(branches.sortOrder);
   
   const conditions = [];
 
@@ -33,15 +53,18 @@ export async function getInitialData(searchParams?: { q?: string; branch?: strin
     conditions.push(or(
       ilike(commits.message, q),
       ilike(commits.url, q)
-      // Note: tags is json/array, ilike might not work directly. 
-      // For MVP search, title/url is sufficient.
     ));
   }
 
-  const allCommits = await db.select().from(commits)
-    .where(and(...conditions));
+  const commitQuery = db.select().from(commits).where(and(...conditions));
+  const userQuery = db.select().from(users).limit(1);
 
-  const user = await db.select().from(users).limit(1);
+  // Parallel fetch (Rule 1.4)
+  const [allBranches, allCommits, user] = await Promise.all([
+    branchQuery,
+    commitQuery,
+    userQuery
+  ]);
 
   // Map to legacy structure for compatibility during migration
   const formattedBranches = allBranches.map((branch: Branch) => {
@@ -74,7 +97,7 @@ export async function getInitialData(searchParams?: { q?: string; branch?: strin
     site_config: siteConfig,
     branches: formattedBranches
   };
-}
+});
 
 export async function updateSiteConfig(config: any) {
   const session = await auth();
@@ -110,20 +133,23 @@ export async function updateSiteConfig(config: any) {
   return { success: true };
 }
 
-export async function getAdminData() {
+export const getAdminData = cache(async () => {
   const session = await auth();
   if (!session) {
     throw new Error("Unauthorized");
   }
 
-  const allBranches = await db.select().from(branches).orderBy(branches.sortOrder);
-  const allCommits = await db.select().from(commits).orderBy(desc(commits.createdAt));
+  // Parallel fetch (Rule 1.4)
+  const [allBranches, allCommits] = await Promise.all([
+    db.select().from(branches).orderBy(branches.sortOrder),
+    db.select().from(commits).orderBy(desc(commits.createdAt))
+  ]);
 
   return {
     branches: allBranches,
     commits: allCommits,
   };
-}
+});
 
 import { auth } from "../auth";
 import { redirect } from "next/navigation";

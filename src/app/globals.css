@@ -1,43 +1,59 @@
 @import "tailwindcss";
 
 /* ============================================
-   🍒 Cherry - Retro Terminal Theme
+   🍒 Cherry - Retro Terminal Theme (Premium)
    ============================================ */
 
 /* CSS 变量定义 */
 :root {
   /* 主色调 - 暗色主题（默认） */
-  --cherry-bg: #0d1117;
-  --cherry-bg-secondary: #161b22;
-  --cherry-green: #2ecc71;
-  --cherry-red: #ff0055;
-  --cherry-amber: #ffc857;
+  --cherry-bg: #050505;
+  --cherry-bg-secondary: #0a0a0a;
+  --cherry-green: #00ff41; /* Hacker Green */
+  --cherry-red: #ff0055;   /* Cyber Pink */
+  --cherry-amber: #ffb86c; /* Retro Amber */
+  --cherry-cyan: #00f3ff;  /* Neon Cyan */
+  --cherry-purple: #bd00ff;/* Neon Purple */
   --cherry-text: #e6edf3;
-  --cherry-muted: #7d8590;
-
-  /* 字体 - 由 Next.js next/font/google 处理
-  --font-pixel: 'VT323', monospace;
-  --font-code: 'Fira Code', 'JetBrains Mono', monospace;
-  */
+  --cherry-muted: #555555;
+  
+  --grid-color: rgba(0, 255, 65, 0.15);
+  
+  --card-bg: rgba(10, 10, 10, 0.7);
+  --input-bg: rgba(0, 0, 0, 0.4);
+  --input-placeholder: rgba(255, 255, 255, 0.2);
+  --border-color: rgba(255, 255, 255, 0.1);
 
   /* 辉光效果 */
-  --glow-green: 0 0 5px rgba(46, 204, 113, 0.5), 0 0 10px rgba(46, 204, 113, 0.3);
-  --glow-red: 0 0 5px rgba(255, 0, 85, 0.5), 0 0 10px rgba(255, 0, 85, 0.3);
+  --glow-green: 0 0 10px rgba(0, 255, 65, 0.5), 0 0 20px rgba(0, 255, 65, 0.3);
+  --glow-red: 0 0 10px rgba(255, 0, 85, 0.5), 0 0 20px rgba(255, 0, 85, 0.3);
+  --glow-cyan: 0 0 10px rgba(0, 243, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.3);
 }
 
-/* 亮色主题 */
-[data-theme='light'] {
-  --cherry-bg: #ffffff;
-  --cherry-bg-secondary: #f0f0f0;
-  --cherry-green: #27ae60;
-  --cherry-red: #e74c3c;
-  --cherry-amber: #f39c12;
-  --cherry-text: #2c3e50;
-  --cherry-muted: #7f8c8d;
+/* 亮色主题 - 保持 clean 但有科技感 */
+/* 亮色主题 - 保持 clean 但有科技感 */
+:root[data-theme='light'] {
+  --cherry-bg: #fdfdfd;
+  --cherry-bg-secondary: #f4f4f5;
+  --cherry-green: #009926;
+  --cherry-red: #d0006f;
+  --cherry-amber: #d97706;
+  --cherry-cyan: #0891b2;
+  --cherry-purple: #7e22ce;
+  --cherry-text: #1a1a1a;
+  --cherry-muted: #a1a1aa;
+  
+  --grid-color: rgba(0, 0, 0, 0.08);
+  
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --input-bg: rgba(255, 255, 255, 0.6);
+  --input-placeholder: rgba(0, 0, 0, 0.4);
+  --border-color: rgba(0, 0, 0, 0.15);
 
   /* 辉光效果 - 亮色主题下减弱 */
-  --glow-green: 0 0 3px rgba(39, 174, 96, 0.3), 0 0 6px rgba(39, 174, 96, 0.2);
-  --glow-red: 0 0 3px rgba(231, 76, 60, 0.3), 0 0 6px rgba(231, 76, 60, 0.2);
+  --glow-green: 0 0 4px rgba(0, 153, 38, 0.2);
+  --glow-red: 0 0 4px rgba(208, 0, 111, 0.2);
+  --glow-cyan: 0 0 4px rgba(8, 145, 178, 0.2);
 }
 
 /* 基础样式重置 */
@@ -46,11 +62,12 @@
 }
 
 html {
-  font-family: var(--font-code);
+  font-family: 'Fira Code', monospace; /* Keep consistent font preference */
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color-scheme: dark light;
 }
 
 body {
@@ -61,150 +78,303 @@ body {
   color: var(--cherry-text);
   overflow-x: hidden;
   position: relative;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* ============================================
-   CRT 显示器特效
+   Background Effects (Grid & Stars)
    ============================================ */
 
-/* 扫描线效果 */
-body::before {
-  content: "";
-  display: block;
+/* 动态透视网格背景 */
+.bg-grid-perspective {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-    linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.03));
-  background-size: 100% 2px, 3px 100%;
+  width: 100vw;
+  height: 100vh;
+  perspective: 1000px;
+  overflow: hidden;
+  z-index: -2;
+  pointer-events: none;
+}
+
+.grid-plane {
+  position: absolute;
+  top: 50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: 
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 50px 50px;
+  transform: rotateX(60deg) translateY(-100px) translateZ(-200px);
+  animation: grid-move 20s linear infinite;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,1) 100%);
+}
+
+@keyframes grid-move {
+  0% { transform: rotateX(60deg) translateY(0) translateZ(-200px); }
+  100% { transform: rotateX(60deg) translateY(50px) translateZ(-200px); }
+}
+
+/* 简单的平面网格 (用于仪表盘) */
+.bg-grid-simple {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+}
+
+/* 噪点纹理 */
+.bg-noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* ============================================
+   CRT & Glitch Effects
+   ============================================ */
+
+/* 扫描线 (Scanlines) - 更加细腻 */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0,0,0,0.1) 50%,
+    rgba(0,0,0,0.1)
+  );
+  background-size: 100% 4px;
   z-index: 9999;
   pointer-events: none;
 }
 
-/* 屏幕边缘暗角 */
-body::after {
-  content: "";
-  position: fixed;
+/* Glitch Text Effect */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
-  z-index: 9998;
-  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  background: var(--cherry-bg);
 }
 
-/* 屏幕闪烁动画 */
-@keyframes flicker {
-  0% { opacity: 0.97; }
-  5% { opacity: 0.95; }
-  10% { opacity: 0.97; }
-  15% { opacity: 0.94; }
-  20% { opacity: 0.98; }
-  25% { opacity: 0.97; }
-  30% { opacity: 0.96; }
-  35% { opacity: 0.95; }
-  40% { opacity: 0.97; }
-  45% { opacity: 0.94; }
-  50% { opacity: 0.98; }
-  55% { opacity: 0.97; }
-  60% { opacity: 0.96; }
-  65% { opacity: 0.98; }
-  70% { opacity: 0.97; }
-  75% { opacity: 0.95; }
-  80% { opacity: 0.98; }
-  85% { opacity: 0.97; }
-  90% { opacity: 0.96; }
-  95% { opacity: 0.98; }
-  100% { opacity: 0.97; }
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -1px 0 var(--cherry-red);
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim-2 3s infinite linear alternate-reverse;
 }
 
-/* #root is specific to Vite/CRA, in Next.js it's body or main, but we can verify */
-/* Let's keep it for now but might need adjustment for layout.tsx wrapper */
-#root {
-  animation: flicker 0.15s infinite;
-  min-height: 100vh;
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -1px 0 var(--cherry-cyan);
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim 2.5s infinite linear alternate-reverse;
 }
 
-/* ============================================
-   闪烁光标
-   ============================================ */
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+@keyframes glitch-anim {
+  0% { clip: rect(13px, 9999px, 86px, 0); }
+  20% { clip: rect(65px, 9999px, 98px, 0); }
+  40% { clip: rect(10px, 9999px, 14px, 0); }
+  60% { clip: rect(98px, 9999px, 5px, 0); }
+  80% { clip: rect(43px, 9999px, 11px, 0); }
+  100% { clip: rect(29px, 9999px, 86px, 0); }
 }
 
-.cursor-blink {
-  animation: blink 1s step-end infinite;
+@keyframes glitch-anim-2 {
+  0% { clip: rect(65px, 9999px, 30px, 0); }
+  20% { clip: rect(9px, 9999px, 57px, 0); }
+  40% { clip: rect(22px, 9999px, 9px, 0); }
+  60% { clip: rect(74px, 9999px, 45px, 0); }
+  80% { clip: rect(31px, 9999px, 66px, 0); }
+  100% { clip: rect(92px, 9999px, 14px, 0); }
 }
 
 /* ============================================
-   打字机效果
+   Component Styles
    ============================================ */
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
-}
 
-.typing-effect {
-  overflow: hidden;
-  white-space: nowrap;
-  animation: typing 2s steps(30, end);
-}
-
-/* ============================================
-   辉光文字效果
-   ============================================ */
-.glow-green {
-  text-shadow: var(--glow-green);
-}
-
-.glow-red {
-  text-shadow: var(--glow-red);
-}
-
-/* ============================================
-   像素字体类
-   ============================================ */
-.font-pixel {
-  font-family: var(--font-pixel);
-  font-size: 1.25rem;
-  letter-spacing: 0.05em;
-}
-
-.font-code {
-  font-family: var(--font-code);
-}
-
-/* ============================================
-   终端卡片样式
-   ============================================ */
+/* Cyber-Glass Card */
+.cyber-card,
 .terminal-card {
-  background: var(--cherry-bg-secondary);
-  border: 1px solid rgba(46, 204, 113, 0.3);
-  border-radius: 4px;
-  transition: all 0.2s ease;
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
 }
 
-.terminal-card:hover {
-  border-color: var(--cherry-green);
-  box-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
+.cyber-card::before,
+.terminal-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cherry-green), transparent);
+  opacity: 0.5;
 }
 
+/* Selected State */
+.cyber-card.selected,
 .terminal-card.selected {
   border-color: var(--cherry-red);
   box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
 }
 
-/* ============================================
-   滚动条样式
-   ============================================ */
+/* Hover Effects */
+.cyber-card:hover,
+.terminal-card:hover {
+  border-color: rgba(46, 204, 113, 0.4);
+  box-shadow: 0 0 20px rgba(46, 204, 113, 0.1);
+}
+
+/* Pixel Borders Utility */
+.pixel-corners {
+  clip-path: polygon(
+    0 10px, 10px 0, 
+    calc(100% - 10px) 0, 100% 10px, 
+    100% calc(100% - 10px), calc(100% - 10px) 100%, 
+    10px 100%, 0 calc(100% - 10px)
+  );
+}
+
+.pixel-corners-sm {
+  clip-path: polygon(
+    0 4px, 4px 0, 
+    calc(100% - 4px) 0, 100% 4px, 
+    100% calc(100% - 4px), calc(100% - 4px) 100%, 
+    4px 100%, 0 calc(100% - 4px)
+  );
+}
+
+/* Retro Inputs */
+.input-cyber {
+  background: var(--input-bg);
+  border: 1px solid var(--cherry-muted);
+  color: var(--cherry-text);
+  font-family: 'Fira Code', monospace;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-cyber:focus {
+  outline: none;
+  border-color: var(--cherry-green);
+  box-shadow: 0 0 0 1px var(--cherry-green), 0 0 15px rgba(46, 204, 113, 0.2);
+  background: rgba(46, 204, 113, 0.05);
+}
+
+.input-cyber::placeholder {
+  color: var(--input-placeholder);
+}
+
+/* Retro Buttons */
+.btn-cyber {
+  position: relative;
+  background: transparent;
+  color: var(--cherry-green);
+  border: 1px solid var(--cherry-green);
+  padding: 0.75rem 1.5rem;
+  font-family: 'VT323', monospace;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-cyber::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--cherry-green);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.btn-cyber:hover {
+  color: #000;
+  box-shadow: 0 0 20px rgba(46, 204, 113, 0.4);
+}
+
+.btn-cyber-primary::after {
+  display: none;
+}
+
+.btn-cyber:hover::after {
+  transform: translateX(100%);
+}
+
+.btn-cyber-primary {
+  background: var(--cherry-green);
+  color: #000;
+  font-weight: bold;
+}
+
+.btn-cyber-primary:hover {
+  background: #000;
+  color: var(--cherry-green);
+  border-color: var(--cherry-green);
+}
+
+/* Animations */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-blink,
+.cursor-blink,
+.animate-cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+.typing-cursor::after {
+  content: '_';
+  animation: blink 1s step-end infinite;
+  color: var(--cherry-green);
+  margin-left: 2px;
+}
+
+/* Scrollbar Customization */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -212,260 +382,24 @@ body::after {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--cherry-green);
-  border-radius: 4px;
+  background: var(--cherry-muted);
+  border-radius: 3px;
+  opacity: 0.5;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--cherry-red);
+  background: var(--cherry-green);
 }
 
-/* ============================================
-   链接样式
-   ============================================ */
-a {
-  color: var(--cherry-green);
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
+/* Utility Utilities */
+.text-glow-green { text-shadow: var(--glow-green); }
+.text-glow-red { text-shadow: var(--glow-red); }
+.text-glow-cyan { text-shadow: var(--glow-cyan); }
+.text-glow-amber { text-shadow: 0 0 10px rgba(255, 184, 108, 0.5), 0 0 20px rgba(255, 184, 108, 0.3); }
 
-a:hover {
-  color: var(--cherry-red);
-  text-shadow: var(--glow-red);
-}
+.border-glow-green { box-shadow: var(--glow-green); }
 
-/* ============================================
-   选中效果
-   ============================================ */
-::selection {
-  background: var(--cherry-red);
-  color: white;
-}
-
-/* ============================================
-   Hover 交互效果
-   ============================================ */
-
-/* 像素抖动效果 */
-@keyframes pixel-shake {
-  0%, 100% { transform: translate(0, 0); }
-  10% { transform: translate(-1px, -1px); }
-  20% { transform: translate(1px, -1px); }
-  30% { transform: translate(-1px, 1px); }
-  40% { transform: translate(1px, 1px); }
-  50% { transform: translate(-1px, 0); }
-  60% { transform: translate(1px, 0); }
-  70% { transform: translate(0, -1px); }
-  80% { transform: translate(0, 1px); }
-  90% { transform: translate(1px, 1px); }
-}
-
-.terminal-card:hover {
-  animation: pixel-shake 0.3s ease-in-out;
-}
-
-/* 反色效果 */
-.terminal-card:hover .card-content {
-  filter: invert(0.05) hue-rotate(180deg);
-  transition: filter 0.2s ease;
-}
-
-/* 辉光增强 */
-.terminal-card:hover {
-  box-shadow: 
-    0 0 10px rgba(46, 204, 113, 0.3),
-    0 0 20px rgba(46, 204, 113, 0.2),
-    0 0 30px rgba(46, 204, 113, 0.1);
-}
-
-/* ============================================
-   页面加载动画
-   ============================================ */
-
-/* CRT 开机效果 */
-@keyframes crt-turn-on {
-  0% {
-    transform: scale(1, 0.002);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1, 0.002);
-    opacity: 1;
-  }
-  75% {
-    transform: scale(1, 1.002);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1, 1);
-    opacity: 1;
-  }
-}
-
-/* Next.js root layout wrapper might need this */
-body {
-  animation: crt-turn-on 0.5s ease-out, flicker 0.15s infinite;
-}
-
-/* 渐显动画 */
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out;
-}
-
-/* 延迟动画 */
-.animate-delay-100 { animation-delay: 0.1s; }
-.animate-delay-200 { animation-delay: 0.2s; }
-.animate-delay-300 { animation-delay: 0.3s; }
-.animate-delay-400 { animation-delay: 0.4s; }
-.animate-delay-500 { animation-delay: 0.5s; }
-
-/* ============================================
-   按钮交互效果
-   ============================================ */
-
-.button-retro {
-  position: relative;
-  overflow: hidden;
-  transition: all 0.2s ease;
-}
-
-.button-retro::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(46, 204, 113, 0.2),
-    transparent
-  );
-  transition: left 0.5s ease;
-}
-
-.button-retro:hover::before {
-  left: 100%;
-}
-
-.button-retro:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(46, 204, 113, 0.3);
-}
-
-.button-retro:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(46, 204, 113, 0.2);
-}
-
-/* ============================================
-   输入框交互效果
-   ============================================ */
-
-.input-retro:focus {
-  outline: none;
-  border-color: var(--cherry-red);
-  box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
-  animation: pixel-shake 0.2s ease-in-out;
-}
-
-/* ============================================
-   标签交互效果
-   ============================================ */
-
-.tag-retro {
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.tag-retro:hover {
-  transform: scale(1.05);
-  background: var(--cherry-red);
-  color: white;
-  box-shadow: 0 0 8px rgba(255, 0, 85, 0.4);
-}
-
-/* ============================================
-   图标交互效果
-   ============================================ */
-
-.icon-retro {
-  transition: all 0.3s ease;
-}
-
-.icon-retro:hover {
-  transform: rotate(5deg) scale(1.1);
-  filter: drop-shadow(0 0 8px rgba(255, 0, 85, 0.5));
-}
-
-/* 浮动动画 */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-/* 脉冲动画 */
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(1.1);
-  }
-}
-
-.animate-pulse {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-/* ============================================
-   搜索高亮样式
-   ============================================ */
-
-.highlight-text {
-  background: linear-gradient(120deg, var(--cherry-amber) 0%, var(--cherry-red) 100%);
-  color: var(--cherry-bg);
-  padding: 0 4px;
-  border-radius: 2px;
-  font-weight: 600;
-  box-shadow: 0 0 8px rgba(255, 200, 87, 0.4);
-  animation: highlight-pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes highlight-pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.85;
-  }
-}
-
-/* ============================================
-   Adaptive Icons (Invert in Dark Mode)
-   ============================================ */
-html.dark .adaptive-icon {
-  filter: invert(1);
+/* Font Utilities */
+.font-pixel {
+  font-family: 'VT323', monospace;
 }

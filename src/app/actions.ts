@@ -24,6 +24,7 @@ import { db } from "@/db";
 import { branches, commits, users } from "@/db/schema";
 import { desc, eq, inArray, ilike, or, and, InferSelectModel } from "drizzle-orm";
 import { version } from "../../package.json";
+import bcrypt from "bcryptjs";
 
 /** 分支数据库类型 */
 type Branch = InferSelectModel<typeof branches>;
@@ -282,5 +283,55 @@ export async function importConfig(config: any) {
 
   revalidatePath('/');
   revalidatePath('/admin');
+  return { success: true };
+}
+
+/**
+ * 修改密码
+ *
+ * 验证当前密码后更新 passwordHash。
+ * 仅限 admin 用户调用。
+ *
+ * @param data - { currentPassword, newPassword }
+ * @returns { success: boolean, error?: string }
+ */
+export async function changePassword(data: {
+  currentPassword: string;
+  newPassword: string;
+}): Promise<{ success: boolean; error?: string }> {
+  const session = await auth();
+  if (!session || session.user?.role !== 'admin') {
+    return { success: false, error: 'Unauthorized' };
+  }
+
+  const userId = session.user?.id;
+  if (!userId) {
+    return { success: false, error: 'User ID not found' };
+  }
+
+  // 查询用户
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, userId),
+  });
+
+  if (!user || !user.passwordHash) {
+    return { success: false, error: 'User not found or password not set' };
+  }
+
+  // 验证当前密码
+  const passwordsMatch = await bcrypt.compare(data.currentPassword, user.passwordHash);
+  if (!passwordsMatch) {
+    return { success: false, error: 'Current password is incorrect' };
+  }
+
+  // 生成新密码哈希
+  const newPasswordHash = await bcrypt.hash(data.newPassword, 10);
+
+  // 更新密码
+  await db
+    .update(users)
+    .set({ passwordHash: newPasswordHash, updatedAt: new Date() })
+    .where(eq(users.id, userId));
+
   return { success: true };
 }

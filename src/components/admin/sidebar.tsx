@@ -15,7 +15,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IconDisplay } from "../ui/icon-display";
-import { RiHomeLine, RiGitBranchLine, RiSettings3Line } from "@remixicon/react";
+import { RiHomeLine, RiGitBranchLine, RiSettings3Line, RiLockPasswordLine } from "@remixicon/react";
 
 /**
  * 后台侧边栏组件
@@ -42,6 +42,11 @@ export function AdminSidebar() {
       title: "Settings",
       href: "/admin/settings",
       icon: <RiSettings3Line className="text-xl" />
+    },
+    {
+      title: "Password",
+      href: "/admin/password",
+      icon: <RiLockPasswordLine className="text-xl" />
     }
   ];
 

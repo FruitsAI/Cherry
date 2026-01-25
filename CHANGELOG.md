@@ -5,6 +5,24 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [2.0.2] - 2026-01-25
+
+### 新增 (Added)
+
+- **Admin 修改密码功能**
+  - 新增 `/admin/password` 密码修改页面
+  - 新增 `password-form.tsx` 表单组件
+  - 新增 `changePassword` Server Action
+  - 侧边栏添加 Password 导航入口
+
+### 修复 (Fixed)
+
+- **Session 用户 ID 缺失**
+  - 修复 `auth.config.ts` 中 session 回调未传递 `user.id` 的问题
+  - JWT 回调现在保存 `token.id`，session 回调传递 `session.user.id`
+
+---
+
 ## [2.0.1] - 2026-01-24
 
 ### 新增 (Added)

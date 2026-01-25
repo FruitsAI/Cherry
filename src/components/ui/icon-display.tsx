@@ -13,6 +13,7 @@
  */
 
 import Image from 'next/image';
+import { getAssetPath } from '@/lib/paths';
 
 /** IconDisplay 组件 Props */
 interface IconDisplayProps {
@@ -33,9 +34,14 @@ export function IconDisplay({ icon, className = '', imageClassName = 'w-6 h-6' }
   const isImage = icon.includes('/') || icon.startsWith('http');
 
   if (isImage) {
+    // 处理路径：添加 basePath 前缀（用于静态部署）
+    const src = icon.startsWith('http') 
+      ? icon 
+      : getAssetPath(icon.startsWith('/') ? icon : `/${icon}`);
+    
     return (
       <Image
-        src={icon.startsWith("pixels/") ? `/${icon}` : icon}
+        src={src}
         alt=""
         width={24}
         height={24}
@@ -46,3 +52,4 @@ export function IconDisplay({ icon, className = '', imageClassName = 'w-6 h-6' }
 
   return <span className={className}>{icon}</span>;
 }
+

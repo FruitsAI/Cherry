@@ -17,6 +17,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
+import { getAssetPath } from '@/lib/paths';
 
 /** Hero 组件 Props */
 interface HeroProps {
@@ -57,7 +58,7 @@ export function Hero({ slogan }: HeroProps) {
       <div className="mb-4 flex justify-center animate-fade-in-up">
         <div className="relative animate-float">
           <Image
-            src="/pixels/cherry.svg"
+            src={getAssetPath("/pixels/cherry.svg")}
             alt="Cherry"
             width={192}
             height={192}

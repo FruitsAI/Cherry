@@ -53,7 +53,6 @@ jobs:
         env:
           NODE_ENV: production
           STATIC_MODE: "true"
-          BASE_PATH: "/Cherry"
           NEXT_PUBLIC_BASE_PATH: "/Cherry"
 
       - name: Generate build info

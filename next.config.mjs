@@ -3,9 +3,9 @@
 // 检查是否为静态模式
 const isStaticMode = process.env.STATIC_MODE === 'true';
 
-// GitHub Pages 子目录路径（例如 /Cherry）
-// 通过环境变量 BASE_PATH 设置，默认为空（根路径部署）
-const basePath = process.env.BASE_PATH || '';
+// 静态部署的 basePath（如 GitHub Pages 子目录 /Cherry）
+// 通过 NEXT_PUBLIC_BASE_PATH 设置，客户端和服务端都可访问
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 const nextConfig = {
   // 静态模式下启用静态导出

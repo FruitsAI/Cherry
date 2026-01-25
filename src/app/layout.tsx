@@ -40,12 +40,15 @@ const firaCode = Fira_Code({
 // SEO 元数据配置
 // ═══════════════════════════════════════════════════════════════════════════════
 
+// 静态部署的 basePath（如 GitHub Pages 的 /Cherry）
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 /** 全局 SEO 元数据 */
 export const metadata: Metadata = {
   title: 'Cherry - Cherry-pick the web',
   description: 'A retro terminal-style browser startpage for developers',
   icons: {
-    icon: '/pixels/cherry.svg',
+    icon: `${basePath}/pixels/cherry.svg`,
   },
 };
 

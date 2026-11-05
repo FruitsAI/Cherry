@@ -13,6 +13,8 @@
  */
 
 import Link from 'next/link';
+import { DitherCard } from '@/components/dithercn/dither-card';
+import { DitherButton } from '@/components/dithercn/dither-button';
 
 /**
  * 404 Not Found 页面组件
@@ -22,9 +24,9 @@ import Link from 'next/link';
  */
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#1a1b26] p-4 text-[#a9b1d6] font-mono">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--cherry-bg)] p-4 text-[var(--cherry-text)] font-code">
       <div className="w-full max-w-md space-y-6">
-        <div className="border border-[#414868] bg-[#16161e] p-6 shadow-2xl relative overflow-hidden">
+        <DitherCard color="red" radius={2} className="p-6 gap-4 shadow-2xl relative overflow-hidden">
             {/* 扫描线效果 */}
             <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-10 bg-[length:100%_2px,3px_100%]"></div>
             
@@ -56,15 +58,12 @@ export default function NotFound() {
             {/* 返回首页按钮 */}
             <div className="pt-4">
                <p className="mb-2 text-[#9ece6a]">&gt; Recommended action:</p>
-               <Link 
-                href="/"
-                className="inline-block bg-[#7aa2f7] text-[#1a1b26] px-4 py-2 font-bold hover:bg-[#2ac3de] transition-colors"
-              >
-                RETURN_TO_HOME
-              </Link>
+               <DitherButton asChild variant="filled" color="green">
+                 <Link href="/">RETURN_TO_HOME</Link>
+               </DitherButton>
             </div>
           </div>
-        </div>
+        </DitherCard>
       </div>
     </div>
   );

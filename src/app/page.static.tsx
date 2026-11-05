@@ -21,7 +21,7 @@ import { CherryData } from '../types';
 /** 加载占位组件 */
 function SearchFallback() {
     return (
-        <div className="flex h-screen items-center justify-center bg-[var(--cherry-bg)] text-[var(--cherry-green)] font-mono">
+        <div className="flex h-screen items-center justify-center bg-[var(--cherry-bg)] text-[var(--cherry-green)] font-code">
             INITIALIZING SYSTEM...
         </div>
     );

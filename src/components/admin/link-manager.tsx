@@ -24,6 +24,7 @@ import { deleteLink, createLink, updateLink, deleteLinks, updateLinksBranch } fr
 import { LinkModal } from './link-modal';
 import { IconDisplay } from '../ui/icon-display';
 import { ConfirmModal } from '../ui/confirm-modal';
+import { DitherButton } from "../dithercn/dither-button";
 
 /** 分支数据类型 */
 interface Branch {
@@ -240,13 +241,10 @@ export function LinkManager({ initialBranches, initialCommits }: LinkManagerProp
             ))}
           </select>
         </div>
-          <button
-            onClick={handleAdd}
-            className="button-retro px-4 py-2 bg-[var(--cherry-green)] text-[var(--cherry-bg)] rounded font-code text-sm hover:bg-[var(--cherry-green)]/90 transition-colors flex items-center gap-2"
-          >
+          <DitherButton variant="filled" color="green" size="sm" onClick={handleAdd}>
             <RiAddLine className="text-xl" />
             <span>Add New Link</span>
-          </button>
+          </DitherButton>
       </div>
 
       {/* Table */}
@@ -338,23 +336,15 @@ export function LinkManager({ initialBranches, initialCommits }: LinkManagerProp
               Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, filteredCommits.length)} of {filteredCommits.length} entries
            </div>
            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
-                className="px-3 py-1 bg-[var(--cherry-bg-secondary)]/40 border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-text)] disabled:opacity-30 hover:bg-[var(--cherry-green)]/10 font-code text-sm transition-colors"
-              >
+              <DitherButton variant="outline" color="green" size="sm" onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}>
                 Previous
-              </button>
+              </DitherButton>
               <div className="px-2 text-[var(--cherry-green)] font-pixel text-lg">
                  {currentPage} / {totalPages}
               </div>
-              <button
-                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                disabled={currentPage === totalPages}
-                className="px-3 py-1 bg-[var(--cherry-bg-secondary)]/40 border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-text)] disabled:opacity-30 hover:bg-[var(--cherry-green)]/10 font-code text-sm transition-colors"
-              >
+              <DitherButton variant="outline" color="green" size="sm" onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages}>
                 Next
-              </button>
+              </DitherButton>
            </div>
         </div>
       )}

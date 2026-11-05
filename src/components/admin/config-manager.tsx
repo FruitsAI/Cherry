@@ -19,6 +19,8 @@ import { useState } from "react";
 import { importConfig } from "../../app/actions";
 import { useRouter } from "next/navigation";
 import { RiSettings3Line, RiDownloadLine, RiUploadLine } from "@remixicon/react";
+import { DitherButton } from "../dithercn/dither-button";
+import { DitherCard } from "../dithercn/dither-card";
 
 /** ConfigManager 组件 Props */
 interface ConfigManagerProps {
@@ -115,27 +117,19 @@ export function ConfigManager({ data }: ConfigManagerProps) {
   };
 
   return (
-    <div className="terminal-card border-[var(--cherry-green)]/30 p-6">
+    <DitherCard color="green" radius={2} className="gap-4 border-[var(--cherry-green)]/30 p-6">
        <h3 className="font-pixel text-lg text-[var(--cherry-green)] mb-4 flex items-center gap-2">
          <RiSettings3Line className="text-xl" />
          SYSTEM CONFIGURATION
        </h3>
        
        <div className="flex flex-col sm:flex-row gap-4">
-          <button
-            onClick={handleExport}
-            disabled={isLoading}
-            className="flex-1 button-retro px-4 py-3 bg-[var(--cherry-green)]/10 border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)] font-code text-sm flex items-center justify-center gap-2 hover:bg-[var(--cherry-green)]/20 transition-all"
-          >
-            <RiDownloadLine className="w-5 h-5" /> 
+          <DitherButton variant="outline" color="green" disabled={isLoading} onClick={handleExport} className="flex-1">
+            <RiDownloadLine className="w-5 h-5" />
             EXPORT DATABASE
-          </button>
+          </DitherButton>
           
-          <button
-             onClick={handleImport}
-             disabled={isLoading}
-             className="flex-1 button-retro px-4 py-3 bg-[var(--cherry-red)]/10 border border-[var(--cherry-red)]/30 rounded text-[var(--cherry-red)] font-code text-sm flex items-center justify-center gap-2 hover:bg-[var(--cherry-red)]/20 transition-all"
-          >
+          <DitherButton variant="outline" color="red" disabled={isLoading} onClick={handleImport} className="flex-1">
             {isLoading ? (
                 <span className="animate-pulse">PROCESS...</span>
             ) : (
@@ -144,7 +138,7 @@ export function ConfigManager({ data }: ConfigManagerProps) {
                  IMPORT / RESTORE
                 </>
             )}
-          </button>
+          </DitherButton>
        </div>
 
        {message && (
@@ -160,6 +154,6 @@ export function ConfigManager({ data }: ConfigManagerProps) {
        <p className="mt-4 text-xs text-[var(--cherry-muted)] font-code text-center">
          Warning: Import will overwrite all existing data (branches & links). Export contains full database backup.
        </p>
-    </div>
+    </DitherCard>
   );
 }

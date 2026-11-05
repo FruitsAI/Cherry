@@ -196,8 +196,8 @@ export function CommandInput({
   return (
     <div className="max-w-2xl mx-auto px-4 mb-2 relative">
       <div
-        className={`terminal-card p-4 ${
-          isActive ? 'border-[var(--cherry-red)]' : ''
+        className={`p-4 rounded-sm border bg-[var(--cherry-bg-secondary)] ${
+          isActive ? 'border-[var(--cherry-red)]' : 'border-[var(--cherry-green)]/30'
         }`}
         onClick={() => inputRef.current?.focus()}
       >
@@ -223,7 +223,7 @@ export function CommandInput({
 
       {/* 搜索建议 */}
       {suggestions.length > 0 && isActive && isSuggestionsOpen && (
-        <div className="terminal-card mt-2 p-2 border-[var(--cherry-green)]/30">
+        <div className="mt-2 p-2 rounded-sm border border-[var(--cherry-green)]/30 bg-[var(--cherry-bg-secondary)]">
           {suggestions.map((suggestion, index) => (
             <div
               key={suggestion}

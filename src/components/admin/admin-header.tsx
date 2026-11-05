@@ -11,6 +11,7 @@
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { IconDisplay } from "../ui/icon-display";
+import { DitherButton } from "../dithercn/dither-button";
 
 /**
  * Admin 页头组件
@@ -39,12 +40,9 @@ export function AdminHeader({ version = "v0.0" }: { version?: string }) {
             System Online
           </div>
           
-          <button
-            onClick={() => signOut({ callbackUrl: "/" })}
-            className="flex items-center gap-2 px-3 py-1.5 border border-[var(--cherry-red)]/50 text-[var(--cherry-red)] rounded hover:bg-[var(--cherry-red)] hover:text-white transition-colors"
-          >
+          <DitherButton variant="outline" color="red" size="sm" onClick={() => signOut({ callbackUrl: "/" })}>
             Sign Out
-          </button>
+          </DitherButton>
         </div>
       </div>
     </header>

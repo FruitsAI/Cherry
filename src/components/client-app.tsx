@@ -36,6 +36,7 @@ import '../i18n'; // 初始化客户端 i18n
 import { syncLanguageFromStorage } from '../i18n';
 import { HomeView } from './views/home-view';
 import { BranchView } from './views/branch-view';
+import { DitherCard } from './dithercn/dither-card';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // 延迟加载的模态框组件
@@ -53,9 +54,9 @@ const StatisticsModal = lazy(() => import('./features/modals/statistics-modal').
 function ModalFallback() {
   return (
     <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 backdrop-blur-sm">
-      <div className="terminal-card p-6 border-[var(--cherry-red)]">
+      <DitherCard color="red" radius={2} className="p-6 gap-2 border-[var(--cherry-red)]">
         <p className="text-[var(--cherry-muted)] font-code">加载中...</p>
-      </div>
+      </DitherCard>
     </div>
   );
 }
@@ -196,7 +197,6 @@ export function ClientApp({ initialData }: ClientAppProps) {
     branches: data.branches.map((branch) => ({
       ...branch,
       commits: branch.commits.map((commit) => ({
-        ...commit,
         ...commit,
         isFavorite: favorites.has(commit.hash),
       })),

@@ -14,6 +14,9 @@
 "use client";
 
 import { useTranslation } from 'react-i18next';
+import { DitherCard } from '../../dithercn/dither-card';
+import { Divider } from '../../dithercn/divider';
+import { DitherButton } from '../../dithercn/dither-button';
 
 /** KeyboardShortcutsModal 组件 Props */
 interface KeyboardShortcutsModalProps {
@@ -57,8 +60,8 @@ export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsMod
       className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in"
       onClick={onClose}
     >
-      <div
-        className="terminal-card max-w-lg w-full mx-4 p-6 border-[var(--cherry-red)] animate-fade-in-up flex flex-col max-h-[85vh]"
+      <DitherCard
+        color="red" radius={2} className="max-w-lg w-full mx-4 p-6 gap-4 border-[var(--cherry-red)] flex flex-col max-h-[85vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 标题 */}
@@ -114,19 +117,18 @@ export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsMod
           </div>
         </div>
 
+        <Divider color="green" />
+
         {/* 底部提示 */}
         <div className="pt-4 border-t border-[var(--cherry-green)]/30 flex-shrink-0">
           <p className="text-sm text-[var(--cherry-muted)] text-center mb-4">
             {t('modal.statistics.tip_close', { defaultValue: 'Press ESC or click outside to close' })}
           </p>
-          <button
-            onClick={onClose}
-            className="w-full button-retro py-3 px-6 bg-[var(--cherry-red)] text-white font-code text-sm hover:bg-[var(--cherry-red)]/80 transition-all"
-          >
+          <DitherButton variant="filled" color="red" className="w-full" onClick={onClose}>
             {t('modal.welcome.start')}
-          </button>
+          </DitherButton>
         </div>
-      </div>
+      </DitherCard>
     </div>
   );
 }

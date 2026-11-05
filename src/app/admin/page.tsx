@@ -19,6 +19,9 @@ import { AdminHeader } from "../../components/admin/admin-header";
 import { LinkManager } from "../../components/admin/link-manager";
 import { ConfigManager } from "../../components/admin/config-manager";
 import { RiLinksLine, RiEyeLine, RiGitBranchLine } from "@remixicon/react";
+import { DitherCard } from "@/components/dithercn/dither-card";
+import { FillPattern } from "@/lib/dither";
+import { useId } from "react";
 
 /**
  * 统计卡片组件 (Async Server Component)
@@ -36,24 +39,23 @@ async function AdminStats({ data }: { data: any }) {
   const totalVisits = data.commits.reduce((sum: number, c: any) => sum + (c.visitCount || 0), 0);
   const mostActiveBranch = data.branches.length > 0 ? data.branches[0].name : 'N/A';
 
-  // --- Mock Sparkline Data (CSS based visualization) ---
-  // In a real app, this would come from historical data
-  const renderSparkline = (color: string) => (
-    <div className="h-8 flex items-end gap-[2px] opacity-70 mt-2">
+  // 迷你趋势：dithercn FillPattern 抖动填充条（服务端可渲染），替代纯色 CSS 条。
+  const patternId = useId();
+  const renderSparkline = (color: "green" | "red" | "orange") => (
+    <svg viewBox="0 0 100 32" className="h-8 w-full opacity-70 mt-2" role="img" aria-label="trend">
+      <defs>
+        <FillPattern id={patternId} fill="gradient" color={color} ramp={{ edge: "bottom", at: 32, length: 32 }} />
+      </defs>
       {[40, 60, 45, 70, 50, 80, 65, 90, 75, 100].map((h, i) => (
-        <div 
-          key={i} 
-          className={`w-1 rounded-sm ${color}`} 
-          style={{ height: `${h}%` }}
-        />
+        <rect key={i} x={i * 10 + 1} y={32 - (h * 32) / 100} width={8} height={(h * 32) / 100} fill={`url(#${patternId})`} />
       ))}
-    </div>
+    </svg>
   );
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {/* Stat Card 1: Links */}
-      <div className="bg-[var(--card-bg)] border border-[var(--cherry-green)]/30 p-5 rounded relative overflow-hidden group hover:border-[var(--cherry-green)] transition-colors">
+      <DitherCard color="green" radius={2} className="p-5 gap-2 relative overflow-hidden group hover:border-[var(--cherry-green)] transition-colors">
          <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
             <RiLinksLine className="text-6xl text-[var(--cherry-green)] w-16 h-16" />
          </div>
@@ -63,12 +65,12 @@ async function AdminStats({ data }: { data: any }) {
                TOTAL_LINKS
             </div>
             <div className="font-pixel text-4xl text-[var(--cherry-text)] text-glow-green">{totalLinks}</div>
-            {renderSparkline('bg-[var(--cherry-green)]')}
+            {renderSparkline('green')}
          </div>
-      </div>
+      </DitherCard>
       
       {/* Stat Card 2: Visits */}
-      <div className="bg-[var(--card-bg)] border border-[var(--cherry-red)]/30 p-5 rounded relative overflow-hidden group hover:border-[var(--cherry-red)] transition-colors">
+      <DitherCard color="red" radius={2} className="p-5 gap-2 relative overflow-hidden group hover:border-[var(--cherry-red)] transition-colors">
         <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
             <RiEyeLine className="text-6xl text-[var(--cherry-red)] w-16 h-16" />
          </div>
@@ -78,12 +80,12 @@ async function AdminStats({ data }: { data: any }) {
                TOTAL_VISITS
             </div>
             <div className="font-pixel text-4xl text-[var(--cherry-text)] text-glow-red">{totalVisits}</div>
-            {renderSparkline('bg-[var(--cherry-red)]')}
+            {renderSparkline('red')}
          </div>
-      </div>
+      </DitherCard>
 
       {/* Stat Card 3: Total Branches */}
-      <div className="bg-[var(--card-bg)] border border-[var(--cherry-amber)]/30 p-5 rounded relative overflow-hidden group hover:border-[var(--cherry-amber)] transition-colors">
+      <DitherCard color="orange" radius={2} className="p-5 gap-2 relative overflow-hidden group hover:border-[var(--cherry-amber)] transition-colors">
          <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
             <RiGitBranchLine className="text-6xl text-[var(--cherry-amber)] w-16 h-16" />
          </div>
@@ -93,9 +95,9 @@ async function AdminStats({ data }: { data: any }) {
                TOTAL_BRANCHES
             </div>
             <div className="font-pixel text-4xl text-[var(--cherry-text)] text-glow-amber">{data.branches.length}</div>
-            {renderSparkline('bg-[var(--cherry-amber)]')}
+            {renderSparkline('orange')}
          </div>
-      </div>
+      </DitherCard>
     </div>
   );
 }
@@ -114,7 +116,7 @@ export default async function AdminPage() {
   return (
     <div className="space-y-8">
       {/* System Status Log Panel */}
-      <div className="terminal-card border-[var(--cherry-green)] glow-green p-0 overflow-hidden flex flex-col md:flex-row">
+      <DitherCard color="green" radius={2} className="gap-2 border-[var(--cherry-green)] glow-green p-0 overflow-hidden flex flex-col md:flex-row">
         <div className="p-6 flex-1 bg-[var(--cherry-bg-secondary)]/50">
            <h2 className="font-pixel text-2xl text-[var(--cherry-green)] mb-2 flex items-center gap-2">
              <span className="animate-blink">_</span> SYSTEM_STATUS: OPERATIONAL
@@ -134,7 +136,7 @@ export default async function AdminPage() {
               <div className="animate-pulse">[NOW] system_idle // waiting_for_input</div>
            </div>
         </div>
-      </div>
+      </DitherCard>
 
       {/* Stats Grid */}
       <AdminStats data={data} />

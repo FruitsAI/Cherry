@@ -16,6 +16,7 @@
 "use client";
 
 import { useState, useEffect, memo } from "react";
+import { DitherButton } from "../dithercn/dither-button";
 import {
   DndContext,
   closestCenter,
@@ -90,18 +91,12 @@ const SortableItem = memo(function SortableItem({ branch, onDelete, onEdit }: { 
       </div>
 
       <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button
-            onClick={() => onEdit(branch)}
-            className="px-3 py-1 text-sm border border-[var(--cherry-amber)]/50 text-[var(--cherry-amber)] hover:bg-[var(--cherry-amber)] hover:text-white rounded transition-colors"
-        >
+        <DitherButton variant="outline" color="orange" size="sm" onClick={() => onEdit(branch)}>
             Edit
-        </button>
-        <button
-          onClick={() => onDelete(branch.id)}
-          className="px-3 py-1 text-sm border border-[var(--cherry-red)]/50 text-[var(--cherry-red)] hover:bg-[var(--cherry-red)] hover:text-white rounded transition-colors"
-        >
+        </DitherButton>
+        <DitherButton variant="outline" color="red" size="sm" onClick={() => onDelete(branch.id)}>
           Delete
-        </button>
+        </DitherButton>
       </div>
     </div>
   );

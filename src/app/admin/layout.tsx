@@ -20,6 +20,7 @@ import { AdminSidebar } from "@/components/admin/sidebar";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import pkg from "../../../package.json";
+import { DitherCard } from "@/components/dithercn/dither-card";
 
 /** Admin 后台 SEO 元数据 */
 export const metadata: Metadata = {
@@ -63,19 +64,19 @@ export default async function AdminLayout({
         
         <div className="flex flex-1 overflow-hidden p-4 gap-4">
           <aside className="w-64 pt-2 pb-6 px-1 flex-shrink-0">
-             <div className="h-full cyber-card pixel-corners-sm p-4 backdrop-blur-md bg-[var(--cherry-bg-secondary)]/80 border-[var(--cherry-muted)]/30">
+             <DitherCard color="green" radius={2} className="h-full gap-2 p-4 backdrop-blur-md border-[var(--cherry-muted)]/30">
                 <AdminSidebar />
-             </div>
+             </DitherCard>
           </aside>
           
-          <main className="flex-1 !overflow-y-auto cyber-card pixel-corners bg-[var(--cherry-bg-secondary)]/60 border-[var(--cherry-green)]/20 relative">
+          <DitherCard color="green" radius={2} className="flex-1 overflow-y-auto! gap-2 bg-[var(--cherry-bg-secondary)]/60 border-[var(--cherry-green)]/20 relative">
             {/* Inner frame decoration */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[var(--cherry-green)] to-transparent opacity-20"></div>
             
             <div className="p-8 pb-20">
               {children}
             </div>
-          </main>
+          </DitherCard>
         </div>
       </div>
     </div>

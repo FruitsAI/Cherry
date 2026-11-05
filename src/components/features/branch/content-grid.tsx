@@ -18,6 +18,8 @@
 import { useMemo } from 'react';
 import type { Branch, NavigationState } from '../../../types';
 import { BranchSection } from './branch-section';
+import { DitherCard } from '../../dithercn/dither-card';
+import { DitherButton } from '../../dithercn/dither-button';
 import { useTranslation } from 'react-i18next';
 
 /** ContentGrid 组件 Props */
@@ -109,7 +111,7 @@ export function ContentGrid({
     <main className="container mx-auto px-4 pb-8">
       {/* 标签筛选器 */}
       {allTags.length > 0 && (
-        <div className="mb-6 p-4 bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded">
+        <DitherCard color="green" radius={2} className="mb-6 p-4 gap-2 border border-[var(--cherry-green)]/30">
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-code text-sm text-[var(--cherry-amber)]">
               🏷️ {t('common.tag_filter')}
@@ -162,7 +164,7 @@ export function ContentGrid({
               {t('common.selected_tags', { count: selectedTags.size, total: filteredBranches.reduce((acc, b) => acc + b.commits.length, 0) })}
             </p>
           )}
-        </div>
+        </DitherCard>
       )}
 
       {/* 分支列表 */}
@@ -190,12 +192,9 @@ export function ContentGrid({
           <p className="text-[var(--cherry-muted)] font-code text-lg">
             {t('common.no_results')}
           </p>
-          <button
-            onClick={onClearTags}
-            className="mt-4 px-4 py-2 bg-[var(--cherry-green)]/10 border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)] font-code text-sm hover:bg-[var(--cherry-green)]/20 transition-all"
-          >
+          <DitherButton variant="outline" color="green" size="sm" className="mt-4" onClick={onClearTags}>
             {t('common.clear_filter')}
-          </button>
+          </DitherButton>
         </div>
       )}
 

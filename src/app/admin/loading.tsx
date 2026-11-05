@@ -18,10 +18,13 @@
  * 显示模拟的系统初始化界面，
  * 包含 macOS 风格窗口控制按钮和动态进度条。
  */
+import { DitherCard } from "@/components/dithercn/dither-card";
+import { fillStyle } from "@/lib/dither";
+
 export default function AdminLoading() {
   return (
     <div className="flex h-[calc(100vh-4rem)] w-full items-center justify-center bg-[var(--cherry-bg)]">
-      <div className="terminal-card bg-[var(--cherry-bg-secondary)] p-8 border border-[var(--cherry-muted)]/50 shadow-2xl relative overflow-hidden">
+      <DitherCard color="green" radius={2} className="bg-[var(--cherry-bg-secondary)] p-8 gap-2 border border-[var(--cherry-muted)]/50 shadow-2xl relative overflow-hidden">
         {/* 扫描线效果 */}
         <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] z-10 bg-[length:100%_2px,3px_100%]"></div>
         
@@ -37,14 +40,14 @@ export default function AdminLoading() {
           </div>
           
           <div className="w-64 h-2 bg-[var(--cherry-bg)] rounded-full overflow-hidden border border-[var(--cherry-muted)]/50">
-            <div className="h-full bg-[var(--cherry-green)] animate-progress-bar"></div>
+            <div className="h-full animate-progress-bar" style={fillStyle("gradient", { color: "green", edge: "right", length: 48 })}></div>
           </div>
           
           <div className="font-mono text-xs text-[var(--cherry-muted)]">
             verifying_integrity...
           </div>
         </div>
-      </div>
+      </DitherCard>
     </div>
   );
 }

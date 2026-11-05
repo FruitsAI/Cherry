@@ -18,6 +18,7 @@
 
 import type { Branch } from '../../types';
 import { IconDisplay } from '../ui/icon-display';
+import { Divider } from '../dithercn/divider';
 import { useTranslation } from 'react-i18next';
 
 /** Dock 组件 Props */
@@ -80,7 +81,7 @@ export function Dock({ branches, currentBranchIndex, onBranchClick, onHomeClick,
         )}
         
         {/* Separator */}
-        {onHomeClick && <div className="w-px h-8 bg-[var(--cherry-muted)]/20 mx-1" />}
+        {onHomeClick && <Divider orientation="vertical" color="green" className="mx-1" />}
 
         {branches.map((branch, index) => (
           <button

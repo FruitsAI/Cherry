@@ -10,6 +10,9 @@
 import type { Metadata } from 'next';
 import { VT323, Fira_Code } from 'next/font/google';
 import './globals.css';
+import { cn } from "@/lib/utils";
+
+
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // 字体配置 - 使用 next/font 实现零布局偏移 (Zero Layout Shift)
@@ -102,7 +105,7 @@ export default function RootLayout({
   return (
     // lang="zh-CN" 用于辅助技术和 SEO
     // suppressHydrationWarning 抑制主题脚本导致的客户端/服务端不匹配警告
-    <html lang="zh-CN" className={`${vt323.variable} ${firaCode.variable}`} suppressHydrationWarning>
+    <html lang="zh-CN" className={cn(vt323.variable, firaCode.variable, "font-sans")} suppressHydrationWarning>
       <head>
         {/* 在任何内容渲染前应用主题，避免闪烁 */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

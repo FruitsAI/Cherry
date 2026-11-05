@@ -14,6 +14,8 @@
 'use client';
  
 import { useEffect } from 'react';
+import { DitherCard } from '@/components/dithercn/dither-card';
+import { DitherButton } from '@/components/dithercn/dither-button';
  
 /**
  * 全局错误边界组件
@@ -36,11 +38,11 @@ export default function GlobalError({
   return (
     // 必须自己提供 html 和 body，因为 root layout 已经失效
     <html>
-      <body className="bg-[#1a1b26] text-[#a9b1d6] font-mono">
+      <body className="bg-[var(--cherry-bg)] text-[var(--cherry-text)] font-code">
         <div className="flex min-h-screen flex-col items-center justify-center p-4">
             <div className="w-full max-w-md space-y-6">
                 {/* 严重错误样式：纯红色边框表示最高级别警告 */}
-                <div className="border border-[#ff0000] bg-[#000000] p-6 shadow-2xl">
+                <DitherCard color="red" radius={2} className="p-6 gap-4 shadow-2xl">
                 <div className="flex items-center gap-2 mb-4 border-b border-[#ff0000] pb-2">
                     <span className="text-xs text-[#ff0000]">FATAL_EXCEPTION</span>
                 </div>
@@ -56,15 +58,12 @@ export default function GlobalError({
                     
                     {/* 紧急重启按钮 */}
                     <div className="pt-4">
-                    <button
-                        onClick={() => reset()}
-                        className="bg-[#ff0000] text-black px-4 py-2 font-bold hover:bg-[#ff4444] transition-colors w-full"
-                    >
+                    <DitherButton variant="filled" color="red" className="w-full" onClick={() => reset()}>
                         EMERGENCY_RESTART
-                    </button>
+                    </DitherButton>
                     </div>
                 </div>
-                </div>
+                </DitherCard>
             </div>
         </div>
       </body>

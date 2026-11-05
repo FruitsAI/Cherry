@@ -17,6 +17,8 @@ import { useState, useEffect } from "react";
 import { createPortal } from 'react-dom';
 import { createBranch, updateBranch } from "@/app/admin/branches/actions";
 import { IconDisplay } from "@/components/ui/icon-display";
+import { DitherButton } from "../dithercn/dither-button";
+import { DitherCard } from "../dithercn/dither-card";
 
 /** BranchFormDialog 组件 Props */
 interface BranchFormDialogProps {
@@ -82,12 +84,9 @@ export function BranchFormDialog({ branch, open, onOpenChange, trigger }: Branch
     return trigger ? (
       <div onClick={() => handleOpenChange(true)}>{trigger}</div>
     ) : (
-      <button
-        onClick={() => handleOpenChange(true)}
-        className="px-4 py-2 border border-[var(--cherry-green)] text-[var(--cherry-green)] hover:bg-[var(--cherry-green)] hover:text-white rounded transition-colors font-pixel text-sm"
-      >
+      <DitherButton variant="outline" color="green" size="sm" onClick={() => handleOpenChange(true)}>
         + ADD CATEGORY
-      </button>
+      </DitherButton>
     );
   }
 
@@ -96,7 +95,7 @@ export function BranchFormDialog({ branch, open, onOpenChange, trigger }: Branch
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--cherry-bg-secondary)]/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="w-full max-w-md bg-[var(--cherry-bg)] border border-[var(--cherry-green)] rounded-lg shadow-[0_0_20px_rgba(0,255,0,0.2)] p-6 space-y-6 animate-in zoom-in-95 duration-200">
+      <DitherCard color="green" radius={2} className="w-full max-w-md gap-4 p-6 shadow-[0_0_20px_rgba(0,255,0,0.2)] animate-in zoom-in-95 duration-200">
         
         <div className="flex items-center justify-between border-b border-[var(--cherry-green)]/30 pb-4">
           <h3 className="font-pixel text-xl text-[var(--cherry-text)] glow-text">
@@ -157,16 +156,12 @@ export function BranchFormDialog({ branch, open, onOpenChange, trigger }: Branch
             >
               CANCEL
             </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-6 py-2 bg-[var(--cherry-green)] text-[var(--cherry-bg)] hover:bg-[var(--cherry-green)]/90 rounded font-pixel text-sm disabled:opacity-50 transition-colors"
-            >
+            <DitherButton type="submit" variant="filled" color="green" disabled={loading} loading={loading}>
               {loading ? "SAVING..." : "SAVE"}
-            </button>
+            </DitherButton>
           </div>
         </form>
-      </div>
+      </DitherCard>
     </div>,
     document.body
   );

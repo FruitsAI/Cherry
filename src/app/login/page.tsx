@@ -20,6 +20,9 @@ import { useActionState, useState } from "react";
 // For now, let's implement the form directly with server action calling signIn
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { DitherCard } from "@/components/dithercn/dither-card";
+import { DitherButton } from "@/components/dithercn/dither-button";
+import { Avatar } from "@/components/dithercn/avatar";
 
 /**
  * 登录页面组件
@@ -88,7 +91,7 @@ export default function LoginPage() {
       <div className="scanlines"></div>
       
       {/* Main Terminal Card */}
-      <div className="cyber-card w-full max-w-md p-1 relative pixel-corners">
+      <DitherCard color="green" radius={2} className="w-full max-w-md gap-0 p-1 relative">
         {/* Terminal Header */}
         <div className="bg-[var(--cherry-bg-secondary)] border-b border-[var(--cherry-muted)] p-2 flex justify-between items-center select-none">
           <div className="flex gap-2 px-2">
@@ -102,6 +105,7 @@ export default function LoginPage() {
         <div className="p-8 space-y-8 bg-[var(--cherry-bg-secondary)]/90">
           {/* Logo / Title Area */}
           <div className="text-center space-y-2">
+            <Avatar name="cherry" size={48} shape="square" color="green" className="mx-auto mb-2" />
             <h1 className="text-4xl font-pixel text-[var(--cherry-green)] text-glow-green glitch-text" data-text="SYSTEM ACCESS">
               SYSTEM ACCESS
             </h1>
@@ -147,17 +151,20 @@ export default function LoginPage() {
               </div>
             )}
 
-            <button
+            <DitherButton
               type="submit"
+              variant="filled"
+              color="green"
+              loading={isPending}
               disabled={isPending}
-              className="w-full btn-cyber btn-cyber-primary pixel-corners-sm"
+              className="w-full"
             >
               {isPending ? (
                 <span className="animate-pulse">AUTHENTICATING...</span>
               ) : (
                 <span>INITIATE_SESSION</span>
               )}
-            </button>
+            </DitherButton>
           </form>
 
           {/* Footer / Alt Login */}
@@ -167,20 +174,24 @@ export default function LoginPage() {
             </div>
             
             <div className="grid grid-cols-2 gap-3 font-code text-sm">
-              <button
+              <DitherButton
                 type="button"
+                variant="outline"
+                color="green"
+                size="sm"
                 onClick={() => signIn("github", { callbackUrl: "/admin" })}
-                className="btn-cyber text-xs py-2 px-1 gap-2 border-[var(--cherry-muted)] text-[var(--cherry-muted)] hover:border-white hover:text-white"
               >
                 GITHUB
-              </button>
-              <button
+              </DitherButton>
+              <DitherButton
                 type="button"
+                variant="outline"
+                color="green"
+                size="sm"
                 onClick={() => signIn("google", { callbackUrl: "/admin" })}
-                className="btn-cyber text-xs py-2 px-1 gap-2 border-[var(--cherry-muted)] text-[var(--cherry-muted)] hover:border-white hover:text-white"
               >
                 GOOGLE
-              </button>
+              </DitherButton>
             </div>
           </div>
         </div>
@@ -190,7 +201,7 @@ export default function LoginPage() {
         <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-[var(--cherry-green)]"></div>
         <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-[var(--cherry-green)]"></div>
         <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-[var(--cherry-green)]"></div>
-      </div>
+      </DitherCard>
 
       <div className="absolute bottom-6 font-code text-[10px] text-[var(--cherry-muted)] opacity-50">
         CHERRY_SYSTEMS // SECURITY LEVEL 5

@@ -1,3 +1,5 @@
+> 注意：本文档已被 `docs/v2-dithercn.md` 取代（手写 Bayer 组件方案已全部删除，改用真正的 dithercn 组件库全量替换）。以下内容仅作历史记录。
+
 # Cherry v2 — Dither 重构说明
 
 分支：`v2-dither`（本轮不直接改 `main`，改动经构建验证后以 PR 形式交付）

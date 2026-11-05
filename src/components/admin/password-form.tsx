@@ -21,6 +21,8 @@
 
 import { useState } from 'react';
 import { changePassword } from '@/app/actions';
+import { DitherButton } from "@/components/dithercn/dither-button";
+import { DitherCard } from "@/components/dithercn/dither-card";
 
 /**
  * 密码修改表单组件
@@ -82,7 +84,7 @@ export function PasswordForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-8 max-w-md">
       {/* Password Change Form */}
-      <div className="terminal-card bg-[var(--cherry-bg-secondary)]/40 p-6 space-y-4">
+      <DitherCard color="red" radius={2} className="bg-[var(--cherry-bg-secondary)]/40 p-6 gap-4">
         <h2 className="text-xl text-[var(--cherry-red)] mb-4 border-b border-[var(--cherry-red)]/30 pb-2">
           Security
         </h2>
@@ -137,19 +139,13 @@ export function PasswordForm() {
             className="w-full bg-[var(--cherry-bg-secondary)]/50 border border-[var(--cherry-green)]/30 p-2 text-[var(--cherry-green)] focus:border-[var(--cherry-green)] focus:outline-none rounded"
           />
         </div>
-      </div>
+      </DitherCard>
 
       {/* Action Bar */}
       <div className="flex justify-end pt-4">
-        <button
-          type="submit"
-          disabled={saving}
-          className={`px-6 py-3 bg-[var(--cherry-green)] text-black font-bold rounded shadow-[0_0_15px_rgba(0,255,0,0.3)] hover:shadow-[0_0_25px_rgba(0,255,0,0.5)] transition-all ${
-            saving ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'
-          }`}
-        >
+        <DitherButton type="submit" variant="filled" color="green" disabled={saving} loading={saving}>
           {saving ? 'Saving...' : 'CHANGE PASSWORD'}
-        </button>
+        </DitherButton>
       </div>
     </form>
   );

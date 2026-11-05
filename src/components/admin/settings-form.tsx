@@ -18,6 +18,8 @@
 
 import { useState } from 'react';
 import { updateSiteConfig } from '../../app/actions';
+import { DitherButton } from "../dithercn/dither-button";
+import { DitherCard } from "../dithercn/dither-card";
 
 /** 快捷链接类型 */
 interface Shortcut {
@@ -87,7 +89,7 @@ export function SettingsForm({ initialConfig, initialVersion }: SettingsFormProp
   return (
     <form onSubmit={handleSave} className="space-y-8">
       {/* General Info */}
-      <div className="terminal-card bg-[var(--cherry-bg-secondary)]/40 p-6 space-y-4">
+      <DitherCard color="red" radius={2} className="bg-[var(--cherry-bg-secondary)]/40 p-6 gap-4">
         <h2 className="text-xl text-[var(--cherry-red)] mb-4 border-b border-[var(--cherry-red)]/30 pb-2">General</h2>
         
         <div>
@@ -112,19 +114,15 @@ export function SettingsForm({ initialConfig, initialVersion }: SettingsFormProp
            </div>
            <p className="text-xs text-[var(--cherry-muted)]/50 mt-1">Read from package.json</p>
         </div>
-      </div>
+      </DitherCard>
 
       {/* Shortcuts */}
-      <div className="terminal-card bg-[var(--cherry-bg-secondary)]/40 p-6 space-y-4">
+      <DitherCard color="red" radius={2} className="bg-[var(--cherry-bg-secondary)]/40 p-6 gap-4">
         <div className="flex justify-between items-center mb-4 border-b border-[var(--cherry-red)]/30 pb-2">
           <h2 className="text-xl text-[var(--cherry-red)]">Shortcuts</h2>
-          <button
-            type="button"
-            onClick={addShortcut}
-            className="px-3 py-1 text-sm bg-[var(--cherry-green)]/10 text-[var(--cherry-green)] border border-[var(--cherry-green)]/50 rounded hover:bg-[var(--cherry-green)]/20"
-          >
+          <DitherButton type="button" variant="outline" color="green" size="sm" onClick={addShortcut}>
             + Add New
-          </button>
+          </DitherButton>
         </div>
 
         {config.shortcuts.map((shortcut, idx) => (
@@ -172,17 +170,13 @@ export function SettingsForm({ initialConfig, initialVersion }: SettingsFormProp
         {config.shortcuts.length === 0 && (
            <p className="text-center text-[var(--cherry-muted)] py-4">No shortcuts configured.</p>
         )}
-      </div>
+      </DitherCard>
 
       {/* Action Bar */}
       <div className="flex justify-end pt-4">
-        <button
-          type="submit"
-          disabled={saving}
-          className={`px-6 py-3 bg-[var(--cherry-green)] text-black font-bold rounded shadow-[0_0_15px_rgba(0,255,0,0.3)] hover:shadow-[0_0_25px_rgba(0,255,0,0.5)] transition-all ${saving ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
-        >
+        <DitherButton type="submit" variant="filled" color="green" disabled={saving} loading={saving}>
           {saving ? 'Saving...' : 'SAVE SETTINGS'}
-        </button>
+        </DitherButton>
       </div>
     </form>
   );

@@ -16,6 +16,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IconDisplay } from "../ui/icon-display";
 import { RiHomeLine, RiGitBranchLine, RiSettings3Line, RiLockPasswordLine } from "@remixicon/react";
+import { Divider } from "../dithercn/divider";
 
 /**
  * 后台侧边栏组件
@@ -72,6 +73,7 @@ export function AdminSidebar() {
             </Link>
           );
         })}
+        <Divider color="green" className="mt-2" />
       </nav>
     </aside>
   );

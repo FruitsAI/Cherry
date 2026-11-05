@@ -36,7 +36,8 @@ import '../i18n'; // 初始化客户端 i18n
 import { syncLanguageFromStorage } from '../i18n';
 import { HomeView } from './views/home-view';
 import { BranchView } from './views/branch-view';
-import { DitherBackground } from './dither';
+import { PageDither } from './dithercn/cherry-dither';
+import { DitherCard } from './dithercn/dither-card';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // 延迟加载的模态框组件
@@ -54,9 +55,9 @@ const StatisticsModal = lazy(() => import('./features/modals/statistics-modal').
 function ModalFallback() {
   return (
     <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 backdrop-blur-sm">
-      <div className="terminal-card p-6 border-[var(--cherry-red)]">
+      <DitherCard color="red" radius={2} className="p-6 gap-2 border-[var(--cherry-red)]">
         <p className="text-[var(--cherry-muted)] font-code">加载中...</p>
-      </div>
+      </DitherCard>
     </div>
   );
 }
@@ -435,7 +436,7 @@ export function ClientApp({ initialData }: ClientAppProps) {
       <main className="flex-1 overflow-y-auto relative no-scrollbar pb-24">
         {/* v2：整页底层静态抖动（密度 0.08，几乎不抢正文） */}
         <div className="pointer-events-none absolute inset-0 opacity-40" aria-hidden="true">
-          <DitherBackground density={0.08} className="h-full w-full" />
+          <PageDither className="h-full w-full" />
         </div>
         {currentView === 'home' ? (
           <HomeView

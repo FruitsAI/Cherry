@@ -14,6 +14,8 @@
 "use client";
 
 import { useTranslation } from 'react-i18next';
+import { DitherCard } from '../../dithercn/dither-card';
+import { Divider } from '../../dithercn/divider';
 
 /** HelpModal 组件 Props */
 interface HelpModalProps {
@@ -62,8 +64,8 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
       className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 backdrop-blur-sm"
       onClick={onClose}
     >
-      <div
-        className="terminal-card max-w-lg w-full mx-4 p-6 border-[var(--cherry-red)] flex flex-col max-h-[85vh]"
+      <DitherCard
+        color="red" radius={2} className="max-w-lg w-full mx-4 p-6 gap-4 border-[var(--cherry-red)] flex flex-col max-h-[85vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 标题 */}
@@ -114,13 +116,15 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
           </div>
         </div>
 
+        <Divider color="green" />
+
         {/* 底部提示 */}
         <div className="mt-6 pt-4 border-t border-[var(--cherry-green)]/30 text-center flex-shrink-0">
           <p className="text-xs text-[var(--cherry-muted)]">
             {t('modal.statistics.tip_close', { defaultValue: 'Press ESC or click outside to close' })}
           </p>
         </div>
-      </div>
+      </DitherCard>
     </div>
   );
 }

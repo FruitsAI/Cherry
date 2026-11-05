@@ -21,6 +21,8 @@ import type { SiteConfig, Branch } from '../../types';
 import { ThemeToggle } from '../ui/theme-toggle';
 import { IconDisplay } from '../ui/icon-display';
 import { CurrentTime } from './current-time';
+import { Avatar } from '../dithercn/avatar';
+import { DitherCard } from '../dithercn/dither-card';
 
 /** Header 组件 Props */
 interface HeaderProps {
@@ -99,6 +101,7 @@ export function Header({
           title={t('dock.home')}
           suppressHydrationWarning
         >
+          <Avatar name={config.user_name} size={28} shape="square" color="green" />
           <span className="text-[var(--cherry-green)] glow-green">
             {config.user_name}@cherry
           </span>
@@ -130,7 +133,7 @@ export function Header({
 
             {/* Dropdown Menu */}
             {isDropdownOpen && branches && (
-              <div className="absolute top-full right-0 mt-2 w-48 bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded-lg shadow-xl py-1 z-50 overflow-hidden">
+              <DitherCard color="green" radius={2} className="absolute top-full right-0 mt-2 w-48 gap-0 py-1 z-50 shadow-xl">
                 {branches.map((branch, index) => (
                   <button
                     key={branch.name}
@@ -147,7 +150,7 @@ export function Header({
                     )}
                   </button>
                 ))}
-              </div>
+              </DitherCard>
             )}
           </div>
 

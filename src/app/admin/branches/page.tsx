@@ -10,6 +10,7 @@
 import { Suspense } from "react";
 import { getBranches } from "./actions";
 import { BranchList } from "../../../components/admin/branch-list";
+import { DitherCard } from "@/components/dithercn/dither-card";
 
 /** 分支计数组件 */
 function BranchesCount({ count }: { count: number }) {
@@ -23,13 +24,13 @@ function BranchesCount({ count }: { count: number }) {
 function BranchesTable({ branches }: { branches: any[] }) {
   // Note: Drag and drop description moved here to be part of the table logic
   return (
-    <div className="terminal-card border-[var(--cherry-amber)] glow-amber p-6">
+    <DitherCard color="orange" radius={2} className="gap-2 border-[var(--cherry-amber)] glow-amber p-6">
       <p className="font-code text-sm text-[var(--cherry-muted)] mb-6">
         Drag and drop to reorder branches. Changes are saved automatically.
       </p>
       
       <BranchList initialBranches={branches} />
-    </div>
+    </DitherCard>
   );
 }
 

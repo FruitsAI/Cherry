@@ -15,6 +15,8 @@
  */
 
 import { useEffect, useRef } from 'react';
+import { DitherCard } from '../dithercn/dither-card';
+import { DitherButton } from '../dithercn/dither-button';
 import { createPortal } from 'react-dom';
 
 /** ConfirmModal 组件 Props */
@@ -76,9 +78,11 @@ export function ConfirmModal({
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div 
+      <DitherCard
         ref={modalRef}
-        className={`w-full max-w-md bg-[var(--cherry-bg)] border ${isDangerous ? 'border-[var(--cherry-red)] box-shadow-[0_0_20px_rgba(255,0,85,0.2)]' : 'border-[var(--cherry-green)] box-shadow-[0_0_20px_rgba(46,204,113,0.2)]'} rounded p-6 shadow-2xl animate-in zoom-in-95 duration-200`}
+        color={isDangerous ? 'red' : 'green'}
+        radius={2}
+        className="w-full max-w-md gap-4 p-6 shadow-2xl animate-in zoom-in-95 duration-200"
         role="dialog"
         aria-modal="true"
       >
@@ -98,18 +102,16 @@ export function ConfirmModal({
           >
             {cancelText}
           </button>
-          <button
+          <DitherButton
+            variant="filled"
+            color={isDangerous ? 'red' : 'green'}
+            size="lg"
             onClick={onConfirm}
-            className={`px-6 py-2 font-pixel tracking-wide text-lg rounded shadow-lg transition-all transform hover:scale-105 active:scale-95 ${
-              isDangerous 
-                ? 'bg-[var(--cherry-red)] text-white hover:bg-red-600 shadow-red-900/20' 
-                : 'bg-[var(--cherry-green)] text-black hover:bg-green-500 shadow-green-900/20'
-            }`}
           >
              [' {confirmText} ']
-          </button>
+          </DitherButton>
         </div>
-      </div>
+      </DitherCard>
     </div>,
     document.body
   );

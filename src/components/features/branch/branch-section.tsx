@@ -17,6 +17,8 @@
 import type { Branch } from '../../../types';
 import { CommitCard } from '../../ui/commit-card';
 import { IconDisplay } from '../../ui/icon-display';
+import { Divider } from '../../dithercn/divider';
+import { DitherButton } from '../../dithercn/dither-button';
 import { useTranslation } from 'react-i18next';
 
 /** BranchSection 组件 Props */
@@ -89,11 +91,7 @@ export function BranchSection({
     <section id={id} className="mb-8">
       {/* Branch 标题 */}
       <div
-        className={`flex items-center gap-3 mb-4 pb-2 border-b ${
-          isCurrentBranch
-            ? 'border-[var(--cherry-red)]'
-            : 'border-[var(--cherry-green)]/30'
-        }`}
+        className="flex items-center gap-3 mb-4 pb-2"
       >
         <IconDisplay icon={branch.icon} className="text-2xl" imageClassName="w-8 h-8" />
         <h2 className="font-code text-lg">
@@ -112,6 +110,7 @@ export function BranchSection({
           {t('branch_section.commits', { count: branch.commits.length })}
         </span>
       </div>
+      <Divider color={isCurrentBranch ? 'red' : 'green'} className="mb-4" />
 
       {/* Commits 网格 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -137,35 +136,29 @@ export function BranchSection({
       {/* Pagination Controls */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center gap-4 mt-6">
-          <button
+          <DitherButton
+            variant="outline"
+            color="green"
+            size="sm"
             onClick={handlePrevPage}
             disabled={currentPage === 1}
-            className={`font-code text-sm px-3 py-1 rounded transition-colors ${
-              currentPage === 1
-                ? 'text-[var(--cherry-muted)] cursor-not-allowed'
-                : 'text-[var(--cherry-green)] hover:bg-[var(--cherry-green)]/10'
-            }`}
-            suppressHydrationWarning
           >
             {t('common.page_prev') || "[< PREV]"}
-          </button>
+          </DitherButton>
           
           <span className="font-code text-sm text-[var(--cherry-text)]" suppressHydrationWarning>
             {t('common.page_info', { current: currentPage, total: totalPages })}
           </span>
           
-          <button
+          <DitherButton
+            variant="outline"
+            color="green"
+            size="sm"
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
-            className={`font-code text-sm px-3 py-1 rounded transition-colors ${
-              currentPage === totalPages
-                ? 'text-[var(--cherry-muted)] cursor-not-allowed'
-                : 'text-[var(--cherry-green)] hover:bg-[var(--cherry-green)]/10'
-            }`}
-            suppressHydrationWarning
           >
             {t('common.page_next') || "[NEXT >]"}
-          </button>
+          </DitherButton>
         </div>
       )}
     </section>

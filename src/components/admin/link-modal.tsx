@@ -18,6 +18,8 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { createLink, updateLink } from '../../app/actions';
+import { DitherButton } from "../dithercn/dither-button";
+import { DitherCard } from "../dithercn/dither-card";
 
 /** LinkModal 组件 Props */
 interface LinkModalProps {
@@ -108,7 +110,7 @@ export function LinkModal({ isOpen, onClose, branches, initialData, onSuccess }:
 
   return createPortal(
     <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-[var(--cherry-bg-secondary)]/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="terminal-card max-w-lg w-full mx-4 p-6 border-[var(--cherry-red)] flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-200 shadow-2xl">
+      <DitherCard color="red" radius={2} className="max-w-lg w-full mx-4 p-6 gap-4 border-[var(--cherry-red)] flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-200 shadow-2xl">
         <h2 className="font-pixel text-2xl text-[var(--cherry-red)] glow-red mb-6">
           {initialData ? 'EDIT LINK' : 'ADD NEW LINK'}
         </h2>
@@ -166,23 +168,15 @@ export function LinkModal({ isOpen, onClose, branches, initialData, onSuccess }:
           {error && <div className="text-red-500 text-sm font-code">{error}</div>}
 
           <div className="flex gap-2 pt-4">
-            <button
-              type="submit"
-              disabled={isPending}
-              className="button-retro flex-1 px-4 py-2 bg-[var(--cherry-green)] text-[var(--cherry-bg)] rounded font-code text-sm disabled:opacity-50"
-            >
+            <DitherButton type="submit" variant="filled" color="green" disabled={isPending} loading={isPending} className="flex-1">
               {isPending ? 'Saving...' : 'Save'}
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="button-retro px-4 py-2 bg-[var(--cherry-bg-secondary)] border border-[var(--cherry-green)]/30 rounded text-[var(--cherry-green)] font-code text-sm"
-            >
+            </DitherButton>
+            <DitherButton type="button" variant="outline" color="green" onClick={onClose}>
               Cancel
-            </button>
+            </DitherButton>
           </div>
         </form>
-      </div>
+      </DitherCard>
     </div>,
     document.body
   );

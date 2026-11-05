@@ -17,7 +17,9 @@
 
 import type { Statistics } from '../../../types';
 import { IconDisplay } from '../../ui/icon-display';
-import { DitherMeter } from '../../dither';
+import { CherryMeter } from '../../dithercn/cherry-dither';
+import { DitherNumber } from '../../dithercn/dither-number';
+import { DitherCard } from '../../dithercn/dither-card';
 import { useTranslation } from 'react-i18next';
 
 /** StatisticsModal 组件 Props */
@@ -60,8 +62,10 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
       className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in"
       onClick={onClose}
     >
-      <div
-        className="terminal-card max-w-4xl w-full mx-4 p-6 border-[var(--cherry-red)] animate-fade-in-up flex flex-col max-h-[90vh]"
+      <DitherCard
+        color="red"
+        radius={2}
+        className="max-w-4xl w-full mx-4 p-6 gap-4 border-[var(--cherry-red)] animate-fade-in-up max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 标题 */}
@@ -70,8 +74,8 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
             <h2 className="font-pixel text-2xl text-[var(--cherry-red)] glow-red mb-2 flex items-center gap-2">
               <IconDisplay icon="pixels/chart.svg" className="text-2xl" imageClassName="w-8 h-8" /> {t('modal.statistics.title')}
             </h2>
-            <p className="text-sm text-[var(--cherry-muted)]">
-              {t('modal.statistics.total_visits')}: {statistics.totalVisits}
+            <p className="text-sm text-[var(--cherry-muted)] flex items-baseline gap-2">
+              {t('modal.statistics.total_visits')}: <DitherNumber value={statistics.totalVisits} size="md" color="green" />
             </p>
           </div>
           <button
@@ -189,10 +193,12 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
                       <div className="flex items-center gap-2">
                         <IconDisplay icon={category.icon} className="text-base" imageClassName="w-5 h-5" />
                         <span className="text-[var(--cherry-text)]">{category.branch}</span>
+                        <span className="ml-auto text-[var(--cherry-green)] font-code">{category.count}</span>
                       </div>
                       <div className="mt-2">
-                        <DitherMeter
+                        <CherryMeter
                           value={category.count / maxCategoryCount}
+                          label={category.branch}
                           valueText={String(category.count)}
                         />
                       </div>
@@ -212,7 +218,7 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
             {t('command.tips')} {t('modal.statistics.tip_close', { defaultValue: 'Press ESC or click outside to close' })}
           </p>
         </div>
-      </div>
+      </DitherCard>
     </div>
   );
 }

@@ -16,7 +16,7 @@
  */
 
 import type { Commit } from '../../types';
-import { DitherCard } from '../dither';
+import { DitherCard } from '../dithercn/dither-card';
 
 /** CommitCard 组件 Props */
 interface CommitCardProps {
@@ -90,8 +90,13 @@ export function CommitCard({ commit, index, isSelected, onClick, searchQuery = '
   return (
     <DitherCard
       onClick={handleClick}
-      className={`p-4 cursor-pointer transition-all duration-200 animate-fade-in-up ${
-        isSelected ? 'selected' : ''
+      color={isSelected ? 'red' : 'green'}
+      glow="top-left"
+      radius={2}
+      cell={4}
+      interactive
+      className={`group p-4 gap-2 cursor-pointer transition-all duration-200 animate-fade-in-up ${
+        isSelected ? 'border-[var(--cherry-red)]' : ''
       }`}
       style={{ animationDelay: `${index * 0.05}s` }}
       role="button"

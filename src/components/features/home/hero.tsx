@@ -19,7 +19,6 @@ import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import { getAssetPath } from '@/lib/paths';
 import { HeroGlow } from '../../dithercn/cherry-dither';
-import { DitherText } from '../../dithercn/dither-text';
 
 /** Hero 组件 Props */
 interface HeroProps {
@@ -57,7 +56,7 @@ export function Hero({ slogan }: HeroProps) {
   return (
     <section className="relative text-center">
       {/* v2-dithercn：Hero 唯一 shader——dither-glow，慢速漂移，离屏暂停 */}
-      <HeroGlow className="pointer-events-none absolute left-1/2 top-0 -z-10 h-64 w-64 -translate-x-1/2 opacity-30" />
+      <HeroGlow className="pointer-events-none absolute left-1/2 top-0 -z-10 h-48 w-48 -translate-x-1/2 opacity-15" />
       {/* 像素风 Cherry 图标 */}
       <div className="mb-4 flex justify-center animate-fade-in-up">
         <div className="relative animate-float">
@@ -67,7 +66,7 @@ export function Hero({ slogan }: HeroProps) {
             width={192}
             height={192}
             priority
-            className="icon-retro w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 drop-shadow-[0_0_15px_rgba(255,0,85,0.6)]"
+            className="icon-retro w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48"
           />
 
         </div>
@@ -75,9 +74,9 @@ export function Hero({ slogan }: HeroProps) {
 
       {/* 标题 */}
       <div className="flex items-center justify-center gap-2 mb-2 animate-fade-in-up animate-delay-100">
-         <DitherText as="h1" color="red" animate={false} className="font-pixel text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[var(--cherry-red)] glow-red text-balance">
+         <h1 className="font-pixel text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[var(--cherry-red)] text-balance">
           CHERRY
-         </DitherText>
+         </h1>
       </div>
 
       {/* 打字机 Slogan */}

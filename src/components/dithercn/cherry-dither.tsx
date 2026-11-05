@@ -18,8 +18,8 @@ export function HeroGlow({ className = "" }: { className?: string }) {
   return (
     <DitherGlow
       position="top"
-      radius={0.7}
-      intensity={0.6}
+      radius={0.5}
+      intensity={0.35}
       palette={["--dither-paper", "red"]}
       speed={0.25}
       stillTime={6}

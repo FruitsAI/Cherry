@@ -87,3 +87,8 @@ ai、caret-down、chart、cherry、docs、export、github、google、home、impo
 4. `DitherCard` 的 ref 透传（confirm-modal 的 `modalRef`）与 `DitherText` 在 Hero 标题上的实际渲染效果，须以实际渲染为准（tsc 已通过）。
 5. 对比度未做数值测量；`DitherText` 画布文字在深 / 浅主题下的实际效果须目视确认。
 6. 未推送、未开新 PR、未动 Netlify、未改仓库设置、未合并 PR #1；下一步是否以新提交更新 PR #1 或另开 PR，待父代理复核后决定。
+
+## 降噪修复（2026-11-05，用户看 Netlify 预览截图反馈“太乱”后）
+
+问题：全页 PageDither 底纹（opacity 40%）+ Hero 光晕 + DitherCard 默认 rim 点阵 + DitherText 画布标题 + 点阵图标叠加，导致首页满屏绿点、樱桃变黑团、CHERRY 标题和搜索框占位文字被点阵吃掉、Dock 图标几乎看不见。
+修复：删掉整页 PageDither 底纹；Hero 光晕缩小到 48、透明度 15%、强度 0.35；CHERRY 标题改回实色 VT323，不再用 DitherText 画布；搜索框和建议下拉改回干净边框壳，不再用 DitherCard；DitherCard 默认强度 0.5→0.3、rim 默认关，抖动只剩角落光晕、悬停时才加强；public/pixels/ 18 个图标全部恢复到 main 分支的原版实色图标（小图标必须可辨，抖动只留给大面积表面）。

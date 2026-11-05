@@ -26,7 +26,6 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import type { KeyboardEvent } from 'react';
 import type { Branch } from '../../../types';
 import { useTranslation } from 'react-i18next';
-import { DitherCard } from '../../dithercn/dither-card';
 
 /** CommandInput 组件 Props */
 interface CommandInputProps {
@@ -196,11 +195,9 @@ export function CommandInput({
 
   return (
     <div className="max-w-2xl mx-auto px-4 mb-2 relative">
-      <DitherCard
-        color={isActive ? 'red' : 'green'}
-        radius={2}
-        className={`p-4 gap-2 ${
-          isActive ? 'border-[var(--cherry-red)]' : ''
+      <div
+        className={`p-4 rounded-sm border bg-[var(--cherry-bg-secondary)] ${
+          isActive ? 'border-[var(--cherry-red)]' : 'border-[var(--cherry-green)]/30'
         }`}
         onClick={() => inputRef.current?.focus()}
       >
@@ -222,11 +219,11 @@ export function CommandInput({
           />
           <span className="cursor-blink text-[var(--cherry-green)]">█</span>
         </div>
-      </DitherCard>
+      </div>
 
       {/* 搜索建议 */}
       {suggestions.length > 0 && isActive && isSuggestionsOpen && (
-        <DitherCard color="green" radius={2} className="mt-2 p-2 gap-2 border-[var(--cherry-green)]/30">
+        <div className="mt-2 p-2 rounded-sm border border-[var(--cherry-green)]/30 bg-[var(--cherry-bg-secondary)]">
           {suggestions.map((suggestion, index) => (
             <div
               key={suggestion}
@@ -247,7 +244,7 @@ export function CommandInput({
               )}
             </div>
           ))}
-        </DitherCard>
+        </div>
       )}
 
       {/* 命令提示 */}

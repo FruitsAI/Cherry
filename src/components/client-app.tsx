@@ -36,7 +36,6 @@ import '../i18n'; // 初始化客户端 i18n
 import { syncLanguageFromStorage } from '../i18n';
 import { HomeView } from './views/home-view';
 import { BranchView } from './views/branch-view';
-import { PageDither } from './dithercn/cherry-dither';
 import { DitherCard } from './dithercn/dither-card';
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -434,10 +433,6 @@ export function ClientApp({ initialData }: ClientAppProps) {
 
       {/* 主内容区域 - 弹性伸缩 + 内部滚动 */}
       <main className="flex-1 overflow-y-auto relative no-scrollbar pb-24">
-        {/* v2：整页底层静态抖动（密度 0.08，几乎不抢正文） */}
-        <div className="pointer-events-none absolute inset-0 opacity-40" aria-hidden="true">
-          <PageDither className="h-full w-full" />
-        </div>
         {currentView === 'home' ? (
           <HomeView
             slogan={data.site_config.slogan}

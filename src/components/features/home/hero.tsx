@@ -18,6 +18,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import { getAssetPath } from '@/lib/paths';
+import { DitherBackground } from '../../dither';
 
 /** Hero 组件 Props */
 interface HeroProps {
@@ -53,7 +54,11 @@ export function Hero({ slogan }: HeroProps) {
   }, [fullText]);
 
   return (
-    <section className="text-center">
+    <section className="relative text-center">
+      {/* v2：Hero 抖动光晕层（静态 SVG，替代额外辉光 div 的重绘） */}
+      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-64 w-64 -translate-x-1/2 opacity-30" aria-hidden="true">
+        <DitherBackground density={0.35} color="var(--cherry-red)" className="h-full w-full" />
+      </div>
       {/* 像素风 Cherry 图标 */}
       <div className="mb-4 flex justify-center animate-fade-in-up">
         <div className="relative animate-float">

@@ -17,6 +17,7 @@
 
 import type { Statistics } from '../../../types';
 import { IconDisplay } from '../../ui/icon-display';
+import { DitherMeter } from '../../dither';
 import { useTranslation } from 'react-i18next';
 
 /** StatisticsModal 组件 Props */
@@ -50,6 +51,9 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
     
     return date.toLocaleDateString();
   };
+
+  // v2：分类占比以抖动条统一表达，分母为最高分类的次数。
+  const maxCategoryCount = Math.max(1, ...statistics.categoryUsage.map((c) => c.count));
 
   return (
     <div
@@ -179,21 +183,19 @@ export function StatisticsModal({ isOpen, onClose, statistics }: StatisticsModal
                 📁 {t('modal.statistics.category_usage')}
               </h3>
               {statistics.categoryUsage.length > 0 ? (
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {statistics.categoryUsage.slice(0, 5).map((category) => (
-                    <div
-                      key={category.branch}
-                      className="flex items-center justify-between p-2 bg-[var(--cherry-bg)] rounded text-sm"
-                    >
+                    <div key={category.branch} className="p-2 bg-[var(--cherry-bg)] rounded text-sm">
                       <div className="flex items-center gap-2">
                         <IconDisplay icon={category.icon} className="text-base" imageClassName="w-5 h-5" />
-                        <span className="text-[var(--cherry-text)]">
-                          {category.branch}
-                        </span>
+                        <span className="text-[var(--cherry-text)]">{category.branch}</span>
                       </div>
-                      <span className="text-[var(--cherry-green)] font-code">
-                        {category.count}
-                      </span>
+                      <div className="mt-2">
+                        <DitherMeter
+                          value={category.count / maxCategoryCount}
+                          valueText={String(category.count)}
+                        />
+                      </div>
                     </div>
                   ))}
                 </div>

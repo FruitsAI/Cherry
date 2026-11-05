@@ -8,6 +8,11 @@ const isStaticMode = process.env.STATIC_MODE === 'true';
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 const nextConfig = {
+  // v2：生产构建去掉 console.*（保留 error/warn），起始页不留调试日志。
+  compiler: {
+    removeConsole:
+      process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
+  },
   // 静态模式下启用静态导出
   ...(isStaticMode && {
     output: 'export',

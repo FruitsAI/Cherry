@@ -24,6 +24,11 @@
   --input-placeholder: rgba(255, 255, 255, 0.2);
   --border-color: rgba(255, 255, 255, 0.1);
 
+  /* v2 Dither 令牌：墨色/纸色复用主题变量，格子固定 4px */
+  --dither-paper: var(--cherry-bg);
+  --dither-ink: var(--cherry-green);
+  --dither-cell: 4px;
+
   /* 辉光效果 */
   --glow-green: 0 0 10px rgba(0, 255, 65, 0.5), 0 0 20px rgba(0, 255, 65, 0.3);
   --glow-red: 0 0 10px rgba(255, 0, 85, 0.5), 0 0 20px rgba(255, 0, 85, 0.3);
@@ -389,6 +394,24 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--cherry-green);
+}
+
+/* v2 Dither 卡片：硬阴影 + 选中态（与旧 terminal-card 视觉对齐） */
+.dither-card {
+  border-radius: 2px;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.35);
+}
+.dither-card.selected {
+  border-color: var(--cherry-red);
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.3), 4px 4px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* 减动效：所有抖动层本身就是静态 SVG，这里再关掉残留动画 */
+@media (prefers-reduced-motion: reduce) {
+  .dither-card-fill,
+  .dither-button span {
+    transition: none !important;
+  }
 }
 
 /* Utility Utilities */
